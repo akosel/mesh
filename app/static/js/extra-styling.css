@@ -1,0 +1,548 @@
+body#goalTree{
+    background-color:#fff;
+}
+body#dashboard{
+  padding-top: 51px;
+  padding-bottom: 0px;
+  background-color: #eee;
+  font-family:'CreteRound-Regular';
+}
+.container{
+    width:100%;
+}
+#rowContainer{
+    padding:0;
+    margin:0;
+}
+.navbar{
+    width:1024px;
+    margin:0 auto;
+}
+#dashboard .row{
+    color:rgb(45,42,43);
+    padding:0;
+    border:none;
+    width:1024px;
+    margin:0 auto;
+    border-radius:0;
+}
+
+.row#wrapper{
+    width:100%;
+    height:auto;
+    background-color:rgb(246,122,70);
+}
+#toDoListContainer{
+    background-color:rgb(246,122,70);
+    height:auto;
+    z-index:3;
+}
+#activityFeedContainer{
+    background-color:#eee;
+    height:auto;
+    min-height:100%;
+    z-index:2;
+}
+#profileHeader{
+    background-color:rgb(128,128,128);
+    padding:1em;
+}
+#navbar{
+    float: left;
+    background-color: #162127;
+    height: 51px;
+    position: absolute;
+    top: 0;
+}
+#bottomnavbar{
+    float: left;
+    background-color: #162127;
+    bottom: 0;
+    height:100px;
+    z-index:3;
+    position:relative;
+}
+
+.navbar-fixed-bottom{
+    height:100px;
+    position:relative;
+}
+.media{
+    margin:0 auto;
+}
+#profileHeader .media{
+    width:1024px;
+}
+.sidefiller{
+    height:100%;
+    width:60%;
+    z-index:1;
+    float:left;
+    position:absolute;
+    background-color:#eee;
+}
+
+.navbar-header { background-color: #162127;}
+.navbar-nav#back{
+    margin-right:10px;
+}
+.navbar-inverse {
+  font-family: 'CreteRound-Regular', serif;
+  background-color: #162127;
+}
+.navbar-brand {
+    font-size: 26px;
+}
+.media-object{
+    border-radius:50px;
+    background-color:white;
+    height:50px;
+    width:50px;
+    float:left;
+    margin: 20px 0;
+}
+.media-body{
+    margin:20px 50px;
+}
+#profileHeader .media-heading{
+    color:white;
+}
+.fa-media-object{
+    height:50px;
+    width:50px;
+    float:left;
+    margin: 30px 20px;
+    color:rgb(142,69,37);
+}
+.btn-brown{
+    color:white;
+    background-color:rgb(142,69,37);
+}
+.btn-square{
+    border-radius:0;
+    border-color:rgb(142,69,37);
+    margin:.5em;
+}
+textarea.form-control{
+   background-color:rgb(243,169,134); 
+   border-color:rgb(243,169,134);
+   margin:.5em;
+}
+.media-heading-bold{
+    font-weight:bold;
+}
+#toDoList div.container,#activityFeed div.container{
+    border-top:solid;
+    border-width:.1em;
+}
+.toDoDate{
+    color:rgb(142,69,37);
+}
+.activityFeedDate{
+    color:#333;
+    opacity:.8;
+}
+
+.navbar-nav#back{
+    margin-right:10px;
+}
+
+@font-face {
+  font-family: 'CreteRound-Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('CreteRound-Regular'), local('CreteRound-Regular'), url(/static/fonts/CreteRound-Regular.woff) format('woff');
+}
+#wrapper{
+    margin:0 auto;
+    height:auto;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'CreteRound-Regular';
+}
+
+/* Goal Tree
+=================*/
+#goalTree #goalsbar,
+#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 11px;
+}
+#goalTree .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
+}
+#goalTree .goalsButton,
+#newGoalPage .goalsButton { display: inline-block; padding: 20px 0px 20px 0px;
+}
+#newGoalPage .goalsButton a { text-decoration: none
+}
+#goalTree .goalsTitle, #newGoalPage .goalsTitle { display: inline; color: #418481; padding: 0px 20px; border-right: 2px solid #3D6E6A; font-family: 'CreteRound-Regular', serif; font-weight: normal; font-size: 22px;
+}
+#newGoalPage .goalsTitle {border-right: none;
+}
+#newGoalPage .fa-chevron-left {margin-right: 20px;
+}
+#goalTree .goalsTitle:hover,
+#newGoalPage .goalsTitle:hover { color: #247671;
+}
+#goalTree .goalsCreate { background-color: #418481; display: inline-block; width: 190px; padding: 10px; position: absolute; right: 20px; top:40px;
+}
+#goalTree .goalsCreate a { text-decoration: none;  
+}
+#goalTree .goalTitle:hover { color: #247671;
+}
+#goalTree .fa-plus-circle { color: #233F3E;
+}
+#goalTree .createLabel { color: #000; display: inline; font-size: 18px; margin-left: 10px;
+}
+#goalTree .goalsCreate:hover { background-color: gray;
+}
+#goalTree .goalsCreate:hover .createLabel, #goalTree .goalsCreate:hover .fa-plus-circle { color: #fff;}
+#goalTree .active { color: #000; font-weight: bold;
+}
+#goalTree .active:hover { color: #000;}
+#goalTree .mainWrapper { padding-top:50px;width: 1024px; margin: auto; /* padding: 15px 0px; */
+}
+#goalTree .leftWrapper { width: 60%; display: inline-block;
+}
+#goalTree .rightWrapper { width: 30%; display: inline-block; vertical-align: middle; margin-top: -30px;
+}
+#goalTree .divLeft {width: 90px; height: 90px;padding: 10px 10px 0 0; background-color: #73C7C2; border-radius: 50px; display: inline-block;
+}
+#goalTree .goal { padding: 30px; border-bottom: 2px solid #CDCDCD; position: relative;
+}
+#goalTree .divRight { display: inline-block; margin-left: 50px;
+}
+#goalTree .goalEndDate { margin-left: 10px; padding-top: 11px; font-size: 17px; text-align: center;
+}
+#goalTree .addIcon { display: inline-block; margin: 0 10px;
+}
+#goalTree .friendIconDiv { width: 58px; height: 58px; border-radius: 40px; background-color: #999; display: inline-block;
+}
+#goalTree .container { width: 100%;
+}
+#goalTree .navbar { width: 1024px; margin: 0 auto;
+}
+#goalTree .friendIcon {width: 60px; height: 60px; border-radius: 40px;
+}
+#goalTree .mainGoal{ 
+    text-align:center;
+    background-color:rgb(23,34,40);
+    position:relative;
+    height:300px;
+}
+#goalTree .mainGoal .goalBox{ 
+    background-color:rgb(234,234,234);
+    height:100%;
+    padding: 2em 0;
+    text-transform:capitalize;
+    color: #346073;
+}
+
+#goalTree .goalBox h1 {
+    font-family:'CreteRound-Regular', serif
+    font-size: 4em;
+}
+
+#goalTree .goalBox h2 {
+    font-family:proxima-nova-semibold, sans-serif;
+    font-size: 1.3em;
+}
+
+#goalTree .goalBox p {
+    font-family:proxima-nova-reg, sans-serif;
+    font-size: 1.2em;
+}
+
+#goalTree .checkboxBox{
+    width:100px;
+    float:left;
+    height:100%;
+    position:relative;
+    background-color:rgb(23,34,40);
+}
+#goalTree .checkboxBox i{
+    position:absolute;
+    top:39%;
+    left:28%;
+    color:white;
+}
+#goalTree .mainGoal .functionBox{
+    width:100px;
+    float:right;
+    height:100%;
+}
+
+#goalTree .functionBox i{
+    margin:.25em;
+}
+#goalTree .checkboxSide{
+    text-align:center;
+}
+#gt-users-100{
+    border-radius:100px;
+    height:100px;
+    width:100px;
+    display:inline-block;
+    background-color:white;
+}
+#plus{
+    display:inline-block;
+    width:100px;
+    height:100px;
+}   
+#plus i{
+    position:absolute;
+    top:50%;
+    left:49.5%;
+}
+#pictureBox{
+    height:100px;
+    position:relative;
+}
+.goalContainer{
+    position:relative;
+}
+
+#goalTree .mainGoal .functionBox .functionSide {
+    margin: 20px 10px 0 0;
+    color: #999;
+}
+
+#goalTree .mainGoal .functionBox {
+    visibility:hidden;
+}
+
+#goalTree .mainGoal:hover .functionBox {
+    visibility:visible;
+    cursor:pointer;
+}
+    
+
+#goalTree .lineDiv{
+    z-index:-1000;
+    width:75%;
+    right:0;
+    border-left: 7px #ccc solid;
+    height:150%;
+    position:absolute;
+    color:
+    
+}
+
+#goalTree .task{
+    z-index:2;
+    margin-top:50px;
+    height:auto;
+    width:800px;
+}  
+
+#goalTree #task-checkboxBox{
+    width:100px;
+    float:left;
+    height:190px;
+    position:relative;
+    background-color:#70CCC8;
+    /* display: inline-block; */
+}
+
+#goalTree #task-checkboxBox i{
+    position:absolute;
+    top:39%;
+    left:28%;
+    color:white;
+}
+
+#goalTree #task-box-wrapper {
+    border: 7px solid #70CCC8;
+    /* height: 100%; */
+    overflow: visible;
+}
+ 
+#goalTree .leftBox{
+    /* float:left; */
+    
+    padding: 20px 0 0 50px;
+    background-color:white;
+    /* height: 190px; */ 
+    display: inline-block;
+    width: 55%;
+}
+
+#goalTree .leftBox h4 {
+    font-family: proxima-nova-semibold, Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    color: #346073;
+}
+
+#goalTree .leftBox h3 {
+    font-size: 1.7em;
+    line-height: .1em;
+}
+
+#goalTree .leftBox p {
+    font-family: proxima-nova-reg, Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+    margin-top: 15px;
+    color: #152126;
+}
+
+#goalTree #comments {
+    border-top: 1px solid #ccc;
+    /* height: 100px; */
+    width: 100%;
+    margin: 46px 0 0 0;
+    padding: 10px;
+    display:block;
+}
+
+#goalTree .comment-pic {
+    width: 40px;
+    height: 40px;
+    
+    display: inline-block;
+    margin: 15px 15px 0 0 ;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background-color:#666;
+    vertical-align: top;
+}
+
+#goalTree .comment-body {
+    /* height: 100%; */
+    width: 100%;
+    display: inline-block;
+    margin: -10px 0 0 -20px;
+}
+
+#goalTree .comment-body h5 {
+    font-family: proxima-nova-bold, Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+    margin-top: 15px;
+    color: #152126;
+}
+
+#goalTree .comment-body p {
+    font-family: proxima-nova-reg, Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+    margin-top: 5px;
+    color: #152126;
+}
+
+#goalTree .comment-text {
+    display: inline-block;
+    width: 80%;
+}
+
+#goalTree .task #task-functionBox{
+    /* width:70px; */
+    float:right;
+    /* height:100%; */
+    
+    margin-right: 10px;
+    
+    /* margin-top: 10px; */
+    visibility:hidden;
+    display: inline-block;
+}
+
+#goalTree .task .leftBox:hover #task-functionBox {
+    visibility:visible;
+    cursor:pointer;
+}
+    
+#goalTree .task .leftBox .goalBox #unread-icon.fa-comments {
+    color: #549996;
+    margin-right: 10px;
+}
+
+#goalTree .task .leftBox .goalBox a.unread {
+    color: #549996;
+    font-family: proxima-nova-reg, Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+}
+
+
+#goalTree .task #task-functionBox .fa-lg {
+    color: #999;
+}
+
+#goalTree .rightBox{
+    /* float:right; */
+    background-color:white;
+    border-left: 1px solid #ccc;
+    /* height: 153px; */
+    width: 30%;
+    
+    margin: 15px 0 15px 0px;
+    padding-left: 2%;
+    
+    display: inline-block;
+    vertical-align: top;
+}
+
+#goalTree .rightBox p {
+    font-family: proxima-nova-reg, Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+    margin-top: 15px;
+    color: #152126;
+}
+
+#goalTree .rightBox .ppl-complete {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin: 10px 15px 0 0 ;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background-color:#666;
+}
+
+#addtask-btn {
+  margin: 50px auto; 
+  height: 150px;
+  width: 100px;
+  float: right;
+}
+
+#add-task {        
+  display: block;
+  width: 100px;
+  height: 40px;
+  background: #999;
+  padding-top: 7px;
+  padding-left: 15px;
+  color: #fff;
+  font-family: proxima-nova-semibold;
+  float: right;
+  margin-top: 25px;
+}
+
+#add-task:hover {
+    background-color:#333;
+    text-decoration:none;
+}
+
+.shape-container {
+    width: 200px;
+    height: 50px;
+    background-color:#F67A45;
+    margin-top: 30px;
+    padding: 10px 0 10px 20px;
+    color: #fff;
+    font-family:proxima-nova-semibold;
+    font-size: 1.4em;
+}
+
+
+.triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-left: 30px solid #F67A45;
+    border-bottom: 25px solid transparent;
+    float: left;
+    clear: left;
+    margin: -38px 0 0 180px;
+}
+
+  

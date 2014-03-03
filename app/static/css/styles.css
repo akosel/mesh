@@ -1,0 +1,340 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.starter-template {
+  padding: 90px 15px;
+  /* text-align: center; */
+}
+body{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+  font-family: 'proxima-nova-semibold', Helvetica, Arial, sans-serif;
+}
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+	 -moz-box-sizing: border-box;
+		  box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.container{
+	/* max-width:768px; */
+}
+
+.navbar-header { background-color: #111618;}
+.navbar-nav#back{
+	margin-right:10px;
+}
+.navbar-inverse {
+  font-family: 'CreteRound-Regular', serif;
+  background-color: #111618;
+}
+.navbar-brand {
+    font-size: 26px;
+}
+.jumbotron{
+	/* background-color:#0E73A4; */
+	/* color:white; */
+}
+.row{
+	border:solid;
+	border-radius:8px;
+	padding:30px;
+	border-color: white;
+	/* background-color:#336699; */
+	color: white;
+}
+.row .row{
+	border:none;
+	margin-right: 1%;
+	padding:0;
+}
+
+/* Home Page
+=================*/
+#homePage { color: #152126;
+}
+
+/*activity feed divider line*/ 
+#homePage .line { border-bottom: 1px solid #ccc; padding-right: 20px; width: 100%;
+}
+
+#homePage .divLeft { width: 25%; padding: 10px 10px auto auto;
+}
+#homePage .divRight { width: 75%; padding: 10px auto 10px 10px;
+}
+#homePage .goTo { height: 100%; vertical-align: middle; /*display: none;*/
+}
+
+/*#homePage .goTo:hover { display: inline-block;
+}*/
+
+#homePage .toDoLine { border-bottom: 1px solid #C66236; padding-left: 20px;
+}
+#homePage .toDoBackground { background-color: #F67A45;
+}
+#homePage .collapsed { width: 0px;
+}
+#homePage .commentBox.expand { background-color: #F58D6A; width: 265px; height: 80px;
+}
+#homePage h2.divTitle { font-size: 25px; font-family: 'proxima-nova-semibold', Helvetica, Arial, sans-serif;
+}
+#homePage .myIcon { width: 91px; height: 91px;
+}
+#homePage h3.activityFriend { font-size: 17px; font-weight: bold;
+}
+#homePage .activityFriendUpdate { font-size: 15px; color: #4D4D4D;
+}
+#homePage .activityTimestamp { font-size: 13px; color: #999999;
+}
+#homePage .friendIcon { width: 60px; height: 60px; border-radius: 50px;
+}
+#homePage h3.todoName { font-size: 17px; font-weight: bold;
+}
+#homePage .todoGoalType { font-size: 14px; color: #1A1A1A;
+}
+#homePage .todoTimestamp { font-size: 14px; color: #7A3415;
+}
+#homePage .todoCheckBox { width: 34px; height: 34px; border: 1px solid #7A3415;
+}
+
+#homePage .commentText { color: #7A3415; font-size: 15px;
+}
+
+/* Goals Page
+=================*/
+#goalsPage #goalsbar,
+#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 11px;
+}
+#goalsPage .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
+}
+#goalsPage .goalsButton,
+#newGoalPage .goalsButton { display: inline-block; padding: 20px 0px 20px 0px;
+}
+#newGoalPage .goalsButton a { text-decoration: none
+}
+#goalsPage .goalsTitle, #newGoalPage .goalsTitle { display: inline; color: #418481; padding: 0px 20px; border-right: 2px solid #3D6E6A; font-family: 'CreteRound-Regular', serif; font-weight: normal; font-size: 22px;
+}
+#newGoalPage .goalsTitle {border-right: none;
+}
+#newGoalPage .fa-chevron-left {margin-right: 20px;
+}
+#goalsPage .goalsTitle:hover,
+#newGoalPage .goalsTitle:hover { color: #247671;
+}
+#goalsPage .goalsCreate { background-color: #418481; display: inline-block; width: 190px; padding: 10px; position: absolute; right: 20px; top:40px;
+}
+#goalsPage .goalsCreate a { text-decoration: none;  
+}
+#goalsPage .goalTitle { font-size: 20px;
+}
+#goalsPage .goalTitle:hover { color: #247671;
+}
+#goalsPage .fa-plus-circle { color: #233F3E;
+}
+#goalsPage .createLabel { color: #000; display: inline; font-size: 18px; margin-left: 10px;
+}
+#goalsPage .goalsCreate:hover { background-color: gray;
+}
+#goalsPage .goalsCreate:hover .createLabel, #goalsPage .goalsCreate:hover .fa-plus-circle { color: #fff;}
+#goalsPage .active { color: #000; font-weight: bold;
+}
+#goalsPage .active:hover { color: #000;}
+#goalsPage .mainWrapper { width: 1024px; margin: auto; /* padding: 15px 0px; */
+}
+#goalsPage .leftWrapper { width: 65%; display: inline-block;
+}
+#goalsPage .rightWrapper { width: 30%; display: inline-block; vertical-align: middle; margin-top: -30px;
+}
+#goalsPage .divLeft {width: 90px; height: 90px;padding: 10px 10px 0 0; background-color: #73C7C2; border-radius: 50px; display: inline-block;
+}
+#goalsPage .goal { padding: 30px; border-bottom: 2px solid #CDCDCD; position: relative;
+}
+#goalsPage .divRight { display: inline-block; margin-left: 50px;width:60%;
+}
+#goalsPage .goalDescription { text-overflow:ellipsis; overflow:hidden; white-space:nowrap;
+}
+#goalsPage .goalEndDate { margin-left: 10px; padding-top: 16px; font-size: 15px; text-align: center;
+}
+#goalsPage .addIcon { display: inline-block; margin: 0 10px;
+}
+#goalsPage .friendIconDiv { width: 58px; height: 58px; border-radius: 40px; background-color: #999; display: inline-block;
+}
+#goalsPage .container { width: 100%;
+}
+#goalsPage .navbar { width: 1024px; margin: 0 auto;
+}
+#goalsPage .friendIcon {width: 60px; height: 60px; border-radius: 40px;
+}
+
+/* New Goal Page
+=================*/
+#newGoalPage {background-color: #fff;
+}
+#newGoalPage .container { width: 100%;
+}
+#newGoalPage .navbar { width: 1024px; margin: 0 auto;
+}
+#newGoalPage .mainWrapper { width: 1024px; margin: 0 auto; position: relative;
+}
+#newGoalPage .newGoalFormWrap { width: 65%; display: inline-block; margin-top: 30px;
+}
+#newGoalPage .inviteFriend { width: 25%; display: inline-block; background-color: #eee; padding: 30px; position: absolute; right: 0; top: 0; height: 100%;
+}
+#newGoalPage .button { margin-top: 40px; background-color: gray; min-width: 75px; min-height: 20px; text-align: center; padding: 5px 20px;
+}
+#newGoalPage .button:hover { background-color: #999999;}
+#newGoalPage .light { background-color: #eee; color: #797979; border: 1px solid #73C7C2;
+}
+#newGoalPage #save { background-color: #F0572F; border: 1px solid #EF4008;
+}
+#newGoalPage .light:hover { background-color: #73C7C2;  
+}
+#newGoalPage #save:hover { background-color: #EF4008;  
+}
+#newGoalPage #save h4 { color:#fff;
+}
+#newGoalPage input {background-color: #fff; height: 60px; border: none; border-bottom: 1px solid #CDCDCD; width: 96%; padding-top: 30px;
+}
+#newGoalPage .fa-asterisk {color: #F0572F; font-size: 8px; vertical-align: middle; margin-top: -4px;}
+#newGoalPage .small {width: 30%; display: inline-block; margin-right: 40px
+}
+#newGoalPage #inviteFriends input, #newGoalPage textarea { background-color: #ededed; border: none; border-bottom: 1px solid #CDCDCD; border-right: 1px solid #CDCDCD; width: 96%;
+}
+#newGoalPage .cushion { margin-top: 70px;
+}
+#newGoalPage .grayDivide { width: 100%; background-color: #eee; height: 5px; margin-top: 30px}
+#newGoalPage .inviteFriend ul{list-style-type:none; padding:0; margin:0;}
+#newGoalPage .inviteFriend li{margin:10px;cursor:pointer; }
+#newGoalPage ul img{width:50px;height:50px;border-radius:50px;}
+
+
+/* Background Images
+=================*/
+.largeMe { background: url(/images/pumpkinstin100x100.jpg) no-repeat;}
+.medMe { background: url(/images/pumpkinstin60x60.jpg) no-repeat;}
+.smallMe { background: url(/images/pumpkinstin40x40.jpg) no-repeat;}
+
+.medShrek { background: url(/images/shrek60x60.jpg) no-repeat;}
+.medTim { background: url(/images/timothy60x60.jpg) no-repeat;}
+
+.medJo { background: url(/images/joanna60x60.jpg) no-repeat;}
+.smallJo { background: url(/images/joanna40x40.jpg) no-repeat;}
+
+.medJayz { background: url(/images/jayz60x60.jpg) no-repeat;}
+
+/* Media Queries
+=================*/
+@media (min-width: 768px) and (max-width: 767px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 991px) {
+  .container {
+    width: 1024px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1199px) {
+  .container {
+    width: 1024px;
+  }
+}
+
+
+/* Fonts
+=================*/
+@font-face {
+  font-family: 'CreteRound-Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('CreteRound-Regular'), local('CreteRound-Regular'), url(/static/fonts/CreteRound-Regular.woff) format('woff');
+}
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url(/static/fonts/DroidSans.woff) format('woff');
+}
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url(/static/fonts/DroidSans-Bold.woff) format('woff');
+}
+@font-face {
+  font-family: 'Foro-ExtraLight';
+  src: url(/static/fonts/Foro-XLight.eot);
+  src: url(/static/fonts/Foro-XLight.eot?#iefix) format('embedded-opentype'),url(/static/fonts/Foro-XLight.woff) format('woff'),url(/static/fonts/Foro-XLight.ttf) format('truetype');
+}
+@font-face {
+  font-family: proxima-nova-reg;
+    src: url('/static/fonts/proximanova-regular-webfont.eot');
+    src: url('/static/fonts/proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/proximanova-regular-webfont.woff') format('woff'),
+         url('/static/fonts/proximanova-regular-webfont.ttf') format('truetype'),
+         url('/static/fonts/proximanova-regular-webfont.svg#proxima_nova_rgregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: proxima-nova-semibold;
+    src: url('/static/fonts/proximanova-semibold-webfont.eot');
+    src: url('/static/fonts/proximanova-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/proximanova-semibold-webfont.woff') format('woff'),
+         url('/static/fonts/proximanova-semibold-webfont.ttf') format('truetype'),
+         url('/static/fonts/proximanova-semibold-webfont.svg#proxima_nova_ltbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: proxima-nova-bold;
+  src: url('/static/fonts/proximanova-bold-webfont.eot');
+    src: url('/static/fonts/proximanova-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/proximanova-bold-webfont.woff') format('woff'),
+         url('/static/fonts/proximanova-bold-webfont.ttf') format('truetype'),
+         url('/static/fonts/proximanova-bold-webfont.svg#proxima_nova_rgbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: proxima-nova-extrabold;
+    src: url('/static/fonts/proximanova-extrabld-webfont.eot');
+    src: url('/static/fonts/proximanova-extrabld-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/proximanova-extrabld-webfont.woff') format('woff'),
+         url('/static/fonts/proximanova-extrabld-webfont.ttf') format('truetype'),
+         url('/static/fonts/proximanova-extrabld-webfont.svg#proxima_nova_thbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
