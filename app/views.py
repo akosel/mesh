@@ -16,9 +16,9 @@ def load_user(id):
 @app.route('/index',methods=["GET","POST"])
 @login_required
 def index():
-
+    user = User.objects(id = g.user.id).first()
     return render_template('index.html',
-        title = 'Home')
+        title = 'Home',user=user)
 
 @app.route('/loginner')
 def loginner():
@@ -116,7 +116,4 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/test')
-@login_required
-def test():
-    return render_template('test.html')
+
