@@ -1,0 +1,247 @@
+
+<html lang="en">
+    <head>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+     <script src='/static/js/preloader.js'></script>
+     <script src='/static/js/toggle.js'></script>
+     <script src='/static/js/functionHolder2.js'></script>
+    </head>
+
+ <!--[if lt IE 7 ]><body class="ie ie6" lang="en" id="newGoalPage"> <![endif]-->
+<!--[if IE 7 ]><body class="ie ie7" lang="en" id="newGoalPage"> <![endif]-->
+<!--[if IE 8 ]><body class="ie ie8" lang="en" id="newGoalPage"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><body lang="en" id="goalTree"> <!--<![endif]-->
+    <div class='container' id='navbar'></div>
+
+    <div class='wrapper' id='goalsbar'>
+        <div class="buttonWrapper">
+            <a href="/goals">
+                <div class="goalsButton">
+                    <h3 class="goalsTitle"><i class="fa fa-chevron-left"></i>Back to My Goals</h3>
+                </div>
+            </a>
+            <a href="/newgoal">
+                <div class="goalsCreate">
+                    <i class="fa fa-plus-circle"></i><p class="createLabel">Create New Goal</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+	<div class='mainWrapper'>
+        <div class='goalContainer'>
+
+            <div class='lineDiv'></div>
+            <div class='mainGoal' id={{goal._id}}>    
+                <div class='checkboxBox'>
+                    <div class='checkboxSide'>
+                        <i id={{goal._id}} class='fa fa-square fa-4x'></i>
+                    </div>
+                </div>
+
+                <div class='functionBox'>
+                    <div class='functionSide'>
+                        <i id={{goal._id}} class='fa fa-user fa-lg'></i>
+                        <i id={{goal._id}} class='fa fa-pencil fa-lg'></i>
+                        <i id={{goal._id}} class='fa fa-trash-o fa-lg'></i>
+                    </div>
+                </div>
+                <div class='goalBox'>
+                   <h2 id='goalEnd'></h2> 
+                   <h1>{{ goal.name }}</h1> 
+                   <p>{{ goal.description }}</p>
+                   <div id='pictureBox'>
+                    {% for person in goal.people %}
+                    <img src={{ person.picture }} id='gt-users-100'></img>
+                    {% endfor %}
+                   </div>   
+                </div> 
+            </div>
+
+			<button class='btn btn-default' id="add-task" data-toggle='modal' data-target='#myModal'>Add Task</button>
+            
+            <div class='task'>    
+
+                {% for task in tasks %}
+                <div id="task-box-wrapper">
+                  <div id='task-checkboxBox'>
+                      <div class='checkboxSide'>
+                          <i id={{task._id}} class='fa fa-square fa-4x' data-toggle='modal' data-target='#taskComplete'></i>
+                      </div>
+                  </div>
+                    <div class='leftBox'>
+                        <div id='task-functionBox'>
+                            <div class='functionSide'>
+                                <a><i id={{task._id}} class='fa fa-plus fa-lg'></i></a>
+                                <a><i id={{task._id}} class='fa fa-pencil fa-lg'></i></a>
+                                <a><i id={{task._id}} class='fa fa-trash-o fa-lg'></i></a>
+                            </div>
+                        </div>
+                        <div class='goalBox'>
+                           <h4>Task {{ loop.index }} | {{ task.end|datetimeformat }}</h4> 
+                           <h3>{{ task.name }}</h3> 
+                           <p>{{ task.description }}</p>
+                           
+                           <i id="unread-icon" class="fa fa-comments"></i><a href="javascript:;" class="unread">{{ task.comments|length }} comment(s)</a>
+                           <div id="comments">
+                                {% for comment in task.comments %}
+                           		
+                                <div class="comment-body">
+                                  <img src={{comment.picture}} class="comment-pic"/>
+                                  <div class="comment-text">
+                                    <h5>{{comment.name}}</h5>
+                                    <p>{{comment.message}}</p>
+                                  </div>
+                                </div>
+                                {% endfor %}
+                     		</div>
+          
+                        </div> 
+                    </div>
+                    <div class='rightBox'>
+                        <p>{{ task.completed|length }} people completed this task</p>
+                        {% for person in task.completed %}
+                            <img src={{ person.picture }} class='comment-pic'></img>
+                        {% endfor %}
+                    </div>
+                </div>
+                <br>
+
+                {% endfor %}
+	    	</div>
+            
+            <!-- -->
+         
+            <!-- -->
+        
+        
+            
+            	<div class="shape-container">
+               		<div class="rect">Today | {{ today }}</div><div class="triangle-right"></div>
+               </div>
+
+        </div> 
+
+    </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add a new task</h4>
+      </div>
+      <div class="modal-body">
+			<div class='newTaskWrap'>
+				
+					<input type="text" label="newTaskTitle1" placeholder="Task 1 Title" name="5Task1">
+					</input>
+					<input type="text" label="newTaskDescription1" placeholder="Task Description" name="6Task1Desc">
+					</input>
+					<em>Due Date </em><input type="date" label="newTaskEnd1" class="small" placeholder="Due Date" name="7DueDate1">
+					</input>
+				<!-- </form> -->
+			</div>  <!-- end newTaskWrap -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
+        <button type="button" class="btn btn-primary" id="addtask" data-dismiss="modal">Add Task</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+                <div class="modal fade" id="taskComplete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Almost Done...</h4>
+                      </div>
+                      <div class="modal-body">
+                            <div class='newTaskWrap'>
+                                
+                                <textarea class='form-control' placeholder='Say something about this!' rows='3'></textarea>
+                                <!-- </form> -->
+                            </div>  <!-- end newTaskWrap -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id='nevermindButton' data-dismiss="modal">Nevermind</button>
+                        <button type="button" class="btn btn-brown" id="commentShareButton" data-dismiss="modal">Share</button>
+                        <button type="button" class="btn notnow-btn" id="shareLaterButton" data-dismiss="modal">Share Later</button>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+
+    <!-- End Document
+================================================== -->
+</body>
+<script>
+    //hacky workaround to format date string to date object and then to the proper format
+    format = d3.time.format('%Y-%m-%d');
+    
+    $('#commentShareButton').on('click', function(){
+        url = "/completetask/" + $('.mainGoal').attr('id') + "/" + currentTaskId  + "/" + $('textarea').val();
+        $('.fa-check-square').addClass('fa-square').removeClass('fa-check-square'); 
+        console.log(url);
+        $.get(url);
+    })
+    
+    $('#nevermindButton').on('click', function(){
+        $('.fa-check-square').addClass('fa-square').removeClass('fa-check-square'); 
+    })
+
+    $('#addtask').on('click', function(){
+
+        tasks = 1; //in this case we only add one...
+        format = d3.time.format('%Y-%m-%d')
+        taskArr = {};
+        for (i = 1; i <= tasks; i++){
+             taskDict = {}
+             taskDict['goalid'] = $('.mainGoal').attr('id');
+             taskDict['title'] = $('input[label=newTaskTitle' + i + ']').val();
+             taskDict['description'] = $('input[label=newTaskDescription' + i + ']').val();
+             taskDict['end'] = format.parse($('input[label=newTaskEnd' + i + ']').val());
+             taskArr['task' + i] = taskDict;
+            console.log(JSON.stringify(taskArr))
+        }
+        taskStr = JSON.stringify(taskArr)
+        url = '/addtask/' + taskDict['goalid'] + '/' + taskDict['end'] + '/' + taskDict['title'] + '/' + taskDict['description'];
+        console.log(url);
+        $.get(url);
+        location.reload(true);
+        alert('New task added!');
+    })
+
+    $('i').on('click',function(){
+        currentTaskId = $(this).attr('id'); 
+    }); 
+    $('.task .fa-trash-o').on('click',function(){
+        currentTaskId = $(this).attr('id'); 
+        $.get('/removetask/' + currentTaskId); 
+    }); 
+    $('.mainGoal .fa-trash-o').on('click',function(){
+        currentGoalId = $(this).attr('id'); 
+        console.log(currentGoalId);
+        if(confirm('Are you sure you want to remove this goal?')){
+            $.get('/removegoal/' + currentGoalId,function(){
+                window.location.href='/goals';
+            }); 
+        } else {
+            alert('Goal not deleted!');
+        }
+    }); 
+    $('.functionSide .fa-plus').click(function(){
+        event.preventDefault();
+        taskid = $(this).attr('id');
+        console.log(taskid);
+        url = '/jointask/' + taskid;
+        $.get(url);
+        alert('task joined!');
+        location.reload(true);
+    });
+</script>
+</html>

@@ -1,0 +1,125 @@
+<html lang="en">
+    <head>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+    <script src='/static/js/preloader.js'></script>
+    </head>
+
+ <!--[if lt IE 7 ]><body class="ie ie6" id='dashboard' lang="en"> <![endif]-->
+<!--[if IE 7 ]><body class="ie ie7" id='dashboard' lang="en"> <![endif]-->
+<!--[if IE 8 ]><body class="ie ie8" id='dashboard' lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><body id='dashboard' lang="en"> <!--<![endif]-->
+
+    <div id='wrapper'>
+    <div class='container' id='navbar'></div>
+    <div class='container' id='profileHeader'>
+        <div class='media'>
+            <a class="pull-left" href="#">
+		<img id="propic" src={{ user.picture }} class="media-object" alt="pumpkinstin"/>
+            </a>
+            <div class="media-body">
+                <h4 id="name" class="media-heading">{{ user.name }}</h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class='container' id='rowContainer'>
+        <div class='row'id='wrapper'>
+            <div class='sidefiller'></div>
+            <div class='row'>
+            <div id='activityFeedContainer' class='col-md-8'>
+                <h4>Activity Feed</h4>
+                {% for item in user.feed %}
+                    <div class='container'>
+                        <div class='media'>
+                            <a class='pull-left' href='#'>
+                                <img class='media-object' src={{ item.user.picture }}></img>
+                            </a>
+                            <div class='media-body'>
+                                <h4 class='media-heading media-heading-bold'>{{ item.name }}</h4>
+                                {{item.message}}
+                                <br>
+                                {% if item.goal %}
+                                Name: <a href='/goals/{{item.goal.id}}'>{{item.goal.name}}</a> 
+                                {% endif %}
+                                <h5 class='activityFeedDate'>{{ item.timestamp.strftime('%B %d at %H:%M %p') }}</h5>
+                            </div>
+                        </div>
+                        {% if item.type == 'friendrequest' %}
+                            <div id={{item.type}} class='btn-container'>
+                                <a href="{{ url_for('joingoal',goalid=item.id)}}">
+                                    <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
+                                </a>
+                               <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                            </div>
+                        {% elif item.feed_item_type == 'GoalRequest' %}
+                            <div id="goalrequest" class='btn-container'>
+                                <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
+                                    <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
+                                </a>
+                               <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                            </div> 
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <h1>Nothing to report. Add a goal and find some friends to get started!</h1>
+                
+                {% endfor %}
+
+            </div>
+            <div id='toDoListContainer' class='col-md-4'>
+                <h4>To Do</h4>
+
+                <div id='toDoList'>
+                    {% for task in todo %}
+                        <div class='container list-item'>
+                            <div class='media'>
+                                    <i class='fa-media-object fa fa-square-o fa-4x' id={{task._id}} label={{task.goalid}}></i>
+                                <div class='media-body'>
+                                     <h5 class='toDoDate'>{{ task.end|datetimeformat }}</h5>
+                                    <h4 id={{task._id}} class='media-heading media-heading-bold'>{{task.name}}</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% else %} 
+                        <a href="/newgoal">
+                            <div class="goalsCreate">
+                                <i class="fa fa-plus-circle"></i><p class="createLabel">Add a Goal</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>     
+            </div>
+            </div>
+        </div>
+    </div> 
+	
+    <div class='container' id='bottomnavbar'></div>
+
+    </div>
+<!-- End Document
+================================================== -->
+</body>
+<script>
+    $(document).on('click','#shareButton',function(){
+       console.log($(this).prev().attr('label'));
+       url = '/completetask/' + $(this).prev().attr('label') + '/' + $(this).prev().attr('id') + '/' + $(this).prev().val();
+        $.get(url);
+        //url = /goalid/taskid/comment
+    })
+$(document).on('click','button.notnow-btn',function(){
+    console.log('click');
+  //  $(this).parent().parent().parent().remove();
+    url = '/completetask/' + $(this).prev().prev().attr('label') + '/' + $(this).prev().prev().attr('id');
+    $.get(url);
+})
+$(document).on('click','#goalrequest .accept',function(){
+    console.log('accept');
+    url='/joingoal/' + $(this).attr('id');
+    $.get(url,function(){
+        alert('Goal added!');
+        location.reload();
+    })
+})
+</script>
+</html>

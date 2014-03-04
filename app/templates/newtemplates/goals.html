@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+{% block content %}
+	<!-- <div class='starter-template'> -->
+		<div class='wrapper' id='goalsbar'>
+			<div class="buttonWrapper">
+				<div class="goalsButton" id="myGoals">
+					<h3 class="goalsTitle active">My Goals</h3>
+				</div>
+				<div class="goalsButton" id="completedGoals">
+					<h3 class="goalsTitle">Completed Goals</h3>
+				</div>
+                <a href="/newgoal">
+                    <div class="goalsCreate">
+                        <i class="fa fa-plus-circle"></i><p class="createLabel">Create New Goal</p>
+                    </div>
+                </a>
+			</div>
+		</div>
+		<div class='mainWrapper'>
+            {% for goal in goals %}
+                    <div class='goal'>
+					    <div class="leftWrapper">
+                            <div class="divLeft">
+                                <p class="goalEndDate">{{goal.end|datetimeformat}}</p>
+                            </div>
+                            <div class="divRight">
+                                <a href="/goals/{{goal.id}}"><h4 class="goalTitle">{{goal.name}}</h4></a>
+                                <p class="goalDescription">{{goal.description}}</p>
+                            </div>
+                        </div>
+                        <div class="rightWrapper">
+                                {% for person in goal.people %}
+                                <div class="friendIconDiv">
+                                    <img src={{person.picture}} class="friendIcon">
+                                </div>
+                                {% endfor %}
+                        </div>
+                    </div>		
+            {% endfor %}
+		</div>
+
+{% endblock %}

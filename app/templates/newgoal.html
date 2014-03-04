@@ -1,0 +1,85 @@
+<html lang="en">
+    <head>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+    <script src='/static/js/underscore.min.js'></script>
+     <script src='/static/js/preloader.js'></script>
+    </head>
+
+ <!--[if lt IE 7 ]><body class="ie ie6" lang="en" id="newGoalPage"> <![endif]-->
+<!--[if IE 7 ]><body class="ie ie7" lang="en" id="newGoalPage"> <![endif]-->
+<!--[if IE 8 ]><body class="ie ie8" lang="en" id="newGoalPage"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><body lang="en" id="newGoalPage"> <!--<![endif]-->
+    <div class='container' id='navbar'></div>
+
+	<div class='wrapper' id='goalsbar'>
+		<div class="buttonWrapper">
+            <a href="/goals">
+                <div class="goalsButton">
+                    <h3 class="goalsTitle"><i class="fa fa-chevron-left"></i>Back to My Goals</h3>
+                </div>
+            </a>
+		</div>
+	</div>
+
+	<div class='mainWrapper'>
+		<div class="newGoalFormWrap">
+			<h4>Create New Goal</h4>
+        <form id="createNewGoal" action="" method="post" name="newgoal">
+                {{ form.hidden_tag() }}
+                {% for error in form.errors %}
+                    <br><span style='color:red;'>[{{error}}]</span><br>
+                {% endfor %}
+				<i class="fa fa-asterisk"></i>{{ form.name(placeholder='Goal Name') }}<br>			
+				<i class="fa fa-asterisk"></i>{{ form.description(placeholder='Goal Description') }}<br>			
+				<i class="fa fa-asterisk"></i>{{ form.start(class='small', placeholder='Start Date') }}			
+				<i class="fa fa-asterisk"></i>{{ form.end(class='small',placeholder='End Date') }}			
+
+			<h5 class="cushion">Add Tasks</h5>
+			<div class='newTaskWrap'>
+				
+					<input type="text" label="newTaskTitle1" placeholder="Task 1 Title" name="5Task1">
+					</input>
+					<input type="text" label="newTaskDescription1" placeholder="Task Description" name="6Task1Desc">
+					</input>
+					<em>Due Date </em><input type="date" label="newTaskEnd1" class="small" placeholder="Due Date" name="7DueDate1">
+					</input>
+				<!-- </form> -->
+			</div>  <!-- end newTaskWrap -->
+<!-- 			<div id="addedTask"></div> -->
+			<div class="button light" id="addTask">
+				<h5>Add Another Task</h5>
+			</div>
+			<input class='button' value="Save" type='submit' id="save">
+		</div>
+
+		<div class="inviteFriend">
+			<h4>Add Friends to This Goal</h4>
+			
+			<div id="inviteFriends">
+                {{ form.people(placeholder='Enter emails') }}
+				<br><p><i class="fa fa-asterisk"></i><em>seperated by commas</em></p>
+                {% if users %} 
+                    <h3>Add these people</h3>
+                    <ul>
+                {% for user in users %}
+                    <li id={{user.username}}>
+                        <img src={{user.picture}} class="friendIcon"></img>
+                        {{user.name}}
+                    </li>
+                {% endfor %}
+                    </ul>
+                {% endif %}
+			</form>
+<!-- 			<div class="button cushion" id="addFriend">
+				<h5>Add Another Friend</h5>
+			</div> -->
+		</div>
+	</div>
+</div>
+
+
+
+    <!-- End Document
+================================================== -->
+</body>
+</html>
