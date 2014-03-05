@@ -33,3 +33,7 @@ class GoalForm(Form):
     end = DateField('end', validators = [Required()])
     people = TagListField('people', validators = [Required()])    
 
+class TaskForm(Form):
+    name = TextField('name',validators = [Required()])
+    description = TextField('description',validators = [Required()])
+    end = DateField('end', validators = [Required()])

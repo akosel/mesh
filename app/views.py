@@ -1,9 +1,11 @@
 from flask import render_template,flash,redirect,session,url_for,request,g
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from mongoengine import Q
 from app import app,db,lm,oid
-from forms import LoginForm,GoalForm
-from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task
+from forms import LoginForm,GoalForm,TaskForm
+from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate
 from sets import Set
+from bson.objectid import ObjectId
 import config
 import urllib
 import requests
@@ -21,14 +23,7 @@ app.jinja_env.filters['datetimeformat'] = datetimeformat
 def load_user(id):
     return User.objects.get(id=id)
 
-@app.route('/',methods=['GET','POST'])
-@app.route('/index',methods=["GET","POST"])
-@login_required
-def index():
-    user = User.objects(id = g.user.id).first()
-    tasks = Task.objects()
-    return render_template('dashboard.html',
-        title = 'Home',user=user)
+# Login handlers
 
 @app.route('/loginner')
 def loginner():
@@ -74,48 +69,11 @@ def callback():
         login_user(user)
         return redirect(url_for('index'))
     else:
-        return 'ERROR'
+        return 'Oops, looks like the login failed.'
  
 @app.route('/login')
 def login():
     return render_template('login.html')
-
-#@app.route('/login',methods=['GET','POST'])
-#@oid.loginhandler
-#def login():
-#    if g.user is not None and g.user.is_authenticated():
-#        return redirect(url_for('index'))
-#    form = LoginForm()
-#    if form.validate_on_submit():
-#        print "--------------------"
-#        session['remember_me'] = form.remember_me.data
-#        return oid.try_login(form.openid.data, ask_for = ['nickname', 'email'])
-#    return render_template('login.html',title='Sign In',form=form,providers = app.config['OPENID_PROVIDERS'])
-#
-#@oid.after_login
-#def after_login(resp):
-#    if resp.email is None or resp.email == "":
-#        flash('Invalid login. Try again')
-#        return redirect(url_for('login'))
-#    user = User.objects(email = resp.email).first()
-#
-#    if user is None:
-#        nickname = resp.nickname
-#
-#        if nickname is None or nickname =="":
-#            nickname = resp.email.split('@')[0]
-#        nickname = User.make_unique_nickname(nickname)
-#        
-#        user = User(nickname = nickname, email = resp.email, role = ROLE_USER)
-#        user.save()
-#
-#    remember_me = False
-#
-#    if 'remember_me' in session:
-#        remember_me = session['remember_me']
-#        session.pop('remember_me',None)
-#    login_user(user, remember = remember_me)
-#    return redirect(request.args.get('next') or url_for('index'))
 
 @app.before_request
 def before_request():
@@ -125,6 +83,18 @@ def before_request():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+####################################
+#Begin defining page handlers
+@app.route('/',methods=['GET','POST'])
+@app.route('/index',methods=["GET","POST"])
+@login_required
+def index():
+    user = User.objects(id = g.user.id).first()
+    tasks = Task.objects()
+    return render_template('dashboard.html',
+        title = 'Home',user=user,todo=tasks)
+
 
 @app.route('/goals')
 @login_required
@@ -166,19 +136,35 @@ def goaltree(goalid):
 
     me = User.objects(id = g.user.id).first()
     goal = Goal.objects(id = goalid).first()
-    tasks = Task.objects(goal = goalid)
+    tasks = Task.objects(goal = goalid).order_by('-end')
 
-    return render_template('goaltree.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now()) 
+    form = TaskForm()
+    if form.validate_on_submit():
+        task = Task(goal=goal,name = form.name.data, description = form.description.data, end = form.end.data, people = [me])
+        task.save()
+    
+        feeditem = TaskCreate(message='A task was added to a goal you are working on',user=me,task=task) 
+
+        for person in goal.people:
+            person.feed.append(feeditem)
+            person.save()
+
+        return redirect(url_for('goaltree',goalid=goalid))
+
+    return render_template('goaltree.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form) 
 
 @app.route('/friends')
 @login_required
 def friends():
     goals = Goal.objects(people = g.user.id)
+    me = User.objects(id = g.user.id).first()
+
     friends = Set()
     for goal in goals:
         friends.update(goal.people)
         friends.update(goal.completed)
-    print friends
+
+    friends.remove(me)
 
     return render_template('friends.html', friends = friends)
 
@@ -186,19 +172,58 @@ def friends():
 @login_required
 def joingoal(goalid):
     goal = Goal.objects(id = goalid).first()
-    user = User.objects(id = g.user.id).first()
+    me = User.objects(id = g.user.id).first()
 
-    feeditem = FeedItem(message=g.user.name+" just joined a goal you are working on",user = user)
+    feeditem = FeedItem(message=g.user.name+" just joined a goal you are working on",user = me)
     
     for person in goal.people:
         person.feed.append(feeditem)
         person.save()
 
-    goal.people.append(user)
+    goal.people.append(me)
     goal.save()
-     
 
+    User.objects(id = g.user.id).update_one(pull__feed__goal=ObjectId(goalid))
+ 
     return redirect(url_for('index'))
 
+@app.route('/jointask/<taskid>')
+@login_required
+def jointask(taskid):
+    task = Task.objects(id = taskid).first()
+    me = User.objects(id = g.user.id).first()
+
+    feeditem = FeedItem(message=g.user.name+" just joined a task you are working on",user = me)
+    
+    for person in task.people:
+        person.feed.append(feeditem)
+        person.save()
+
+    if me not in task.people:
+        task.people.append(me)
+        task.save()
+    else:
+        flash( "Person in task already")
+ 
+    return redirect(url_for('index'))
+
+@app.route('/removefeeditem/<goalid>')
+@login_required
+def removefeeditem(goalid):
+    User.objects(id = g.user.id).update_one(pull__feed__goal=ObjectId(goalid))
+    return redirect(url_for('index'))
+
+@app.route('/removegoal/<goalid>')
+@login_required
+def removegoal(goalid):
+    Goal.objects(id=goalid).delete()
+    return redirect(url_for('goals'))
+
+@app.route('/removetask/<taskid>')
+@login_required
+def removetask(taskid):
+    goalid = Task.objects(id=taskid).first().goal.id
+    Task.objects(id=taskid).delete()
+    return redirect(url_for('goaltree',goalid=goalid))
 
 

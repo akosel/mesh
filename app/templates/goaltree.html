@@ -32,18 +32,18 @@
         <div class='goalContainer'>
 
             <div class='lineDiv'></div>
-            <div class='mainGoal' id={{goal._id}}>    
+            <div class='mainGoal' id={{goal.id}}>    
                 <div class='checkboxBox'>
                     <div class='checkboxSide'>
-                        <i id={{goal._id}} class='fa fa-square fa-4x'></i>
+                        <i id={{goal.id}} class='fa fa-square fa-4x'></i>
                     </div>
                 </div>
 
                 <div class='functionBox'>
                     <div class='functionSide'>
-                        <i id={{goal._id}} class='fa fa-user fa-lg'></i>
-                        <i id={{goal._id}} class='fa fa-pencil fa-lg'></i>
-                        <i id={{goal._id}} class='fa fa-trash-o fa-lg'></i>
+                        <a href="{{ url_for('removegoal',goalid=goal.id) }}"><i id={{goal.id}} class='fa fa-user fa-lg'></i></a>
+                        <a href="{{ url_for('removegoal',goalid=goal.id) }}"><i id={{goal.id}} class='fa fa-pencil fa-lg'></i></a>
+                        <a href="{{ url_for('removegoal',goalid=goal.id) }}"><i id={{goal.id}} class='fa fa-trash-o fa-lg'></i></a>
                     </div>
                 </div>
                 <div class='goalBox'>
@@ -66,15 +66,15 @@
                 <div id="task-box-wrapper">
                   <div id='task-checkboxBox'>
                       <div class='checkboxSide'>
-                          <i id={{task._id}} class='fa fa-square fa-4x' data-toggle='modal' data-target='#taskComplete'></i>
+                          <i id={{task.id}} class='fa fa-square fa-4x' data-toggle='modal' data-target='#taskComplete'></i>
                       </div>
                   </div>
                     <div class='leftBox'>
                         <div id='task-functionBox'>
                             <div class='functionSide'>
-                                <a><i id={{task._id}} class='fa fa-plus fa-lg'></i></a>
-                                <a><i id={{task._id}} class='fa fa-pencil fa-lg'></i></a>
-                                <a><i id={{task._id}} class='fa fa-trash-o fa-lg'></i></a>
+                                <a href="{{ url_for('jointask',taskid=task.id) }}"><i id={{task.id}} class='fa fa-plus fa-lg'></i></a>
+                                <a href="{{ url_for('removetask',taskid=task.id) }}"><i id={{task.id}} class='fa fa-pencil fa-lg'></i></a>
+                                <a href="{{ url_for('removetask',taskid=task.id) }}"><i id={{task.id}} class='fa fa-trash-o fa-lg'></i></a>
                             </div>
                         </div>
                         <div class='goalBox'>
@@ -133,19 +133,20 @@
       </div>
       <div class="modal-body">
 			<div class='newTaskWrap'>
-				
-					<input type="text" label="newTaskTitle1" placeholder="Task 1 Title" name="5Task1">
-					</input>
-					<input type="text" label="newTaskDescription1" placeholder="Task Description" name="6Task1Desc">
-					</input>
-					<em>Due Date </em><input type="date" label="newTaskEnd1" class="small" placeholder="Due Date" name="7DueDate1">
-					</input>
+                <form method="post" action="" name="goaltree">
+                {{ form.hidden_tag() }}
+                {% for error in form.errors %}
+                    <br><span style='color:red;'>[{{error}}]</span><br>
+                {% endfor %}
+			    {{ form.name(placeholder='Task Name') }}
+                {{ form.description(placeholder='Goal Description') }}
+                {{ form.end(placeholder='End Date') }}    
+                <input type='submit' value='Add This' class='btn btn-primary pull-right'>
+                </form>
 				<!-- </form> -->
 			</div>  <!-- end newTaskWrap -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
-        <button type="button" class="btn btn-primary" id="addtask" data-dismiss="modal">Add Task</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -194,54 +195,18 @@
         $('.fa-check-square').addClass('fa-square').removeClass('fa-check-square'); 
     })
 
-    $('#addtask').on('click', function(){
-
-        tasks = 1; //in this case we only add one...
-        format = d3.time.format('%Y-%m-%d')
-        taskArr = {};
-        for (i = 1; i <= tasks; i++){
-             taskDict = {}
-             taskDict['goalid'] = $('.mainGoal').attr('id');
-             taskDict['title'] = $('input[label=newTaskTitle' + i + ']').val();
-             taskDict['description'] = $('input[label=newTaskDescription' + i + ']').val();
-             taskDict['end'] = format.parse($('input[label=newTaskEnd' + i + ']').val());
-             taskArr['task' + i] = taskDict;
-            console.log(JSON.stringify(taskArr))
-        }
-        taskStr = JSON.stringify(taskArr)
-        url = '/addtask/' + taskDict['goalid'] + '/' + taskDict['end'] + '/' + taskDict['title'] + '/' + taskDict['description'];
-        console.log(url);
-        $.get(url);
-        location.reload(true);
-        alert('New task added!');
-    })
-
     $('i').on('click',function(){
         currentTaskId = $(this).attr('id'); 
     }); 
     $('.task .fa-trash-o').on('click',function(){
-        currentTaskId = $(this).attr('id'); 
-        $.get('/removetask/' + currentTaskId); 
+        return confirm('Are you sure you want to delete this task?');
     }); 
     $('.mainGoal .fa-trash-o').on('click',function(){
-        currentGoalId = $(this).attr('id'); 
-        console.log(currentGoalId);
-        if(confirm('Are you sure you want to remove this goal?')){
-            $.get('/removegoal/' + currentGoalId,function(){
-                window.location.href='/goals';
-            }); 
-        } else {
-            alert('Goal not deleted!');
-        }
+
+        return confirm('Are you sure you want to delete this goal?');
     }); 
-    $('.functionSide .fa-plus').click(function(){
-        event.preventDefault();
-        taskid = $(this).attr('id');
-        console.log(taskid);
-        url = '/jointask/' + taskid;
-        $.get(url);
-        alert('task joined!');
-        location.reload(true);
+   $('.functionSide .fa-plus').click(function(){
+        return confirm('Are you sure you want to join this task?');
     });
 </script>
 </html>

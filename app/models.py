@@ -19,7 +19,9 @@ class FeedItem(EmbeddedDocument):
 
 class GoalRequest(FeedItem):
     goal = ReferenceField('Goal',unique=True)
-    
+
+class TaskCreate(FeedItem):
+    task = ReferenceField('Task',unique=True)
     
 class Brainstorm(Document):
     title = StringField(max_length=140,required=True)
@@ -72,6 +74,15 @@ class Goal(Document):
     completed = ListField(ReferenceField(User))
     comments = ListField(EmbeddedDocumentField(Comment))
     incentives = ListField(EmbeddedDocumentField(Incentive))
+
+    @property
+    def feed_item_type(self):
+        return self.__class__.__name__
+
+    @queryset_manager
+    def objects(doc_cls, queryset): 
+        print doc_cls
+        return queryset.order_by('end')
 
     meta = {'allow_inheritance': True}
     

@@ -28,6 +28,7 @@
 		</div>
 		<div class='mainWrapper'>
             {% for goal in goals %}
+                {% if goal.feed_item_type != 'Task' %}
                     <div class='goal'>
 					    <div class="leftWrapper">
                             <div class="divLeft">
@@ -46,6 +47,7 @@
                                 {% endfor %}
                         </div>
                     </div>		
+                {% endif %}
             {% endfor %}
 		</div>
 	<!-- </div> -->

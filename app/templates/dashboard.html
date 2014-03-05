@@ -28,7 +28,8 @@
             <div class='row'>
             <div id='activityFeedContainer' class='col-md-8'>
                 <h4>Activity Feed</h4>
-                {% for item in user.feed %}
+                {% for item in user.feed|sort(attribute='timestamp',reverse=True) %}
+                    {% if item.user != user %}
                     <div class='container'>
                         <div class='media'>
                             <a class='pull-left' href='#'>
@@ -56,10 +57,13 @@
                                 <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
                                     <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
                                 </a>
-                               <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                                <a href="{{ url_for('removefeeditem',goalid=item.goal.id)}}">
+                                    <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                                </a>
                             </div> 
                         {% endif %}
                     </div>
+                {% endif %}
                 {% else %}
                     <h1>Nothing to report. Add a goal and find some friends to get started!</h1>
                 
@@ -73,10 +77,10 @@
                     {% for task in todo %}
                         <div class='container list-item'>
                             <div class='media'>
-                                    <i class='fa-media-object fa fa-square-o fa-4x' id={{task._id}} label={{task.goalid}}></i>
+                                    <i class='fa-media-object fa fa-square-o fa-4x' id={{task.id}} label={{task.goalid}}></i>
                                 <div class='media-body'>
                                      <h5 class='toDoDate'>{{ task.end|datetimeformat }}</h5>
-                                    <h4 id={{task._id}} class='media-heading media-heading-bold'>{{task.name}}</h4>
+                                    <h4 id={{task.id}} class='media-heading media-heading-bold'>{{task.name}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -112,14 +116,6 @@ $(document).on('click','button.notnow-btn',function(){
   //  $(this).parent().parent().parent().remove();
     url = '/completetask/' + $(this).prev().prev().attr('label') + '/' + $(this).prev().prev().attr('id');
     $.get(url);
-})
-$(document).on('click','#goalrequest .accept',function(){
-    console.log('accept');
-    url='/joingoal/' + $(this).attr('id');
-    $.get(url,function(){
-        alert('Goal added!');
-        location.reload();
-    })
 })
 </script>
 </html>
