@@ -1,20 +1,13 @@
-<html lang="en">
-    <head>
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-    <script src='/static/js/preloader.js'></script>
-    </head>
+{% extends "base.html" %}
 
- <!--[if lt IE 7 ]><body class="ie ie6" id='dashboard' lang="en"> <![endif]-->
-<!--[if IE 7 ]><body class="ie ie7" id='dashboard' lang="en"> <![endif]-->
-<!--[if IE 8 ]><body class="ie ie8" id='dashboard' lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><body id='dashboard' lang="en"> <!--<![endif]-->
+    {% block pageid %}dashboard{% endblock %}
 
+    {% block content %}
     <div id='wrapper'>
-    <div class='container' id='navbar'></div>
     <div class='container' id='profileHeader'>
         <div class='media'>
             <a class="pull-left" href="#">
-		<img id="propic" src={{ user.picture }} class="media-object" alt="pumpkinstin"/>
+		<img id="propic" src={{ user.picture }} class="pic-100 media-object" alt="pumpkinstin"/>
             </a>
             <div class="media-body">
                 <h4 id="name" class="media-heading">{{ user.name }}</h4>
@@ -33,7 +26,7 @@
                     <div class='container'>
                         <div class='media'>
                             <a class='pull-left' href='#'>
-                                <img class='media-object' src={{ item.user.picture }}></img>
+                                <img class='pic-60 media-object' src={{ item.user.picture }}></img>
                             </a>
                             <div class='media-body'>
                                 <h4 class='media-heading media-heading-bold'>{{ item.name }}</h4>
@@ -75,7 +68,7 @@
 
                 <div id='toDoList'>
                     {% for task in todo %}
-                        <div class='container list-item'>
+                        <div class='container' id= 'list-item'>
                             <div class='media'>
                                     <i class='fa-media-object fa fa-square-o fa-4x' id={{task.id}} label={{task.goalid}}></i>
                                 <div class='media-body'>
@@ -97,13 +90,7 @@
             </div>
         </div>
     </div> 
-	
-    <div class='container' id='bottomnavbar'></div>
-
-    </div>
-<!-- End Document
-================================================== -->
-</body>
+    {% endblock %}	
 <script>
     $(document).on('click','#shareButton',function(){
        console.log($(this).prev().attr('label'));

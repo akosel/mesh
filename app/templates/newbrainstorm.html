@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id='content-block' class='container'>
+    <form action="" method="post" name="newbrainstorm">
+    {{ form.hidden_tag() }}
+    {% for error in form.errors %}
+        {{error}}
+    {% endfor %}
+    {{ form.title(placeholder='Title') }}<br>
+    {{ form.initialcomment(placeholder='Initial comment') }}<br>
+    {{ form.people(placeholder='Add a person') }}<br>
+    <input type='submit' value='Add it'>
+    </form>
+
+</div>
+{% endblock %}

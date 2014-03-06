@@ -25,7 +25,8 @@ class TaskCreate(FeedItem):
     
 class Brainstorm(Document):
     title = StringField(max_length=140,required=True)
-    comments = ListField(StringField(max_length=140))
+    comments = ListField(EmbeddedDocumentField('Comment'))
+    people = ListField(ReferenceField('User'))
 
 class User(Document):
     username = EmailField(max_length=120,required=True)

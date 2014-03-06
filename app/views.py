@@ -2,8 +2,8 @@ from flask import render_template,flash,redirect,session,url_for,request,g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from mongoengine import Q
 from app import app,db,lm,oid
-from forms import LoginForm,GoalForm,TaskForm
-from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate
+from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm
+from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment
 from sets import Set
 from bson.objectid import ObjectId
 import config
@@ -91,7 +91,7 @@ def logout():
 @login_required
 def index():
     user = User.objects(id = g.user.id).first()
-    tasks = Task.objects()
+    tasks = Task.objects(people=g.user.id)
     return render_template('dashboard.html',
         title = 'Home',user=user,todo=tasks)
 
@@ -164,7 +164,8 @@ def friends():
         friends.update(goal.people)
         friends.update(goal.completed)
 
-    friends.remove(me)
+    if friends:
+        friends.remove(me)
 
     return render_template('friends.html', friends = friends)
 
@@ -226,4 +227,28 @@ def removetask(taskid):
     Task.objects(id=taskid).delete()
     return redirect(url_for('goaltree',goalid=goalid))
 
+@app.route('/brainstorms')
+@login_required
+def brainstorms():
+    me = User.objects(id = g.user.id).first()
+    
+    return render_template('brainstorms.html',me = me)
+
+@app.route('/newbrainstorm',methods=['GET','POST'])
+@login_required
+def newbrainstorm():
+    me = User.objects(id = g.user.id).first()
+    
+    form = AddNewBrainstormForm()
+    if form.validate_on_submit():
+        c = Comment(message = form.initialcomment.data, user = me)
+        b = Brainstorm(title = form.title.data, comments = [c], people = [me])
+        b.save()
+        me.brainstorms.append(b)
+        me.save()
+        return redirect(url_for('brainstorms'))
+    else:
+        print 'nope'
+
+    return render_template('newbrainstorm.html',form=form)
 

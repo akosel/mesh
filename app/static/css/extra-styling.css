@@ -3,13 +3,12 @@ body#goalTree{
 	background-color:#fff;
 }
 body#dashboard{
-  padding-top: 51px;
   padding-bottom: 0px;
   background-color: #eee;
   font-family:'CreteRound-Regular';
 }
 .container{
-    width:100%;
+/*    width:100%;*/
 }
 #login-button {
     -webkit-border-radius: 3px;
@@ -31,10 +30,8 @@ body#dashboard{
     position:relative;
     padding:0;
     margin:0;
-}
-.navbar{
-    width:1024px;
-    margin:0 auto;
+    max-width:none;
+    width:100%;
 }
 #dashboard .row{
     color:rgb(45,42,43);
@@ -65,20 +62,21 @@ body#dashboard{
 #activityFeedContainer .media{
     margin:0 auto;
     display:inline-block;
-    width:67%;
-}
-#activityFeedContainer .container{
+    width:60%;
     border-top:solid;
     border-width:.1em;
 }
 #profileHeader{
     background-color:rgb(128,128,128);
     padding:1em;
+    width:100%;
+    max-width:none;
 }
 #profileHeader .media{
     width:1024px;
     display:block;
     margin:0 auto;
+    padding:0 1em;
 }
 #navbar{
     float: left;
@@ -121,14 +119,11 @@ body#dashboard{
     font-size: 26px;
 }
 .media-object{
-    border-radius:50px;
     background-color:white;
-    height:50px;
-    width:50px;
     float:left;
     margin: 20px 0;
 }
-#dashboard .media-body {
+#rowContainer .media-body {
     margin:30px 50px;
 }
 #profileHeader .media-heading{
@@ -166,6 +161,10 @@ textarea.form-control{
     border-top:solid;
     border-width:.1em;
     margin-bottom:1em;
+}
+#list-item {
+    max-width:none;
+    width:100%;
 }
 .toDoDate{
     color:rgb(142,69,37);
@@ -245,7 +244,7 @@ h1,h2,h3,h4,h5,h6{
 /* Goal Tree
 =================*/
 #goalTree #goalsbar,
-#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 11px;
+#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 50px;
 }
 #goalTree .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }

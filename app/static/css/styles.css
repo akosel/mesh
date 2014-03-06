@@ -6,8 +6,6 @@
   /* text-align: center; */
 }
 body{
-  padding-top: 40px;
-  padding-bottom: 40px;
   background-color: #eee;
   font-family: 'proxima-nova-semibold', Helvetica, Arial, sans-serif;
 }
@@ -133,7 +131,7 @@ body{
 /* Goals Page
 =================*/
 #goalsPage #goalsbar,
-#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 11px;
+#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 50px;
 }
 #goalsPage .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }
