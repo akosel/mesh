@@ -17,12 +17,12 @@
     </div>
     <div id='content-block' class='container'>
         {% for topic in me.brainstorms %}
-        <a href="{{ url_for('brainstorms',title=topic.id) }}">
-            {{topic.title}}
-        </a>
-        {% for comment in topic.comments %}
-        <br> {{ comment.user.name }} says "{{ comment.message }}"
-        {% endfor %}
+            <a href="{{ url_for('brainstorms',title=topic.id) }}">
+                {{topic.title}}
+            </a>
+            {% for comment in topic.comments %}
+                <br> {{ comment.user.name }} says "{{ comment.message }}"
+            {% endfor %}
         {% endfor %}
 
     </div>

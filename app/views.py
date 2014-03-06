@@ -227,10 +227,12 @@ def removetask(taskid):
     Task.objects(id=taskid).delete()
     return redirect(url_for('goaltree',goalid=goalid))
 
-@app.route('/brainstorms')
+@app.route('/brainstorms',methods=["GET","POST"])
 @login_required
 def brainstorms():
-    me = User.objects(id = g.user.id).first()
+    me = User.objects(id = g.user.id).first() 
+
+    #TODO add ability to comment on brainstorms in here.
     
     return render_template('brainstorms.html',me = me)
 
@@ -241,6 +243,7 @@ def newbrainstorm():
     
     form = AddNewBrainstormForm()
     if form.validate_on_submit():
+        #TODO append any invites to user feeds
         c = Comment(message = form.initialcomment.data, user = me)
         b = Brainstorm(title = form.title.data, comments = [c], people = [me])
         b.save()
@@ -251,4 +254,6 @@ def newbrainstorm():
         print 'nope'
 
     return render_template('newbrainstorm.html',form=form)
+
+
 
