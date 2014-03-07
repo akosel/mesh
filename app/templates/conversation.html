@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id='content-block' class='container'>
+    <h1>{{ brainstorm.title }}</h1>
+    <br>
+    {% for blurb in brainstorm.comments %}
+    <div class='container'>
+        <img src="{{blurb.user.picture}}" class='pull-left pic-60'> <blockquote class='pull-right'>{{blurb.user.name}} says "{{ blurb.message }}"</blockquote>
+    </div>
+    <br>
+    {% endfor %}
+</div>
+{% endblock %}

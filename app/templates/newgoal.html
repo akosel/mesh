@@ -1,16 +1,7 @@
-<html lang="en">
-    <head>
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-    <script src='/static/js/underscore.min.js'></script>
-     <script src='/static/js/preloader.js'></script>
-    </head>
+{% extends "base.html" %}
 
- <!--[if lt IE 7 ]><body class="ie ie6" lang="en" id="newGoalPage"> <![endif]-->
-<!--[if IE 7 ]><body class="ie ie7" lang="en" id="newGoalPage"> <![endif]-->
-<!--[if IE 8 ]><body class="ie ie8" lang="en" id="newGoalPage"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><body lang="en" id="newGoalPage"> <!--<![endif]-->
-    <div class='container' id='navbar'></div>
-
+{% block pageid %}newGoalPage{% endblock %}
+{% block content %}
 	<div class='wrapper' id='goalsbar'>
 		<div class="buttonWrapper">
             <a href="/goals">
@@ -22,6 +13,7 @@
 	</div>
 
 	<div class='mainWrapper'>
+        <div id='content-block' class='container'>
 		<div class="newGoalFormWrap">
 			<h4>Create New Goal</h4>
         <form id="createNewGoal" action="" method="post" name="newgoal">
@@ -34,7 +26,7 @@
 				<i class="fa fa-asterisk"></i>{{ form.start(class='small', placeholder='Start Date') }}			
 				<i class="fa fa-asterisk"></i>{{ form.end(class='small',placeholder='End Date') }}			
 
-			<h5 class="cushion">Add Tasks</h5>
+	<!--		<h5 class="cushion">Add Tasks</h5>
 			<div class='newTaskWrap'>
 				
 					<input type="text" label="newTaskTitle1" placeholder="Task 1 Title" name="5Task1">
@@ -43,12 +35,12 @@
 					</input>
 					<em>Due Date </em><input type="date" label="newTaskEnd1" class="small" placeholder="Due Date" name="7DueDate1">
 					</input>
-				<!-- </form> -->
-			</div>  <!-- end newTaskWrap -->
-<!-- 			<div id="addedTask"></div> -->
+                     </form> 
+			</div>   end newTaskWrap 
+ 			<div id="addedTask"></div> 
 			<div class="button light" id="addTask">
 				<h5>Add Another Task</h5>
-			</div>
+            </div> -->
 			<input class='button' value="Save" type='submit' id="save">
 		</div>
 
@@ -76,9 +68,10 @@
 		</div>
 	</div>
 </div>
+</div>
 
 
-
+{% endblock %}
     <!-- End Document
 ================================================== -->
 </body>

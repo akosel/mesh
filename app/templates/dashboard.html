@@ -30,31 +30,38 @@
                             </a>
                             <div class='media-body'>
                                 <h4 class='media-heading media-heading-bold'>{{ item.name }}</h4>
-                                {{item.message}}
+                                <p>{{item.message}}</p>
                                 <br>
                                 {% if item.goal %}
-                                Name: <a href='/goals/{{item.goal.id}}'>{{item.goal.name}}</a> 
+                                Check it out: <a href='{{ url_for('goals',goalid=item.goal.id)}}'>{{item.goal.name}}</a>                                 
+                                {% elif item.brainstorm %}
+                                Check it out: <a href='{{ url_for('brainstorms',bsid=item.brainstorm.id) }}'>{{item.brainstorm.title}}</a>
                                 {% endif %}
                                 <h5 class='activityFeedDate'>{{ item.timestamp.strftime('%B %d at %H:%M %p') }}</h5>
                             </div>
-                        </div>
-                        {% if item.type == 'friendrequest' %}
-                            <div id={{item.type}} class='btn-container'>
-                                <a href="{{ url_for('joingoal',goalid=item.id)}}">
+                        {% if item.feed_item_type == 'BrainstormRequest' %}
+                            <div id={{item.type}} class='pull-right btn-container'>
+                                <a href="{{ url_for('joinbrainstorm',bsid=item.brainstorm.id)}}">
                                     <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
                                 </a>
-                               <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                                <a href="{{ url_for('removebsfeeditem',bsid=item.brainstorm.id)}}">
+                                    <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                                </a>
                             </div>
                         {% elif item.feed_item_type == 'GoalRequest' %}
-                            <div id="goalrequest" class='btn-container'>
+                            <div id={{item.type}} class='pull-right btn-container'>
                                 <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
                                     <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
+                                </a>
+                                <a href="{{ url_for('newbrainstorm')}}">
+                                    <button id={{ item.id }} class='menu-btn pull-right reject'>Brainstorm</button>
                                 </a>
                                 <a href="{{ url_for('removefeeditem',goalid=item.goal.id)}}">
                                     <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
                                 </a>
                             </div> 
                         {% endif %}
+                        </div>
                     </div>
                 {% endif %}
                 {% else %}

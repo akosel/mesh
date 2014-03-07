@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from mongoengine import Q
 from app import app,db,lm,oid
 from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm, AddBrainstormCommentForm
-from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment
+from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment,BrainstormRequest
 from sets import Set
 from bson.objectid import ObjectId
 import config
@@ -214,6 +214,12 @@ def removefeeditem(goalid):
     User.objects(id = g.user.id).update_one(pull__feed__goal=ObjectId(goalid))
     return redirect(url_for('index'))
 
+@app.route('/removebsfeeditem/<bsid>')
+@login_required
+def removebsfeeditem(bsid):
+    User.objects(id = g.user.id).update_one(pull__feed__brainstorm=ObjectId(bsid))
+    return redirect(url_for('index'))
+
 @app.route('/removegoal/<goalid>')
 @login_required
 def removegoal(goalid):
@@ -236,6 +242,14 @@ def brainstorms():
     
     return render_template('brainstorms.html',me = me)
 
+@app.route('/brainstorms/<bsid>',methods=["GET","POST"])
+@login_required
+def conversation(bsid):
+
+    brainstorm = Brainstorm.objects(id = bsid).first()
+    
+    return render_template('conversation.html',brainstorm = brainstorm)
+
 @app.route('/newbrainstorm',methods=['GET','POST'])
 @login_required
 def newbrainstorm():
@@ -243,12 +257,22 @@ def newbrainstorm():
     
     form = AddNewBrainstormForm()
     if form.validate_on_submit():
-        #TODO append any invites to user feeds
+        people = [me]
         c = Comment(message = form.initialcomment.data, user = me)
+
         b = Brainstorm(title = form.title.data, comments = [c], people = [me])
         b.save()
+
         me.brainstorms.append(b)
         me.save()
+
+        feeditem = BrainstormRequest(brainstorm=b,message=g.user.name+" invited you to a brainstorm",user = me)
+
+        for person in form.data['people']:
+            friend = User.objects(username = person).first()
+            friend.feed.append(feeditem)
+            friend.save()
+
         return redirect(url_for('brainstorms'))
     else:
         print 'nope'
@@ -268,3 +292,26 @@ def brainstorm(bsid):
         return redirect(url_for('brainstorms'))
     
     return render_template('brainstorm.html',form = form)
+
+@app.route('/joinbrainstorm/<bsid>')
+@login_required
+def joinbrainstorm(bsid):
+    brainstorm = Brainstorm.objects(id = bsid).first()
+    me = User.objects(id = g.user.id).first()
+
+    feeditem = FeedItem(message=g.user.name+" just joined a task you are working on",user = me)
+    
+    for person in brainstorm.people:
+        person.feed.append(feeditem)
+        person.save()
+
+    if me not in brainstorm.people:
+        brainstorm.people.append(me)
+        brainstorm.save()
+        me.brainstorms.append(brainstorm)
+        me.save()
+        User.objects(id = g.user.id).update_one(pull__feed__brainstorm=ObjectId(bsid))
+    else:
+        flash( "Person in task already")
+ 
+    return redirect(url_for('brainstorms'))

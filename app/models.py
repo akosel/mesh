@@ -22,6 +22,9 @@ class GoalRequest(FeedItem):
 
 class TaskCreate(FeedItem):
     task = ReferenceField('Task',unique=True)
+
+class BrainstormRequest(FeedItem):
+    brainstorm = ReferenceField('Brainstorm',unique=True)
     
 class Brainstorm(Document):
     title = StringField(max_length=140,required=True)
