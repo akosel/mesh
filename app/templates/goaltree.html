@@ -1,18 +1,8 @@
+{% extends "base.html" %}
 
-<html lang="en">
-    <head>
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-     <script src='/static/js/preloader.js'></script>
-     <script src='/static/js/toggle.js'></script>
-     <script src='/static/js/functionHolder2.js'></script>
-    </head>
+{% block pageid %}goalTree{% endblock %}
 
- <!--[if lt IE 7 ]><body class="ie ie6" lang="en" id="newGoalPage"> <![endif]-->
-<!--[if IE 7 ]><body class="ie ie7" lang="en" id="newGoalPage"> <![endif]-->
-<!--[if IE 8 ]><body class="ie ie8" lang="en" id="newGoalPage"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><body lang="en" id="goalTree"> <!--<![endif]-->
-    <div class='container' id='navbar'></div>
-
+{% block content %}
     <div class='wrapper' id='goalsbar'>
         <div class="buttonWrapper">
             <a href="/goals">
@@ -29,6 +19,7 @@
     </div>
 
 	<div class='mainWrapper'>
+        <div id='content-block' class='container'>
         <div class='goalContainer'>
 
             <div class='lineDiv'></div>
@@ -58,7 +49,7 @@
                 </div> 
             </div>
 
-			<button class='btn btn-default' id="add-task" data-toggle='modal' data-target='#myModal'>Add Task</button>
+			<button class='btn btn-default btn-square' id="add-task" data-toggle='modal' data-target='#myModal'>Add Task</button>
             
             <div class='task'>    
 
@@ -121,36 +112,36 @@
                </div>
 
         </div> 
-
     </div>
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add a new task</h4>
-      </div>
-      <div class="modal-body">
-			<div class='newTaskWrap'>
-                <form method="post" action="" name="goaltree">
-                {{ form.hidden_tag() }}
-                {% for error in form.errors %}
-                    <br><span style='color:red;'>[{{error}}]</span><br>
-                {% endfor %}
-			    {{ form.name(placeholder='Task Name') }}
-                {{ form.description(placeholder='Goal Description') }}
-                {{ form.end(placeholder='End Date') }}    
-                <input type='submit' value='Add This' class='btn btn-primary pull-right'>
-                </form>
-				<!-- </form> -->
-			</div>  <!-- end newTaskWrap -->
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Add a new task</h4>
+                  </div>
+                  <div class="modal-body">
+                        <div class='newTaskWrap'>
+                            <form method="post" action="" name="goaltree">
+                            {{ form.hidden_tag() }}
+                            {% for error in form.errors %}
+                                <br><span style='color:red;'>[{{error}}]</span><br>
+                            {% endfor %}
+                            {{ form.name(placeholder='Task Name') }}
+                            {{ form.description(placeholder='Goal Description') }}
+                            {{ form.end(placeholder='End Date') }}    
+                            <input type='submit' value='Add This' class='btn btn-primary pull-right'>
+                            </form>
+                            <!-- </form> -->
+                        </div>  <!-- end newTaskWrap -->
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
                 <div class="modal fade" id="taskComplete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
@@ -174,8 +165,7 @@
                     </div><!-- /.modal-content -->
                   </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
-
-
+                {% endblock %}
 
     <!-- End Document
 ================================================== -->

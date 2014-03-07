@@ -2,7 +2,7 @@ from flask import render_template,flash,redirect,session,url_for,request,g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from mongoengine import Q
 from app import app,db,lm,oid
-from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm
+from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm, AddBrainstormCommentForm
 from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment
 from sets import Set
 from bson.objectid import ObjectId
@@ -21,7 +21,7 @@ app.jinja_env.filters['datetimeformat'] = datetimeformat
 
 @lm.user_loader
 def load_user(id):
-    return User.objects.get(id=id)
+    return User.objects(id=id).first()
 
 # Login handlers
 
@@ -255,5 +255,16 @@ def newbrainstorm():
 
     return render_template('newbrainstorm.html',form=form)
 
+@app.route('/brainstorm/<bsid>',methods=["GET","POST"])
+@login_required
+def brainstorm(bsid):
+    brainstorm = Brainstorm.objects(id = bsid).first()
 
-
+    form = AddBrainstormCommentForm()
+    if form.validate_on_submit():
+        c = Comment(message = form.comment.data, user = g.user.id)
+        brainstorm.comments.append(c)
+        brainstorm.save()
+        return redirect(url_for('brainstorms'))
+    
+    return render_template('brainstorm.html',form = form)

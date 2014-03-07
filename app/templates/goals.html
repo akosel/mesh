@@ -1,15 +1,7 @@
-<html lang="en">
-    <head>
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-    <script src='/static/js/preloader.js'></script>
-    </head>
+{% extends "base.html" %}
 
- <!--[if lt IE 7 ]><body class="ie ie6" lang="en" id="goalsPage"> <![endif]-->
-<!--[if IE 7 ]><body class="ie ie7" lang="en" id="goalsPage"> <![endif]-->
-<!--[if IE 8 ]><body class="ie ie8" lang="en" id="goalsPage"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><body lang="en" id="goalsPage"> <!--<![endif]-->
-    <div class='container' id='navbar'></div>
-
+{% block pageid %}goalsPage{% endblock %}
+{% block content %}
 	<!-- <div class='starter-template'> -->
 		<div class='wrapper' id='goalsbar'>
 			<div class="buttonWrapper">
@@ -27,6 +19,7 @@
 			</div>
 		</div>
 		<div class='mainWrapper'>
+            <div id='content-block' class='container'>
             {% for goal in goals %}
                 {% if goal.feed_item_type != 'Task' %}
                     <div class='goal'>
@@ -49,7 +42,11 @@
                     </div>		
                 {% endif %}
             {% endfor %}
-		</div>
+        </div>
+        </div>
+
+
+{% endblock %}
 	<!-- </div> -->
 <!-- End Document
 ================================================== -->

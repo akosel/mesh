@@ -131,7 +131,7 @@ body{
 /* Goals Page
 =================*/
 #goalsPage #goalsbar,
-#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 50px;
+#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%;
 }
 #goalsPage .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }
@@ -169,29 +169,8 @@ body{
 #goalsPage .active:hover { color: #000;}
 #goalsPage .mainWrapper { width: 1024px; margin: auto; /* padding: 15px 0px; */
 }
-#goalsPage .leftWrapper { width: 65%; display: inline-block;
-}
-#goalsPage .rightWrapper { width: 30%; display: inline-block; vertical-align: middle; margin-top: -30px;
-}
-#goalsPage .divLeft {width: 90px; height: 90px;padding: 10px 10px 0 0; background-color: #73C7C2; border-radius: 50px; display: inline-block;
-}
-#goalsPage .goal { padding: 30px; border-bottom: 2px solid #CDCDCD; position: relative;
-}
-#goalsPage .divRight { display: inline-block; margin-left: 50px;width:60%;
-}
-#goalsPage .goalDescription { text-overflow:ellipsis; overflow:hidden; white-space:nowrap;
-}
-#goalsPage .goalEndDate { margin-left: 10px; padding-top: 16px; font-size: 15px; text-align: center;
-}
-#goalsPage .addIcon { display: inline-block; margin: 0 10px;
-}
-#goalsPage .friendIconDiv { width: 58px; height: 58px; border-radius: 40px; background-color: #999; display: inline-block;
-}
-#goalsPage .container { width: 100%;
-}
-#goalsPage .navbar { width: 1024px; margin: 0 auto;
-}
-#goalsPage .friendIcon {width: 60px; height: 60px; border-radius: 40px;
+#goalsPage .divLeft {background-color: #73C7C2;} 
+.friendIcon {width: 60px; height: 60px; border-radius: 40px;
 }
 
 /* New Goal Page

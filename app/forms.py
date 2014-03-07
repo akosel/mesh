@@ -43,3 +43,5 @@ class AddNewBrainstormForm(Form):
     initialcomment = TextField('initialcomment',validators = [Required()])
     people = TagListField('people', validators = [Required()])
 
+class AddBrainstormCommentForm(Form):
+    comment = TextField('comment',validators = [Required()])

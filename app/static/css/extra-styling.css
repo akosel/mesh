@@ -241,11 +241,13 @@ h1,h2,h3,h4,h5,h6{
 #dashboard .reject:hover{
     background-color:#d5606e;
 }
+#dashboard .goalsCreate {
+    left:20px;
+}
 /* Goal Tree
 =================*/
 #goalTree #goalsbar,
-#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; margin-top: 50px;
-}
+#newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; }
 #goalTree .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }
 #goalTree .goalsButton,
@@ -297,8 +299,6 @@ h1,h2,h3,h4,h5,h6{
 #goalTree .friendIconDiv { width: 58px; height: 58px; border-radius: 40px; background-color: #999; display: inline-block;
 }
 #goalTree .container { width: 100%;
-}
-#goalTree .navbar { width: 1024px; margin: 0 auto;
 }
 #goalTree .friendIcon {width: 60px; height: 60px; border-radius: 40px;
 }

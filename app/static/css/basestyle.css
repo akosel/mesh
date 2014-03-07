@@ -1,6 +1,8 @@
 body { padding:0; }
 #bs-example-navbar-collapse-1 { max-width:1024px; margin: 0 auto; }
 .navbar {margin-bottom:0;}
+input { border:none; opacity:.5}
+input:hover { border:none; opacity:1}
 
 #content-block { min-height:100%; padding:1em; }
 
@@ -40,9 +42,27 @@ body { padding:0; }
 .goalsCreate:hover { background-color: gray;
 }
 .goalsCreate:hover .createLabel, .goalsCreate:hover .fa-plus-circle { color: #fff;}
+.goal { padding: 30px; border-bottom: 2px solid #CDCDCD; position: relative;
+}
+.divRight { display: inline-block; margin-left: 50px;width:60%;
+}
+.goalDescription { text-overflow:ellipsis; overflow:hidden; white-space:nowrap;
+}
+.goalEndDate { margin-left: 10px; padding-top: 16px; font-size: 15px; text-align: center;
+}
+.addIcon { display: inline-block; margin: 0 10px;
+}
+.friendIconDiv { width: 58px; height: 58px; border-radius: 40px; background-color: #999; display: inline-block;
+}
+.leftWrapper { width: 65%; display: inline-block;
+}
+.rightWrapper { width: 30%; display: inline-block; vertical-align: middle; margin-top: -30px;
+}
+.divLeft {width: 90px; height: 90px;padding: 10px 10px 0 0; border-radius: 50px; display: inline-block;
+}
 
+/* Brainstorms */
 #brainstorms #profileHeader { background-color: rgb(246,122,70); }
-
-
+#brainstorms .divLeft { background-color:rgb(246,122,70); }
 
 

@@ -27,6 +27,7 @@ class Brainstorm(Document):
     title = StringField(max_length=140,required=True)
     comments = ListField(EmbeddedDocumentField('Comment'))
     people = ListField(ReferenceField('User'))
+    timestamp = DateTimeField(default=datetime.datetime.now())
 
 class User(Document):
     username = EmailField(max_length=120,required=True)
@@ -34,7 +35,7 @@ class User(Document):
     feed = ListField(EmbeddedDocumentField(FeedItem))
     friends = ListField(ReferenceField('User'))
     goalrequest = ListField(ReferenceField('Goal'))
-    brainstorms = ListField(ReferenceField(Brainstorm))
+    brainstorms = ListField(ReferenceField(Brainstorm,reverse_delete_rule=CASCADE))
     picture = StringField()
     name = StringField()
     last_seen = DateTimeField(default=datetime.datetime.now())
@@ -62,6 +63,7 @@ class User(Document):
 class Comment(EmbeddedDocument):
     user = ReferenceField(User)
     message = StringField(max_length=140)
+    timestamp = DateTimeField(default=datetime.datetime.now())
     
 class Incentive(EmbeddedDocument):
     penalties = ListField(StringField(max_length=50))    
@@ -69,10 +71,14 @@ class Incentive(EmbeddedDocument):
 class Goal(Document):
     name = StringField(max_length=120, required=True,unique_with=['people'])
     description = StringField(max_length=300) 
+
     start = DateTimeField(default=datetime.datetime.now())
     end = DateTimeField(required=True)
+    #keep track of people's completion
     people = ListField(ReferenceField(User),unique_with=['name','description'])
     completed = ListField(ReferenceField(User))
+    missed = ListField(ReferenceField(User))
+
     comments = ListField(EmbeddedDocumentField(Comment))
     incentives = ListField(EmbeddedDocumentField(Incentive))
 
@@ -82,11 +88,11 @@ class Goal(Document):
 
     @queryset_manager
     def objects(doc_cls, queryset): 
-        print doc_cls
         return queryset.order_by('end')
 
     meta = {'allow_inheritance': True}
     
 class Task(Goal):
     goal = ReferenceField(Goal,reverse_delete_rule=CASCADE, unique_with=['name','description'])
+
 
