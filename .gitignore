@@ -1,3 +1,4 @@
 config.py*
 tmp
+*.swp
 *.pyc

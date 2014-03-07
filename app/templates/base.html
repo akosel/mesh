@@ -14,6 +14,7 @@
     <!-- CSS & JS
      ================================================== -->
     <link href='/static/bootstrap/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='/static/css/basestyle.css' rel='stylesheet'>
     <link href='/static/css/styles.css' rel='stylesheet'>
     <link href='/static/css/extra-styling.css' rel='stylesheet'>
     <link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
@@ -27,9 +28,10 @@
  <!--[if lt IE 7 ]><body class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><body class="ie ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]><body class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><body lang="en"> <!--<![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!--><body id="{% block pageid %}{% endblock %}" lang="en"> <!--<![endif]-->
 
     <nav class='navbar navbar-inverse navbar-static-top' role='navigation'>
+        <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle navbar-left' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1'>
              <span class='sr-only'>Toggle navigation</span>
@@ -39,11 +41,11 @@
             </button>
         <a class='navbar-brand' href='/'>Mesh</a>
         </div>
-        <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
             <ul class='nav navbar-nav'>
                 <li><a href='/'>Dashboard</a></li>
                 <li><a href='/goals'>Goals</a></li>
                 <li><a href='/friends'>Friends</a></li>
+                <li><a href='/brainstorms'>Brainstorms</a></li>
             </ul>
          <ul class='nav navbar-nav navbar-right' id='back'>
           <li><a href='/logout'>Signout</a></li>
@@ -56,11 +58,11 @@
 {% block content %}{% endblock %}
 
     <nav class='navbar navbar-inverse navbar-fixed-bottom' role='navigation'>
+        <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
         <div class='navbar-header'>
            <p class='navbar-text'><b>Mesh &copy2014</b>
            <br>Made in Michigan. Go Blue!</p>
         </div>
-        <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
          <ul class='nav navbar-nav navbar-right'>
          <li><a href='/home.html'></a><span class='glyphicon glyphicon-star'></span></li>
          <li><a href='/home.html'></a><span class='glyphicon glyphicon-thumbs-up'></span></li>

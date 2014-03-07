@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block pageid %}brainstorms{% endblock %}
+
+{% block content %}
+    <div id="profileHeader" class='container'>
+        <div class="buttonWrapper">
+            <div class="goalsButton" id="myGoals">
+                <h3 class="goalsTitle">My Brainstorms</h3>
+            </div>
+            <a href="/newbrainstorm">
+                <div class="goalsCreate">
+                    <i class="fa fa-plus-circle"></i><p class="createLabel">Start a Brainstorm</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id='content-block' class='container'>
+            {% for brainstorm in me.brainstorms %}
+                    <div class='goal'>
+					    <div class="leftWrapper">
+                            <div class="divRight">
+                                <a href="/brainstorms/{{brainstorm.id}}"><h4 class="divRightTitle">{{brainstorm.title}}</h4></a>
+                                {% for comment in brainstorm.comments %}
+                                    <p class="goalDescription">{{me.name}} says "{{comment.message}}"</p>
+                                {% endfor %}
+                                <a href="{{ url_for('brainstorm', bsid = brainstorm.id) }}">+Add Comment</a>
+                            </div>
+                        </div>
+                        <div class="rightWrapper">
+                                {% for person in brainstorm.people %}
+                                <div class="friendIconDiv">
+                                    <img src={{person.picture}} class="friendIcon">
+                                </div>
+                                {% endfor %}
+                        </div>
+                    </div>		
+            {% endfor %}
+
+    </div>
+
+{% endblock %}

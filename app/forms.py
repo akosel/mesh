@@ -37,3 +37,11 @@ class TaskForm(Form):
     name = TextField('name',validators = [Required()])
     description = TextField('description',validators = [Required()])
     end = DateField('end', validators = [Required()])
+
+class AddNewBrainstormForm(Form):
+    title = TextField('title',validators = [Required()])
+    initialcomment = TextField('initialcomment',validators = [Required()])
+    people = TagListField('people', validators = [Required()])
+
+class AddBrainstormCommentForm(Form):
+    comment = TextField('comment',validators = [Required()])

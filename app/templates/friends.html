@@ -1,11 +1,18 @@
 {% extends "base.html" %}
+{% block pageid %}friends{% endblock %}
 
 {% block content %}
-    <div class='container'>
+
+    <div class='container' id='profileHeader'>
+        <div class='media'>
+            <h1>Here is who you are working on goals with</h1>
+        </div>
+    </div>
+    <div id='content-block' class='container'>
     {% for friend in friends %}
         <div class='container'>
-        <img src={{friend.picture}}>
-        {{ friend.name }}
+        <img class='pic-100 pull-left' src={{friend.picture}}>
+        <div class='pic-100-label col-md-8'>{{ friend.name }}</div>
         </div>
     {% endfor %}
     </div>
