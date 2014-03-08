@@ -1,10 +1,14 @@
 body { padding:0; }
 #bs-example-navbar-collapse-1 { max-width:1024px; margin: 0 auto; }
 .navbar {margin-bottom:0;}
-input { border:none; opacity:.5}
+.nav .glyphicon {color:white;}
+input { padding:.75em; border:none; border-bottom:1px solid #CDCDCD; opacity:.5}
 input:hover { border:none; opacity:1}
 
-#content-block { min-height:100%; padding:1em; }
+button { border:none; }
+button:hover { border:none;}
+
+#content-block { position:relative; min-height:100%; padding:1em; }
 
 .pic-100 { border-radius:100px; height:100px; width: 100px; }
 .pic-60 { border-radius:60px; height:60px; width: 60px; }

@@ -20,7 +20,7 @@
 
 	<div class='mainWrapper'>
         <div id='content-block' class='container'>
-        <div class='goalContainer'>
+        <div>
 
             <div class='lineDiv'></div>
             <div class='mainGoal' id={{goal.id}}>    
@@ -166,11 +166,7 @@
                   </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
                 {% endblock %}
-
-    <!-- End Document
-================================================== -->
-</body>
-<script>
+{% block scripts %}
     //hacky workaround to format date string to date object and then to the proper format
     format = d3.time.format('%Y-%m-%d');
     
@@ -198,5 +194,4 @@
    $('.functionSide .fa-plus').click(function(){
         return confirm('Are you sure you want to join this task?');
     });
-</script>
-</html>
+{% endblock %}

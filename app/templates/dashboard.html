@@ -42,7 +42,7 @@
                         {% if item.feed_item_type == 'BrainstormRequest' %}
                             <div id={{item.type}} class='pull-right btn-container'>
                                 <a href="{{ url_for('joinbrainstorm',bsid=item.brainstorm.id)}}">
-                                    <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
+                                    <button id="{{ item.id }}" class='menu-btn pull-right accept'>Accept</button>
                                 </a>
                                 <a href="{{ url_for('removebsfeeditem',bsid=item.brainstorm.id)}}">
                                     <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
@@ -51,13 +51,13 @@
                         {% elif item.feed_item_type == 'GoalRequest' %}
                             <div id={{item.type}} class='pull-right btn-container'>
                                 <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
-                                    <button id={{ item.id }} class='menu-btn pull-right accept'>Accept</button>
+                                    <button id="{{ item.id }}" class='menu-btn push-right accept'>Accept</button>
                                 </a>
                                 <a href="{{ url_for('newbrainstorm')}}">
-                                    <button id={{ item.id }} class='menu-btn pull-right reject'>Brainstorm</button>
+                                    <button id="{{ item.id }}" class='menu-btn push-right brainstorm'>Brainstorm</button>
                                 </a>
                                 <a href="{{ url_for('removefeeditem',goalid=item.goal.id)}}">
-                                    <button id={{ item.id }} class='menu-btn pull-right reject'>Reject</button>
+                                    <button id="{{ item.id }}" class='menu-btn push-right reject'>Reject</button>
                                 </a>
                             </div> 
                         {% endif %}
@@ -77,11 +77,16 @@
                     {% for task in todo %}
                         <div class='container' id= 'list-item'>
                             <div class='media'>
-                                    <i class='fa-media-object fa fa-square-o fa-4x' id={{task.id}} label={{task.goalid}}></i>
+                                <i class='fa-media-object fa fa-square-o fa-4x' id={{task.id}} label={{task.goalid}}></i>
                                 <div class='media-body'>
                                      <h5 class='toDoDate'>{{ task.end|datetimeformat }}</h5>
                                     <h4 id={{task.id}} class='media-heading media-heading-bold'>{{task.name}}</h4>
                                 </div>
+                            </div>
+                            <div id='shareForm{{task.id}}' style="display:none">
+                                <textarea class='form-control' placeholder='Say something about this!' rows=3></textarea>
+                                <button type='button' class='menu-btn btn-brown share-btn' id='shareButton'>Share</button>
+                                <button type='button' id='notNow' class='menu-btn notnow-btn'>Not Now</button>
                             </div>
                         </div>
 
@@ -98,18 +103,25 @@
         </div>
     </div> 
     {% endblock %}	
-<script>
-    $(document).on('click','#shareButton',function(){
+{% block scripts %}
+$(document).on('click','#shareButton',function(){
        console.log($(this).prev().attr('label'));
-       url = '/completetask/' + $(this).prev().attr('label') + '/' + $(this).prev().attr('id') + '/' + $(this).prev().val();
-        $.get(url);
-        //url = /goalid/taskid/comment
     })
 $(document).on('click','button.notnow-btn',function(){
     console.log('click');
-  //  $(this).parent().parent().parent().remove();
     url = '/completetask/' + $(this).prev().prev().attr('label') + '/' + $(this).prev().prev().attr('id');
-    $.get(url);
 })
-</script>
-</html>
+$(document).on('click','.fa-square-o',function() {
+    $(this).removeClass('fa-square-o');
+    $(this).addClass('fa-check-square-o');
+    taskid = $(this).attr('id');
+    $('#shareForm'+taskid).toggle();
+});
+$(document).on('click','.fa-check-square-o',function() {
+    $(this).removeClass('fa-check-square-o');
+    $(this).addClass('fa-square-o');
+    taskid = $(this).attr('id');
+    $('#shareForm'+taskid).toggle();
+});
+
+{% endblock %}

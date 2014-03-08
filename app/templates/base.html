@@ -18,10 +18,10 @@
     <link href='/static/css/styles.css' rel='stylesheet'>
     <link href='/static/css/extra-styling.css' rel='stylesheet'>
     <link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
-    <link href="/static/css/stylesheet.css" rel="stylesheet" media="screen">
     <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>    
     <script src='/static/bootstrap/js/bootstrap.min.js'></script>
     <script src='/static/js/underscore.min.js'></script>
+    <script src='/static/js/d3.v3.min.js'></script>
 
 
 </head>
@@ -64,9 +64,9 @@
            <br>Made in Michigan. Go Blue!</p>
         </div>
          <ul class='nav navbar-nav navbar-right'>
-         <li><a href='/home.html'></a><span class='glyphicon glyphicon-star'></span></li>
-         <li><a href='/home.html'></a><span class='glyphicon glyphicon-thumbs-up'></span></li>
-         <li><a href='/home.html'></a><span class='glyphicon glyphicon-user'></span></li>
+         <li><a href='/'><span class='glyphicon glyphicon-star'></span></a></li>
+         <li><a href='/'><span class='glyphicon glyphicon-thumbs-up'></a></span></li>
+         <li><a href='/'><span class='glyphicon glyphicon-user'></span></a></li>
          </ul>  
         </div><!-- /.navbar-collapse -->
     </nav>
@@ -74,4 +74,7 @@
 <!-- End Document
 ================================================== -->
 </body>
+<script>
+{% block scripts %}{% endblock %}
+</script>
 </html>

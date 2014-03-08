@@ -10,5 +10,11 @@
     </div>
     <br>
     {% endfor %}
+    <form action="" method="post" name="conversations">
+        {{ form.hidden_tag() }}
+        <div class='container'>
+        {{ form.comment(placeholder='Say something else...',size=80,class='pull-right') }}
+        </div>
+    </form>
 </div>
 {% endblock %}

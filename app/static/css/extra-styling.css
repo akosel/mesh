@@ -378,9 +378,6 @@ h1,h2,h3,h4,h5,h6{
     height:100px;
     position:relative;
 }
-.goalContainer{
-    position:relative;
-}
 
 #goalTree .mainGoal .functionBox .functionSide {
 	margin: 20px 10px 0 0;
@@ -402,7 +399,7 @@ h1,h2,h3,h4,h5,h6{
     width:75%;
     right:0;
     border-left: 7px #ccc solid;
-    height:150%;
+    height:100%;
     position:absolute;
 	color:
 	
@@ -580,11 +577,11 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .shape-container {
-	width: 200px;
+	width: 220px;
 	height: 50px;
 	background-color:#F67A45;
 	margin-top: 30px;
-	padding: 10px 0 10px 20px;
+	padding: 10px 0 0 5px;
 	color: #fff;
 	font-family:proxima-nova-semibold;
 	font-size: 1.4em;
@@ -599,7 +596,7 @@ h1,h2,h3,h4,h5,h6{
 	border-bottom: 25px solid transparent;
 	float: left;
 	clear: left;
-	margin: -38px 0 0 180px;
+	margin: -38px 0 0 215px;
 }
 
 /* FRIEND PAGE */

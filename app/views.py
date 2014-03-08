@@ -247,8 +247,15 @@ def brainstorms():
 def conversation(bsid):
 
     brainstorm = Brainstorm.objects(id = bsid).first()
+    #there should be a form here. actually, i think this should just replace the comment add page, which is too decontextualized.
+    form = AddBrainstormCommentForm()
+    if form.validate_on_submit():
+        c = Comment(message = form.comment.data, user = g.user.id)
+        brainstorm.comments.append(c)
+        brainstorm.save()
+        return render_template('conversation.html',brainstorm = brainstorm,form=form)
     
-    return render_template('conversation.html',brainstorm = brainstorm)
+    return render_template('conversation.html',brainstorm = brainstorm,form=form)
 
 @app.route('/newbrainstorm',methods=['GET','POST'])
 @login_required
@@ -299,7 +306,7 @@ def joinbrainstorm(bsid):
     brainstorm = Brainstorm.objects(id = bsid).first()
     me = User.objects(id = g.user.id).first()
 
-    feeditem = FeedItem(message=g.user.name+" just joined a task you are working on",user = me)
+    feeditem = FeedItem(message=g.user.name+" just joined your brainstorm",user = me)
     
     for person in brainstorm.people:
         person.feed.append(feeditem)
@@ -315,3 +322,4 @@ def joinbrainstorm(bsid):
         flash( "Person in task already")
  
     return redirect(url_for('brainstorms'))
+
