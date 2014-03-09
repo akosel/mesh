@@ -8,6 +8,10 @@ input:hover { border:none; opacity:1}
 button { border:none; }
 button:hover { border:none;}
 
+.skinny { width: 500px; }
+
+form[name='addpenalties'] { text-align:right; }
+
 #content-block { position:relative; min-height:100%; padding:1em; }
 
 .pic-100 { border-radius:100px; height:100px; width: 100px; }

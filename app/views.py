@@ -2,8 +2,8 @@ from flask import render_template,flash,redirect,session,url_for,request,g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from mongoengine import Q
 from app import app,db,lm,oid
-from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm, AddBrainstormCommentForm
-from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment,BrainstormRequest
+from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm, AddBrainstormCommentForm, AddIncentivesForm
+from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment,BrainstormRequest,Incentive
 from sets import Set
 from bson.objectid import ObjectId
 import config
@@ -322,4 +322,35 @@ def joinbrainstorm(bsid):
         flash( "Person in task already")
  
     return redirect(url_for('brainstorms'))
+
+@app.route('/addincentives/<goalid>',methods=["POST","GET"])
+@login_required
+def addincentives(goalid):
+    goal = Goal.objects(id = goalid).first()
+
+    form = AddIncentivesForm()
+
+    if form.validate_on_submit():
+        #TODO will want to prepopulate fields if incentives already exist
+        if form.first.data:
+            first = Incentive(penalties = [ form.first.data ], number = 1)
+            print first
+        elif form.second.data:
+            second = Incentive(penalties = [ form.second.data ], number = 2)
+            print second
+
+
+    return render_template('addincentives.html',form = form)
+
+
+#TODO editgoal
+#TODO edittask
+#TODO addtask
+#TODO addfriendtogoal
+#TODO not a function, maybe, but add a place to see missed tasks and associated penalties
+#TODO change width in conversation page
+#TODO facebook login
+
+
+
 

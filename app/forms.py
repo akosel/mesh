@@ -45,3 +45,9 @@ class AddNewBrainstormForm(Form):
 
 class AddBrainstormCommentForm(Form):
     comment = TextField('comment',validators = [Required()])
+
+class AddIncentivesForm(Form):
+    first = TextField('first',default='Donate $10 to the charity of your choice')
+    second = TextField('second')
+    third = TextField('third')
+    beyond = TextField('beyond')

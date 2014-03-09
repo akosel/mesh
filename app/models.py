@@ -70,6 +70,7 @@ class Comment(EmbeddedDocument):
     
 class Incentive(EmbeddedDocument):
     penalties = ListField(StringField(max_length=50))    
+    number = IntField(min_value=1)
 
 class Goal(Document):
     name = StringField(max_length=120, required=True,unique_with=['people'])
@@ -84,6 +85,7 @@ class Goal(Document):
 
     comments = ListField(EmbeddedDocumentField(Comment))
     incentives = ListField(EmbeddedDocumentField(Incentive))
+    incentivesActive = BooleanField()
 
     @property
     def feed_item_type(self):

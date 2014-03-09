@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id='content-block' class='container'>
+    <div class='container'>
+        <h1>What is this?</h1>
+        <p>At Mesh, we know that sometimes people need extra motivation to accomplish their goals, so we have added in a simple way of doing that. You and your friends can agree on a group of penalties that you have to follow through on if you don't complete tasks in time. We set the default to donating to a charity of your choice, but you can change it to anything. For example, you can say "Buy a bottle of wine for Bob" or "Run three miles". The idea is that you can be creative; the goal is that you should avoid missing tasks and this provides a fun, optional way of doing that.</p>
+    </div>
+    <div class='container skinny pull-left'>
+        <br>
+        <form action="" method="post" name='addpenalties'>
+            {{ form.hidden_tag() }}
+            {{ form.first.label}} : {{ form.first(size=40,placeholder='Donate $10 to a charity of your choice') }}<br><br>
+            {{ form.second.label}} : {{ form.second(size=40,placeholder='Donate $20 to a charity of your choice') }}<br><br>
+            {{ form.third.label}} : {{ form.third(size=40,placeholder='Donate $40 to a charity of your choice') }}<br><br>
+            {{ form.beyond.label}} : {{ form.beyond(size=40,placeholder='Donate $80 to a charity of your choice') }}<br><br>
+            <input type='submit' value='Send to friend for approval'> 
+        </form>
+    </div>
+</div>
+{% endblock %}
