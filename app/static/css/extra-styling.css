@@ -241,6 +241,12 @@ h1,h2,h3,h4,h5,h6{
 #dashboard .reject:hover{
     background-color:#d5606e;
 }
+#dashboard .brainstorm {
+    background-color: rgb(128,128,128);
+}
+#dashboard .brainstorm:hover {
+    background-color: #bdbdbd;
+}
 #dashboard .goalsCreate {
     left:20px;
 }
