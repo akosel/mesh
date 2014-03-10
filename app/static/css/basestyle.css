@@ -8,7 +8,7 @@ input:hover { border:none; opacity:1}
 button { border:none; }
 button:hover { border:none;}
 
-.skinny { width: 500px; }
+.skinny { width: 600px; }
 
 form[name='addpenalties'] { text-align:right; }
 

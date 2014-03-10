@@ -249,7 +249,13 @@ def conversation(bsid):
     brainstorm = Brainstorm.objects(id = bsid).first()
     #there should be a form here. actually, i think this should just replace the comment add page, which is too decontextualized.
     form = AddBrainstormCommentForm()
+    me = User.objects(id = g.user.id).first()
     if form.validate_on_submit():
+        if me not in brainstorm.people:
+            brainstorm.people.append(me)
+        if brainstorm not in me.brainstorms:
+            me.brainstorms.append(brainstorm)
+            me.save()
         c = Comment(message = form.comment.data, user = g.user.id)
         brainstorm.comments.append(c)
         brainstorm.save()
@@ -286,20 +292,6 @@ def newbrainstorm():
 
     return render_template('newbrainstorm.html',form=form)
 
-@app.route('/brainstorm/<bsid>',methods=["GET","POST"])
-@login_required
-def brainstorm(bsid):
-    brainstorm = Brainstorm.objects(id = bsid).first()
-
-    form = AddBrainstormCommentForm()
-    if form.validate_on_submit():
-        c = Comment(message = form.comment.data, user = g.user.id)
-        brainstorm.comments.append(c)
-        brainstorm.save()
-        return redirect(url_for('brainstorms'))
-    
-    return render_template('brainstorm.html',form = form)
-
 @app.route('/joinbrainstorm/<bsid>')
 @login_required
 def joinbrainstorm(bsid):
@@ -334,13 +326,41 @@ def addincentives(goalid):
         #TODO will want to prepopulate fields if incentives already exist
         if form.first.data:
             first = Incentive(penalties = [ form.first.data ], number = 1)
-            print first
-        elif form.second.data:
+            Goal.objects(id = goalid).update_one(add_to_set__incentives=first)
+        if form.second.data:
             second = Incentive(penalties = [ form.second.data ], number = 2)
-            print second
+            Goal.objects(id = goalid).update_one(add_to_set__incentives=second)
+        if form.third.data:
+            third = Incentive(penalties = [ form.third.data ], number = 3)
+            Goal.objects(id = goalid).update_one(add_to_set__incentives=third)
+        if form.beyond.data:
+            beyond = Incentive(penalties = [ form.beyond.data ], number = 4)
+            Goal.objects(id = goalid).update_one(add_to_set__incentives=beyond)
+        return redirect(url_for('goaltree', goalid=goalid))
+
 
 
     return render_template('addincentives.html',form = form)
+
+@app.route('/removecomment/<bsid>/<timestamp>')
+@login_required
+def removecomment(bsid, timestamp):
+    Brainstorm.objects(id = bsid).update_one(pull__comments__timestamp=parser.parse(timestamp))
+    return redirect(url_for('conversation', bsid=bsid))
+
+@app.route('/removebrainstorm/<bsid>')
+@login_required
+def removebrainstorm(bsid):
+    Brainstorm.objects(id = bsid).delete()
+    #remove any newsfeed references to this goal now.
+    User.objects().update_one(pull__feed__brainstorm=ObjectId(bsid))
+    return redirect(url_for('brainstorms'))
+    
+@app.route('/approveincentives/<goalid>',methods=['GET','POST'])
+@login_required
+def approveincentives(goalid):
+    goal = Goal.objects(id = goalid).first()
+    return render_template('approveincentives.html', goal = goal)
 
 
 #TODO editgoal

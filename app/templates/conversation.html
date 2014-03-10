@@ -1,20 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id='content-block' class='container'>
+<div id='content-block' class='container skinny'>
     <h1>{{ brainstorm.title }}</h1>
     <br>
     {% for blurb in brainstorm.comments %}
-    <div class='container'>
-        <img src="{{blurb.user.picture}}" class='pull-left pic-60'> <blockquote class='pull-right'>{{blurb.user.name}} says "{{ blurb.message }}"</blockquote>
+    <div class='container skinny'>
+        {% if g.user == blurb.user %}
+        <a href="{{ url_for('removecomment',bsid = brainstorm.id, timestamp = blurb.timestamp) }}"> <i class='pull-right fa fa-times'></i></a>
+        {% endif %}
+        <img src="{{blurb.user.picture}}" class='pull-left pic-60'> <blockquote class='pull-left col-md-10'>{{blurb.user.name}} says "{{ blurb.message }}"</blockquote>
     </div>
     <br>
     {% endfor %}
     <form action="" method="post" name="conversations">
         {{ form.hidden_tag() }}
         <div class='container'>
-        {{ form.comment(placeholder='Say something else...',size=80,class='pull-right') }}
+        {{ form.comment(autofocus="autofocus",placeholder='Say something else...',size=85) }}
         </div>
     </form>
 </div>
 {% endblock %}
+
+{% block scripts %}
+function toBottom() {
+window.scrollTo(0,document.body.scrollHeight);
+}   
+$(document).ready(function() {
+    toBottom();
+});
+{% endblock %}
+

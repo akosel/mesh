@@ -38,7 +38,7 @@ class User(Document):
     feed = ListField(EmbeddedDocumentField(FeedItem))
     friends = ListField(ReferenceField('User'))
     goalrequest = ListField(ReferenceField('Goal'))
-    brainstorms = ListField(ReferenceField(Brainstorm,reverse_delete_rule=CASCADE))
+    brainstorms = ListField(ReferenceField(Brainstorm,reverse_delete_rule=PULL))
     picture = StringField()
     name = StringField()
     last_seen = DateTimeField(default=datetime.datetime.now())
@@ -66,7 +66,7 @@ class User(Document):
 class Comment(EmbeddedDocument):
     user = ReferenceField(User)
     message = StringField(max_length=140)
-    timestamp = DateTimeField(default=datetime.datetime.now())
+    timestamp = ComplexDateTimeField(default=datetime.datetime.now())
     
 class Incentive(EmbeddedDocument):
     penalties = ListField(StringField(max_length=50))    
@@ -75,6 +75,7 @@ class Incentive(EmbeddedDocument):
 class Goal(Document):
     name = StringField(max_length=120, required=True,unique_with=['people'])
     description = StringField(max_length=300) 
+    isActive = BooleanField()
 
     start = DateTimeField(default=datetime.datetime.now())
     end = DateTimeField(required=True)

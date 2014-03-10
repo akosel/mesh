@@ -46,6 +46,7 @@
                     <img src={{ person.picture }} id='gt-users-100'></img>
                     {% endfor %}
                    </div>   
+                    <a class='pull-right' href="{{ url_for('approveincentives',goalid = goal.id) }}"><button>View Incentives</button></a>
                    {% if not goal.incentivesActive %}
                     <a class='pull-right' href="{{ url_for('addincentives',goalid = goal.id) }}"><button>Add Incentives</button></a>
                     {% else %}

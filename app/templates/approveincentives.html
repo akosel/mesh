@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id='content-block' class='container'>
+    <h1>{{ goal.name }}</h1>
+    {% for incentive in goal.incentives %}
+    {{ incentive.number }}
+        {% for item in incentive.penalties %}
+        <p>{{ item }}</p>
+        {% endfor %}
+    {% endfor %}. 
+    
+
+</div>
+{% endblock %}

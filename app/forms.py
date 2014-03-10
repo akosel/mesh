@@ -48,6 +48,6 @@ class AddBrainstormCommentForm(Form):
 
 class AddIncentivesForm(Form):
     first = TextField('first',default='Donate $10 to the charity of your choice')
-    second = TextField('second')
-    third = TextField('third')
-    beyond = TextField('beyond')
+    second = TextField('second',default='Donate $20 to the charity of your choice')
+    third = TextField('third',default='Donate $40 to the charity of your choice')
+    beyond = TextField('beyond',default='Donate $80 to the charity of your choice')

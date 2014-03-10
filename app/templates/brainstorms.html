@@ -24,7 +24,7 @@
                                 {% for comment in brainstorm.comments %}
                                     <p class="goalDescription">{{me.name}} says "{{comment.message}}"</p>
                                 {% endfor %}
-                                <a href="{{ url_for('brainstorms', bsid = brainstorm.id) }}">+Add Comment</a>
+                                <a href="{{ url_for('conversation', bsid = brainstorm.id) }}">+Add Comment</a>
                             </div>
                         </div>
                         <div class="rightWrapper">
@@ -34,6 +34,7 @@
                                 </div>
                                 {% endfor %}
                         </div>
+                        <a href="{{ url_for('removebrainstorm',bsid = brainstorm.id) }}"> <i class='pull-right fa fa-times'></i></a>
                     </div>		
             {% endfor %}
 
