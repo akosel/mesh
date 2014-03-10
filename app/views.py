@@ -116,6 +116,7 @@ def newgoal():
         goal.save()
 
         feeditem = GoalRequest(user=me,goal=goal,message='Your friend invited you to join their goal')
+        
 
         people = []
         for email in form.people.data:
@@ -206,7 +207,7 @@ def jointask(taskid):
     else:
         flash( "Person in task already")
  
-    return redirect(url_for('index'))
+    return redirect(url_for('goaltree',task.goal))
 
 @app.route('/removefeeditem/<goalid>')
 @login_required
@@ -370,7 +371,7 @@ def approveincentives(goalid):
 #TODO not a function, maybe, but add a place to see missed tasks and associated penalties
 #TODO change width in conversation page
 #TODO facebook login
-
+#TODO repeating tasks
 
 
 

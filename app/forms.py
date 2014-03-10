@@ -1,9 +1,17 @@
 from flask.ext.wtf import Form
 from wtforms import DateTimeField,FieldList,StringField,TextField, BooleanField,TextAreaField,HiddenField,Field
 from wtforms.widgets import TextInput
-from wtforms.validators import Required, Length
+from wtforms.validators import Required, Length,ValidationError
 from wtforms.ext.dateutil.fields import DateField
 from app.models import User
+
+
+
+def emptinessCheck(form,field):
+    print 'checking'
+    if not field.data[0]:
+        print 'empty'
+        raise ValidationError('You need to add at least one other person to your goal')
 
 class TagListField(Field):
     widget = TextInput()
@@ -22,6 +30,8 @@ class TagListField(Field):
 
 
 
+
+
 class LoginForm(Form):
     openid = TextField('openid',validators = [Required()])
     remember_me = BooleanField('remember_me',default=False)
@@ -31,11 +41,11 @@ class GoalForm(Form):
     description = TextField('description',validators = [Required()])
     start = DateField('start',validators = [Required()])
     end = DateField('end', validators = [Required()])
-    people = TagListField('people', validators = [Required()])    
+    people = TagListField('people', validators = [emptinessCheck])    
 
 class TaskForm(Form):
     name = TextField('name',validators = [Required()])
-    description = TextField('description',validators = [Required()])
+    description = TextField('description')
     end = DateField('end', validators = [Required()])
 
 class AddNewBrainstormForm(Form):

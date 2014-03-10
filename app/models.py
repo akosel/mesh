@@ -65,7 +65,7 @@ class User(Document):
 
 class Comment(EmbeddedDocument):
     user = ReferenceField(User)
-    message = StringField(max_length=140)
+    message = StringField(max_length=300)
     timestamp = ComplexDateTimeField(default=datetime.datetime.now())
     
 class Incentive(EmbeddedDocument):
