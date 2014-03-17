@@ -10,8 +10,6 @@ button:hover { border:none;}
 
 .skinny { width: 600px; }
 
-#login { float:left; }
-
 form[name='addpenalties'] { text-align:right; }
 
 #content-block { position:relative; min-height:100%; padding:1em; }

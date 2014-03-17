@@ -41,8 +41,6 @@ class User(Document):
     brainstorms = ListField(ReferenceField(Brainstorm,reverse_delete_rule=PULL))
     picture = StringField()
     name = StringField()
-    first_name = StringField()
-    last_name = StringField()
     last_seen = DateTimeField(default=datetime.datetime.now())
 
     def is_authenticated(self):

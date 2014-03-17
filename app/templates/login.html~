@@ -21,7 +21,7 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 	<!-- <div class='starter-template'> -->
-		<div class='jumbotron' id="welcome">
+		<div class='jumbotron' id="welcome">mon
 			<div class='container'>
 				<div class="welcome" id="two-thirds">
                 	<h1 id="welcome">Welcome to Mesh</h1>

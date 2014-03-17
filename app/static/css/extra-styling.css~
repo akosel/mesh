@@ -13,6 +13,7 @@ body#dashboard{
 .login-button {
     -webkit-border-radius: 3px;
     border-radius:3px;
+
     -webkit-font-smoothing: antialiased;
     padding:20px;
     text-decoration:none;
