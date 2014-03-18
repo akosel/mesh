@@ -15,6 +15,8 @@ button:hover { border:none;}
 form[name='addpenalties'] { text-align:right; }
 
 #content-block { position:relative; min-height:100%; padding:1em; }
+#content-block.not-active { display:none; }
+#content-block.active {display:block;}
 
 .pic-100 { border-radius:100px; height:100px; width: 100px; }
 .pic-60 { border-radius:60px; height:60px; width: 60px; }

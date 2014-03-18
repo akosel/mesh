@@ -140,7 +140,7 @@ body{
 }
 #newGoalPage .goalsButton a { text-decoration: none
 }
-#goalsPage .goalsTitle, #newGoalPage .goalsTitle { display: inline; color: #418481; padding: 0px 20px; border-right: 2px solid #3D6E6A; font-family: 'CreteRound-Regular', serif; font-weight: normal; font-size: 22px;
+#goalsPage .goalsTitle, #newGoalPage .goalsTitle { cursor:pointer; display: inline; color: #418481; padding: 0px 20px; border-right: 2px solid #3D6E6A; font-family: 'CreteRound-Regular', serif; font-weight: normal; font-size: 22px;
 }
 #newGoalPage .goalsTitle {border-right: none;
 }

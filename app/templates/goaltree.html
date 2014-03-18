@@ -48,7 +48,7 @@
                    </div>   
                     <a class='pull-right' href="{{ url_for('approveincentives',goalid = goal.id) }}"><button>View Incentives</button></a>
                    {% if not goal.incentivesActive %}
-                    <a class='pull-right' href="{{ url_for('addincentives',goalid = goal.id) }}"><button>Add Incentives</button></a>
+                    <a class='pull-right' style='margin-right:20px;' href="{{ url_for('addincentives',goalid = goal.id) }}"><button>Add Incentives</button></a>
                     {% else %}
                     <a class='pull-right' href="{{ url_for('addincentives',goalid = goal.id) }}"><button>Edit Incentives</button></a>
                     {% endif %}

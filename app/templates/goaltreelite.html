@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+
+{% block pageid %}goalTree{% endblock %}
+
+{% block content %}
+    <div class='wrapper' id='goalsbar'>
+        <div class="buttonWrapper">
+            <a href="/goals">
+                <div class="goalsButton">
+                    <h3 class="goalsTitle"><i class="fa fa-chevron-left"></i>Back to My Goals</h3>
+                </div>
+            </a>
+            <a href="/newgoal">
+                <div class="goalsCreate">
+                    <i class="fa fa-plus-circle"></i><p class="createLabel">Create New Goal</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+	<div class='mainWrapper'>
+        <div id='content-block' class='container'>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+{% endblock %}

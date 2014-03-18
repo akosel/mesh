@@ -153,9 +153,11 @@ def index():
 @login_required
 def goals():
 
-    goals = Goal.objects(people=g.user.id)
+    myGoals = Goal.objects(people=g.user.id)
+    completedGoals = Goal.objects(completed=g.user.id)
+    missedGoals = Goal.objects(missed=g.user.id)
 
-    return render_template('goals.html', goals = goals)
+    return render_template('goals.html', goals = myGoals, completedGoals = completedGoals, missedGoals = missedGoals)
 
 @app.route('/newgoal',methods=["GET","POST"])
 @login_required
