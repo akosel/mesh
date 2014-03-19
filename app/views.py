@@ -16,7 +16,8 @@ from dateutil import parser
 
 def datetimeformat(value,format='%Y-%m-%d'):
     #TODO add some error handling if value is not a datetime object
-    return value.strftime('%B %d, %Y')
+    if value:
+        return value.strftime('%B %d, %Y')
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 
 
@@ -153,11 +154,12 @@ def index():
 @login_required
 def goals():
 
+    requests = User.objects(id = g.user.id).first().goalrequest
     myGoals = Goal.objects(people=g.user.id)
     completedGoals = Goal.objects(completed=g.user.id)
     missedGoals = Goal.objects(missed=g.user.id)
 
-    return render_template('goals.html', goals = myGoals, completedGoals = completedGoals, missedGoals = missedGoals)
+    return render_template('goals.html', goals = myGoals, completedGoals = completedGoals, missedGoals = missedGoals, requests = requests)
 
 @app.route('/newgoal',methods=["GET","POST"])
 @login_required
@@ -177,6 +179,7 @@ def newgoal():
         for email in form.people.data:
             friend = User.objects(username = email).first() 
             friend.feed.append(feeditem)
+            friend.goalrequest.append(goal)
             friend.save()
 
         flash ('Goal added!')
@@ -241,6 +244,7 @@ def joingoal(goalid):
     goal.save()
 
     User.objects(id = g.user.id).update_one(pull__feed__goal=ObjectId(goalid))
+    User.objects(id = g.user.id).update_one(pull__goalrequest=ObjectId(goalid))
  
     return redirect(url_for('index'))
 
@@ -280,8 +284,11 @@ def removebsfeeditem(bsid):
 @login_required
 def removegoal(goalid):
     Goal.objects(id=goalid).delete()
+    print goalid
+ #   User.objects().update_one(pull__goalrequest=ObjectId(goalid))
+    print User.objects(id = g.user.id).first().goalrequest
     return redirect(url_for('goals'))
-
+    
 @app.route('/removetask/<taskid>')
 @login_required
 def removetask(taskid):
@@ -335,7 +342,7 @@ def newbrainstorm():
         me.brainstorms.append(b)
         me.save()
 
-        feeditem = BrainstormRequest(brainstorm=b,message=g.user.name+" invited you to a brainstorm",user = me)
+        feeditem = BrainstormRequest(brainstorm=b,message=g.user.name+" started a brainstorm with you.",user = me)
 
         for person in form.data['people']:
             friend = User.objects(username = person).first()
@@ -409,7 +416,7 @@ def removecomment(bsid, timestamp):
 def removebrainstorm(bsid):
     Brainstorm.objects(id = bsid).delete()
     #remove any newsfeed references to this goal now.
-    User.objects().update_one(pull__feed__brainstorm=ObjectId(bsid))
+    #User.objects().update(pull__feed__brainstorm=ObjectId(bsid))
     return redirect(url_for('brainstorms'))
     
 @app.route('/approveincentives/<goalid>',methods=['GET','POST'])
@@ -418,6 +425,22 @@ def approveincentives(goalid):
     goal = Goal.objects(id = goalid).first()
     return render_template('approveincentives.html', goal = goal)
 
+@app.route('/completegoal/<goalid>')
+@login_required
+def completegoal(goalid):
+    Goal.objects(id = goalid).update_one(pull__people = ObjectId(g.user.id))
+    Goal.objects(id = goalid).update_one(push__completed = ObjectId(g.user.id))
+
+    return redirect(url_for('goaltree',goalid=goalid))
+
+@app.route('/completetask/<taskid>')
+@login_required
+def completetask(taskid):
+    Task.objects(id = taskid).update_one(pull__people = ObjectId(g.user.id))
+    Task.objects(id = taskid).update_one(add_to_set__completed = ObjectId(g.user.id))
+    
+    task = Task.objects(id = taskid).first()
+    return redirect(url_for('goaltree',goalid=task.goal.id))
 
 #TODO editgoal
 #TODO edittask

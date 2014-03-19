@@ -26,7 +26,7 @@
             <div class='mainGoal' id={{goal.id}}>    
                 <div class='checkboxBox'>
                     <div class='checkboxSide'>
-                        <i id={{goal.id}} class='fa fa-square fa-4x'></i>
+                        <a href="{{ url_for('completegoal',goalid=goal.id) }}"><i id={{goal.id}} style='color:#02401B' class='fa fa-check-circle fa-4x'></i></a>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                 <div id="task-box-wrapper">
                   <div id='task-checkboxBox'>
                       <div class='checkboxSide'>
-                          <i id={{task.id}} class='fa fa-square fa-4x' data-toggle='modal' data-target='#taskComplete'></i>
+                          <a href="{{ url_for('completetask',taskid=task.id) }}"><i id={{task.id}} style='color:#02401B' class='fa fa-check-circle fa-4x' data-toggle='nmodal' data-target='n#taskComplete'></i></a>
                       </div>
                   </div>
                     <div class='leftBox'>

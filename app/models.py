@@ -6,6 +6,8 @@ from hashlib import md5
 ROLE_USER=0
 ROLE_ADMIN=1
 
+#TODO for feed items, may want to use a more general model for specific feed items
+
 class FeedItem(EmbeddedDocument):
     timestamp = DateTimeField(default=datetime.datetime.now())
     message = StringField(max_length=140)
@@ -32,12 +34,38 @@ class Brainstorm(Document):
     people = ListField(ReferenceField('User'))
     timestamp = DateTimeField(default=datetime.datetime.now())
 
+class Goal(Document):
+    name = StringField(max_length=120, required=True,unique_with=['people'])
+    description = StringField(max_length=300) 
+    isActive = BooleanField()
+
+    start = DateTimeField(default=datetime.datetime.now())
+    end = DateTimeField(required=True)
+    #keep track of people's completion
+    people = ListField(ReferenceField('User'),unique_with=['name','description'])
+    completed = ListField(ReferenceField('User'))
+    missed = ListField(ReferenceField('User'))
+
+    comments = ListField(EmbeddedDocumentField('Comment'))
+    incentives = ListField(EmbeddedDocumentField('Incentive'))
+    incentivesActive = BooleanField()
+
+    @property
+    def feed_item_type(self):
+        return self.__class__.__name__
+
+    @queryset_manager
+    def objects(doc_cls, queryset): 
+        return queryset.order_by('end')
+
+    meta = {'allow_inheritance': True}
+
 class User(Document):
     username = EmailField(max_length=120,required=True)
     role = IntField(default=ROLE_USER)
     feed = ListField(EmbeddedDocumentField(FeedItem))
     friends = ListField(ReferenceField('User'))
-    goalrequest = ListField(ReferenceField('Goal'))
+    goalrequest = ListField(ReferenceField('Goal', reverse_delete_rule=PULL))
     brainstorms = ListField(ReferenceField(Brainstorm,reverse_delete_rule=PULL))
     picture = StringField()
     name = StringField()
@@ -74,31 +102,6 @@ class Incentive(EmbeddedDocument):
     penalties = ListField(StringField(max_length=50))    
     number = IntField(min_value=1)
 
-class Goal(Document):
-    name = StringField(max_length=120, required=True,unique_with=['people'])
-    description = StringField(max_length=300) 
-    isActive = BooleanField()
-
-    start = DateTimeField(default=datetime.datetime.now())
-    end = DateTimeField(required=True)
-    #keep track of people's completion
-    people = ListField(ReferenceField(User),unique_with=['name','description'])
-    completed = ListField(ReferenceField(User))
-    missed = ListField(ReferenceField(User))
-
-    comments = ListField(EmbeddedDocumentField(Comment))
-    incentives = ListField(EmbeddedDocumentField(Incentive))
-    incentivesActive = BooleanField()
-
-    @property
-    def feed_item_type(self):
-        return self.__class__.__name__
-
-    @queryset_manager
-    def objects(doc_cls, queryset): 
-        return queryset.order_by('end')
-
-    meta = {'allow_inheritance': True}
     
 class Task(Goal):
     goal = ReferenceField(Goal,reverse_delete_rule=CASCADE, unique_with=['name','description'])

@@ -12,7 +12,7 @@
 					<h3 class="goalsTitle" id="completedGoals">Completed Goals</h3>
 				</div>
 				<div class="goalsButton">
-					<h3 class="goalsTitle" id="missedGoals">Missed Goals</h3>
+					<h3 class="goalsTitle" id="missedGoals">Goal Requests</h3>
 				</div>
                 <a href="/newgoal">
                     <div class="goalsCreate">
@@ -48,7 +48,7 @@
             </div>
             <!-- initially hidden, but activated on click. See jquery in scripts -->
             <div id='content-block' class='missedGoals not-active'>
-            {% for goal in missedGoals %}
+            {% for goal in requests %}
                 {% if goal.feed_item_type != 'Task' %}
                     <div class='goal'>
 					    <div class="leftWrapper">

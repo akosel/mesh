@@ -139,7 +139,7 @@ body#dashboard{
     margin: 20px 0;
 }
 #rowContainer .media-body {
-    margin:30px 50px;
+    padding:1em;
 }
 #profileHeader .media-heading{
     color:white;
@@ -228,9 +228,6 @@ h1,h2,h3,h4,h5,h6{
  color:rgb(243,140,100);
 }
 #dashboard .btn-container{
-    margin:20px 50px;
-    display:inline-block;
-    width:100px;
 }
 #dashboard .menu-btn{
     margin:.5em;

@@ -28,19 +28,28 @@
                             <a class='pull-left' href='#'>
                                 <img class='pic-60 media-object' src={{ item.user.picture }}></img>
                             </a>
-                            <div class='media-body'>
+                            <div class='media-body col-md-6'>
                                 <h4 class='media-heading media-heading-bold'>{{ item.name }}</h4>
                                 <p>{{item.message}}</p>
-                                <br>
-                                {% if item.goal %}
-                                Check it out: <a href='{{ url_for('goals',goalid=item.goal.id)}}'>{{item.goal.name}}</a>                                 
-                                {% elif item.brainstorm %}
-                                Check it out: <a href='{{ url_for('conversation',bsid=item.brainstorm.id) }}'>{{item.brainstorm.title}}</a>
-                                {% endif %}
                                 <h5 class='activityFeedDate'>{{ item.timestamp.strftime('%B %d at %H:%M %p') }}</h5>
                             </div>
+
+                                {% if item.goal %}
+                                    <div class='media-body col-md-4'>
+
+                                        <a class='pull-right' href='{{ url_for('goaltree',goalid=item.goal.id)}}'><i class='fa fa-3x fa-arrow-circle-right'></i></a> 
+
+                                    </div>
+                                {% elif item.brainstorm %}
+                                    <div class='media-body col-md-4'>
+
+                                        <a class='pull-right' href='{{ url_for('conversation',bsid=item.brainstorm.id) }}'><i class='fa fa-3x fa-arrow-circle-right'></i></a>
+                                    </div>
+                                {% endif %}
+
+
                         {% if item.feed_item_type == 'BrainstormRequest' and item.brainstorm not in user.brainstorms %}
-                            <div id={{item.type}} class='pull-right btn-container'>
+                            <div id="{{item.type}}" class='pull-left btn-container'>
                                 <a href="{{ url_for('joinbrainstorm',bsid=item.brainstorm.id)}}">
                                     <button id="{{ item.id }}" class='menu-btn push-right accept'>Accept</button>
                                 </a>
@@ -48,8 +57,12 @@
                                     <button id="{{ item.id }}" class='menu-btn push-right reject'>Reject</button>
                                 </a>
                             </div>
+                        {% elif item.feed_item_type == 'BrainstormRequest' and item.brainstorm in user.brainstorms %}
+                            <div id="{{item.type}}" class='pull-right btn-container'>
+                                <p>You joined the brainstorm!</p>
+                            </div>
                         {% elif item.feed_item_type == 'GoalRequest' %}
-                            <div id={{item.type}} class='pull-right btn-container'>
+                            <div id="{{item.type}}" class='pull-left btn-container'>
                                 <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
                                     <button id="{{ item.id }}" class='menu-btn push-right accept'>Accept</button>
                                 </a>
@@ -61,6 +74,7 @@
                                 </a>
                             </div> 
                         {% endif %}
+
                         <!-- <i class='fa fa-check'></i>-->
                         </div>
                     </div>
