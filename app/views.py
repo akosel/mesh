@@ -4,7 +4,7 @@ from flask_oauth import OAuth
 from mongoengine import Q
 from app import app,db,lm,oid
 from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm, AddBrainstormCommentForm, AddIncentivesForm
-from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskCreate,Brainstorm,Comment,BrainstormRequest,Incentive
+from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskRequest,Brainstorm,Comment,BrainstormRequest,Incentive
 from sets import Set
 from bson.objectid import ObjectId
 import config
@@ -109,7 +109,7 @@ def facebook_authorized(resp):
     user = User.objects(username = me.data['email']).first()
 
     if not user:
-        user = User(username = me.data['email'], picture = picture, role = ROLE_USER, name = me.data['first_name'] + me.data['last_name']) 
+        user = User(username = me.data['email'], picture = picture, role = ROLE_USER, name = me.data['first_name'] + " " + me.data['last_name']) 
         user.save()
     else:
         user['picture'] = picture
@@ -202,7 +202,7 @@ def goaltree(goalid):
         task = Task(goal=goal,name = form.name.data, description = form.description.data, end = form.end.data, people = [me])
         task.save()
     
-        feeditem = TaskCreate(message='A task was added to a goal you are working on',user=me,task=task) 
+        feeditem = TaskRequest(message='A task was added to a goal you are working on',user=me,task=task,goal=goal) 
 
         for person in goal.people:
             person.feed.append(feeditem)
@@ -210,7 +210,7 @@ def goaltree(goalid):
 
         return redirect(url_for('goaltree',goalid=goalid))
 
-    return render_template('goaltree.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form) 
+    return render_template('goaltreelite.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form) 
 
 @app.route('/friends')
 @login_required
@@ -234,7 +234,7 @@ def joingoal(goalid):
     goal = Goal.objects(id = goalid).first()
     me = User.objects(id = g.user.id).first()
 
-    feeditem = FeedItem(message=g.user.name+" just joined a goal you are working on",user = me)
+    feeditem = GoalRequest(message=g.user.name+" just joined a goal you are working on",user = me, goal = goal)
     
     for person in goal.people:
         person.feed.append(feeditem)
@@ -254,7 +254,7 @@ def jointask(taskid):
     task = Task.objects(id = taskid).first()
     me = User.objects(id = g.user.id).first()
 
-    feeditem = FeedItem(message=g.user.name+" just joined a task you are working on",user = me)
+    feeditem = TaskRequest(message=g.user.name+" just joined a task you are working on",user = me,task = task, goal = task.goal)
     
     for person in task.people:
         person.feed.append(feeditem)
@@ -362,7 +362,7 @@ def joinbrainstorm(bsid):
     brainstorm = Brainstorm.objects(id = bsid).first()
     me = User.objects(id = g.user.id).first()
 
-    feeditem = FeedItem(message=g.user.name+" just joined your brainstorm",user = me)
+    feeditem = BrainstormRequest(message=g.user.name+" just joined your brainstorm",user = me)
     
     for person in brainstorm.people:
         person.feed.append(feeditem)
@@ -443,13 +443,12 @@ def completetask(taskid):
     task = Task.objects(id = taskid).first()
     return redirect(url_for('goaltree',goalid=task.goal.id))
 
+
 #TODO editgoal
 #TODO edittask
-#TODO addtask
 #TODO addfriendtogoal
 #TODO not a function, maybe, but add a place to see missed tasks and associated penalties
 #TODO change width in conversation page
-#TODO facebook login
 #TODO repeating tasks
 
 

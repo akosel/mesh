@@ -22,7 +22,7 @@ class FeedItem(EmbeddedDocument):
 class GoalRequest(FeedItem):
     goal = ReferenceField('Goal',unique=True)
 
-class TaskCreate(FeedItem):
+class TaskRequest(GoalRequest):
     task = ReferenceField('Task',unique=True)
 
 class BrainstormRequest(FeedItem):

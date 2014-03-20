@@ -4,27 +4,30 @@
 {% block pageid %}goalTree{% endblock %}
 
 {% block content %}
-    <div class='wrapper' id='goalsbar'>
-        <div class="buttonWrapper">
-            <a href="/goals">
-                <div class="goalsButton">
-                    <h3 class="goalsTitle"><i class="fa fa-chevron-left"></i>Back to My Goals</h3>
-                </div>
-            </a>
-            <a href="/newgoal">
-                <div class="goalsCreate">
-                    <i class="fa fa-plus-circle"></i><p class="createLabel">Create New Goal</p>
-                </div>
-            </a>
-        </div>
+<div id="profileHeader" style='background-color:#C93312;' class='container'>
+    <div class='col-md-8 col-md-offset-2'>
+            <div style='background-color:#f3df6c' class='col-md-2 pull-left'>
+                <i style='color:CEAB07' class='fa fa-circle fa-4x pull-left'></i>
+                <p class='filter-number pull-right'>4</p>
+            </div>
+            <div style='background-color:#81A88D' class='col-md-2 col-md-offset-3'>
+                <i style='color:02401B' class='fa fa-circle fa-4x pull-left'></i>
+                <p class='filter-number pull-right'>10</p>
+            </div>
+            <div style='background-color:#972D15' class='col-md-2 pull-right'>
+                <i style='color:AF420A' class='fa fa-circle fa-4x pull-left'></i>
+                <p class='filter-number pull-right'>1</p>
+            </div>
     </div>
+</div>    
+<div id='content-block' class='container'>
 
-	<div class='mainWrapper'>
+    <div class='mainWrapper'>
         <div id='content-block' class='container'>
 
         </div>
     </div>
-
+</div>
 {% endblock %}
 {% block scripts %}
 {% endblock %}

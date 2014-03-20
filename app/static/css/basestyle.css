@@ -5,6 +5,8 @@ body { padding:0; }
 input { padding:.75em; border:none; border-bottom:1px solid #CDCDCD; opacity:.5}
 input:hover { border:none; opacity:1}
 
+.filter-number { margin:0; color:white; font-size:36px; }
+
 button { border:none; }
 button:hover { border:none;}
 

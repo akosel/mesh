@@ -33,7 +33,7 @@
                                 <h5 class='activityFeedDate'>{{ item.timestamp.strftime('%B %d at %H:%M %p') }}</h5>
                             </div>
 
-                                {% if item.goal %}
+                                {% if item.goal or item.task %}
                                     <div class='media-body col-md-4'>
 
                                         <a class='pull-right' href='{{ url_for('goaltree',goalid=item.goal.id)}}'><i class='fa fa-3x fa-arrow-circle-right'></i></a> 
