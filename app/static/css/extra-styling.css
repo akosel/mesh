@@ -62,14 +62,21 @@ body#dashboard{
     height:auto;
     background-color:rgb(246,122,70);
 }
+#toDoList {
+    padding:0;
+}
 #toDoListContainer{
     background-color:rgb(246,122,70);
     height:auto;
     min-height:100%;
     z-index:3;
 }
+#activityFeed .container {
+    width:100%;
+}
 #activityFeedContainer{
     background-color:#eee;
+    padding:0;
     height:auto;
     min-height:100%;
     z-index:2;
@@ -77,8 +84,7 @@ body#dashboard{
 #activityFeedContainer .media{
     margin:0 auto;
     display:inline-block;
-    width:60%;
-    border-top:solid;
+    width:100%;
     border-width:.1em;
 }
 #profileHeader{
@@ -113,15 +119,6 @@ body#dashboard{
     height:100px;
     position:relative;
 }
-.sidefiller{
-    height:100%;
-    width:65%;
-    z-index:1;
-    float:left;
-    position:absolute;
-    background-color:#eee;
-}
-
 .navbar-header { background-color: #162127;}
 .navbar-nav#back{
 	margin-right:10px;
@@ -199,7 +196,8 @@ textarea.form-control{
   font-weight: 400;
   src: local('CreteRound-Regular'), local('CreteRound-Regular'), url(/static/fonts/CreteRound-Regular.woff) format('woff');
 }
-#wrapper{
+#dashboard #wrapper{
+    padding:0;
     margin:0 auto;
     height:auto;
 }
@@ -266,7 +264,7 @@ h1,h2,h3,h4,h5,h6{
 =================*/
 #goalTree #goalsbar,
 #newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%; }
-#goalTree .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
+#goalTree .buttonWrapper, #newGoalPage .buttonWrapper { max-width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }
 #goalTree .goalsButton,
 #newGoalPage .goalsButton { display: inline-block; padding: 20px 0px 20px 0px;
@@ -298,7 +296,7 @@ h1,h2,h3,h4,h5,h6{
 #goalTree .active { color: #000; font-weight: bold;
 }
 #goalTree .active:hover { color: #000;}
-#goalTree .mainWrapper { padding-top:50px;width: 1024px; margin: auto; /* padding: 15px 0px; */
+#goalTree .mainWrapper { padding-top:50px;max-width: 1024px; margin: auto; /* padding: 15px 0px; */
 }
 #goalTree .leftWrapper { width: 60%; display: inline-block;
 }

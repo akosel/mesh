@@ -16,11 +16,10 @@
     </div>
     
     <div class='container' id='rowContainer'>
-        <div class='row'id='wrapper'>
-            <div class='sidefiller'></div>
-            <div class='row'>
+        <div class='col-md-12' id='wrapper'>
             <div id='activityFeedContainer' class='col-md-8'>
-                <h4>Activity Feed</h4>
+                <div id='activityFeed' class='col-md-10 pull-right'>
+                <h4 style='margin-left:.25em;'>Activity Feed</h4>
                 {% for item in user.feed|sort(attribute='timestamp',reverse=True) %}
                     {% if item.user != user %}
                     <div class='container'>
@@ -49,7 +48,7 @@
 
 
                         {% if item.feed_item_type == 'BrainstormRequest' and item.brainstorm not in user.brainstorms %}
-                            <div id="{{item.type}}" class='pull-left btn-container'>
+                            <div id="{{item.type}}" class='col-md-10 pull-left btn-container'>
                                 <a href="{{ url_for('joinbrainstorm',bsid=item.brainstorm.id)}}">
                                     <button id="{{ item.id }}" class='menu-btn push-right accept'>Accept</button>
                                 </a>
@@ -58,7 +57,7 @@
                                 </a>
                             </div>
                         {% elif item.feed_item_type == 'BrainstormRequest' and item.brainstorm in user.brainstorms %}
-                            <div id="{{item.type}}" class='pull-right btn-container'>
+                            <div id="{{item.type}}" class='col-md-10 pull-right btn-container'>
                                 <p>You joined the brainstorm!</p>
                             </div>
                         {% elif item.feed_item_type == 'GoalRequest' %}
@@ -76,19 +75,19 @@
                         {% endif %}
 
                         <!-- <i class='fa fa-check'></i>-->
-                        </div>
+                    </div> 
                     </div>
                 {% endif %}
                 {% else %}
                     <h1>Nothing to report. Add a goal and find some friends to get started!</h1>
                 
                 {% endfor %}
-
-            </div>
+                </div><!-- end activityFeed -->
+            </div><!-- end activityFeedContainer -->
             <div id='toDoListContainer' class='col-md-4'>
-                <h4>To Do</h4>
+                <h4 style='margin-left:.25em;'>To Do</h4>
 
-                <div id='toDoList'>
+                <div id='toDoList' class='col-md-8'>
                     {% for task in todo %}
                         <div class='container' id= 'list-item'>
                             <div class='media'>
@@ -112,11 +111,10 @@
                             </div>
                         </a>
                     {% endfor %}
-                </div>     
-            </div>
-            </div>
-        </div>
-    </div> 
+                </div> <!-- end toDoList -->    
+            </div> <!-- end toDoList Container -->
+        </div><!-- end rowContainer -->
+    </div> <!--end wrapper --> 
     {% endblock %}	
 {% block scripts %}
 $(document).on('click','#shareButton',function(){
@@ -138,5 +136,7 @@ $(document).on('click','.fa-check-square-o',function() {
     taskid = $(this).attr('id');
     $('#shareForm'+taskid).toggle();
 });
-
+$(document).ready(function(){
+    $('#toDoListContainer').css('height', $('#wrapper').css('height'));
+});
 {% endblock %}

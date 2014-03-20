@@ -133,7 +133,7 @@ body{
 #goalsPage #goalsbar,
 #newGoalPage #goalsbar { background-color: #73C7C2; /*height: 100px;*/ width: 100%;
 }
-#goalsPage .buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
+#goalsPage .buttonWrapper, #newGoalPage .buttonWrapper { max-width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }
 #goalsPage .goalsButton,
 #newGoalPage .goalsButton { display: inline-block; padding: 20px 0px 20px 0px;
@@ -167,7 +167,7 @@ body{
 #goalsPage .active { color: #000; font-weight: bold;
 }
 #goalsPage .active:hover { color: #000;}
-#goalsPage .mainWrapper { width: 1024px; margin: auto; /* padding: 15px 0px; */
+#goalsPage .mainWrapper { max-width: 1024px; margin: auto; /* padding: 15px 0px; */
 }
 #goalsPage .divLeft {background-color: #73C7C2;} 
 .friendIcon {width: 60px; height: 60px; border-radius: 40px;
@@ -179,7 +179,7 @@ body{
 }
 #newGoalPage .container { width: 100%;
 }
-#newGoalPage .mainWrapper { width: 1024px; margin: 0 auto; position: relative;
+#newGoalPage .mainWrapper { max-width: 1024px; margin: 0 auto; position: relative;
 }
 #newGoalPage .newGoalFormWrap { width: 65%; display: inline-block; margin-top: 30px;
 }

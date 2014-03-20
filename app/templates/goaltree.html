@@ -63,7 +63,11 @@
                 <div id="task-box-wrapper">
                   <div id='task-checkboxBox'>
                       <div class='checkboxSide'>
-                          <a href="{{ url_for('completetask',taskid=task.id) }}"><i id={{task.id}} style='color:#02401B' class='fa fa-check-circle fa-4x' data-toggle='nmodal' data-target='n#taskComplete'></i></a>
+                          {% if g.user in task.people %}
+                          <a href="{{ url_for('completetask',taskid=task.id) }}"><i id="{{task.id}}"style='color:#02401B' class='fa fa-check-circle fa-4x' data-toggle='nmodal' data-target='n#taskComplete'></i></a>
+                          {% elif g.user not in task.completed or task.missed %}
+                                <a href="{{ url_for('jointask',taskid=task.id) }}"><i id="{{task.id}}"style='color:#02401B' class='fa fa-plus-circle fa-4x'></i></a>
+                          {% endif %}
                       </div>
                   </div>
                     <div class='leftBox'>

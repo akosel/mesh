@@ -265,8 +265,9 @@ def jointask(taskid):
         task.save()
     else:
         flash( "Person in task already")
+    print task.goal.id
  
-    return redirect(url_for('goaltree',task.goal))
+    return redirect(url_for('goaltree',goalid = task.goal.id))
 
 @app.route('/removefeeditem/<goalid>')
 @login_required

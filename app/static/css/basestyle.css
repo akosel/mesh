@@ -8,7 +8,7 @@ input:hover { border:none; opacity:1}
 button { border:none; }
 button:hover { border:none;}
 
-.skinny { width: 600px; }
+.skinny { max-width: 600px; }
 
 #login { float:left; }
 
@@ -31,9 +31,9 @@ form[name='addpenalties'] { text-align:right; }
 }
 
 #profileHeader .media-body {
-    margin:60px 0;
+    padding: 4em 2em;
 }
-.buttonWrapper, #newGoalPage .buttonWrapper { width: 1024px; margin: auto; padding: 30px 0px; position: relative;
+.buttonWrapper, #newGoalPage .buttonWrapper { max-width: 1024px; margin: auto; padding: 30px 0px; position: relative;
 }
 .goalsButton { display: inline-block; padding: 20px 0px 20px 0px;
 }
