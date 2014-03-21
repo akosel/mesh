@@ -18,15 +18,17 @@ form[name='addpenalties'] { text-align:right; }
 
 .number-circle {
     border-radius:50%;
-    width:87px;
-    height:87px;
-    padding: 8px;
+    width:1.5em;
+  /*  height:87px;
+    padding: 8px;*/
 
     color: #666;
     text-align:center;
     border: 2px solid #666;
-    font-size:60px;
-    margin:.25em;
+    font-size:1.4em;
+	display:inline-block;
+	margin-right:.5em;
+    /* margin:.25em; */
 }
 
 #content-block { position:relative; min-height:100%; padding:1em; }

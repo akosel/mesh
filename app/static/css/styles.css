@@ -95,8 +95,9 @@ body{
     padding:30px;
 }
 #infoPage li {
-    line-height:87px;
-    margin:.65em 0;
+    line-height:1.9em;
+    margin:.65em;
+	display:inline-block;
 }
 
 /*activity feed divider line*/ 
