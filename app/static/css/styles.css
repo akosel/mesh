@@ -96,6 +96,7 @@ body{
 }
 #infoPage li {
     line-height:87px;
+    margin:.65em 0;
 }
 
 /*activity feed divider line*/ 

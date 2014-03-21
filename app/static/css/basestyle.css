@@ -26,6 +26,7 @@ form[name='addpenalties'] { text-align:right; }
     text-align:center;
     border: 2px solid #666;
     font-size:60px;
+    margin:.25em;
 }
 
 #content-block { position:relative; min-height:100%; padding:1em; }
