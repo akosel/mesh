@@ -140,6 +140,12 @@ def logout():
 
 ####################################
 #Begin defining page handlers
+
+@app.route('/mesh')
+def mesh():
+    return render_template('info.html')
+
+
 @app.route('/',methods=['GET','POST'])
 @app.route('/index',methods=["GET","POST"])
 @login_required

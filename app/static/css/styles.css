@@ -79,7 +79,23 @@ body{
 
 /* Home Page
 =================*/
-#homePage { color: #152126;
+#homePage { 
+    background: url('/static/img/background.jpg');
+    background-size:cover;
+}
+#infoPage { 
+    color: #b3b3b3;
+    font-family:'Foro-ExtraLight';
+    font-size:1.4em;
+    line-height:3em;
+    background: url('/static/img/background.jpg');
+    background-size:cover;
+}
+#infoPage .container {
+    padding:30px;
+}
+#infoPage li {
+    line-height:87px;
 }
 
 /*activity feed divider line*/ 

@@ -68,12 +68,13 @@ table {
   src: url(/static/fonts/Foro-XLight.eot);
   src: url(/static/fonts/Foro-XLight.eot?#iefix) format('embedded-opentype'),url(/static/fonts/Foro-XLight.woff) format('woff'),url(/static/fonts/Foro-XLight.ttf) format('truetype');
 }
-
+#homePage .jumbotron, #homePage .container {
+    background-color:transparent;
+}
 
 .jumbotron#welcome {
 	width: 100%;
 	height: 100%;
-	background-color:#152126;
 }
 
 .container {
