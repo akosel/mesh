@@ -8,6 +8,7 @@ from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,Task
 from sets import Set
 from bson.objectid import ObjectId
 import config
+import urlparse
 import urllib
 import requests
 import datetime
@@ -216,7 +217,18 @@ def goaltree(goalid):
 
         return redirect(url_for('goaltree',goalid=goalid))
 
-    return render_template('goaltreelite.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form) 
+    counts = {'active':[],'completed':[],'missed':[]}
+
+    for task in tasks:
+        if me in task.people:
+            counts['active'].append(task)
+        if me in task.completed:
+            counts['completed'].append(task)
+        if me in task.missed:
+            counts['missed'].append(task)
+
+
+    return render_template('goaltreelite.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form, counts=counts) 
 
 @app.route('/friends')
 @login_required
@@ -245,11 +257,16 @@ def joingoal(goalid):
     for person in goal.people:
         person.feed.append(feeditem)
         person.save()
+        friend = person
 
+    
     goal.people.append(me)
     goal.save()
 
+    feeditem = GoalRequest(message="Check out the goal you just joined with " + friend.name, user = friend, goal = goal)
     User.objects(id = g.user.id).update_one(pull__feed__goal=ObjectId(goalid))
+    print feeditem.message
+    User.objects(id = g.user.id).update_one(push__feed=feeditem)
     User.objects(id = g.user.id).update_one(pull__goalrequest=ObjectId(goalid))
  
     return redirect(url_for('index'))
@@ -362,6 +379,28 @@ def newbrainstorm():
 
     return render_template('newbrainstorm.html',form=form)
 
+@app.route('/newbrainstormcomment',methods=['GET','POST'])
+@login_required
+def newbrainstormcomment():
+    me = User.objects(id = g.user.id).first()
+    friend = User.objects(id = request.form['friend']).first()
+
+    people = [me]
+    c = Comment(message =request.form['comment'], user = me)
+    b = Brainstorm(title = request.form['topic'], comments = [c], people = [me])
+    b.save()
+
+    me.brainstorms.append(b)
+    me.save()
+
+    feeditem = BrainstormRequest(brainstorm=b,message=g.user.name+" started a brainstorm with you.",user = me)
+
+    friend.feed.append(feeditem)
+    friend.save()
+
+    return redirect(url_for('brainstorms'))
+
+
 @app.route('/joinbrainstorm/<bsid>')
 @login_required
 def joinbrainstorm(bsid):
@@ -443,12 +482,16 @@ def completegoal(goalid):
 @app.route('/completetask/<taskid>')
 @login_required
 def completetask(taskid):
+
+    rPath = urlparse.urlparse(request.referrer).path
     Task.objects(id = taskid).update_one(pull__people = ObjectId(g.user.id))
     Task.objects(id = taskid).update_one(add_to_set__completed = ObjectId(g.user.id))
     
     task = Task.objects(id = taskid).first()
-    return redirect(url_for('goaltree',goalid=task.goal.id))
-
+    if rPath == '/':
+        return redirect(url_for('index')) 
+    else:
+        return redirect(url_for('goaltree',goalid = task.goal.id))
 
 #TODO editgoal
 #TODO edittask

@@ -18,68 +18,77 @@
     <div class='container' id='rowContainer'>
         <div class='col-md-12' id='wrapper'>
             <div id='activityFeedContainer' class='col-md-8'>
-                <div id='activityFeed' class='col-md-10 pull-right'>
+                <div id='activityFeed' class='col-md-9 pull-right'>
                 <h4 style='margin-left:.25em;'>Activity Feed</h4>
                 {% for item in user.feed|sort(attribute='timestamp',reverse=True) %}
-                    {% if item.user != user %}
+                    {% if item.user %}
                     <div class='container'>
                         <div class='media'>
                             <a class='pull-left' href='#'>
                                 <img class='pic-60 media-object' src={{ item.user.picture }}></img>
                             </a>
-                            <div class='media-body col-md-6'>
-                                <h4 class='media-heading media-heading-bold'>{{ item.name }}</h4>
-                                <p>{{item.message}}</p>
+                            <div class='media-body col-md-8'>
+                                <h4>{{item.message}}</h4>
+                                {% if item.feed_item_type == 'GoalRequest' %}
+                                    <p>{{item.goal.name}}</p>
+                                {% elif item.feed_item_type == 'BrainstormRequest' %}
+                                    <p>{{item.brainstorm.title}}</p>
+                                    <p>{{ item.user.first_name }} said "{{ item.brainstorm.comments[0].message }}"</p>
+                                {% elif item.feed_item_type == 'TaskRequest' %}
+                                    <p>{{item.task.name}}</p>
+                                {% endif %}
                                 <h5 class='activityFeedDate'>{{ item.timestamp.strftime('%B %d at %H:%M %p') }}</h5>
                             </div>
 
                                 {% if item.goal or item.task %}
-                                    <div class='media-body col-md-4'>
+                                    <div class='media-body col-md-2' style='padding-top:20px;'>
 
-                                        <a class='pull-right' href='{{ url_for('goaltree',goalid=item.goal.id)}}'><i class='fa fa-3x fa-arrow-circle-right'></i></a> 
+                                        <a class='pull-right' href='{{ url_for('goaltree',goalid=item.goal.id)}}'><i class='fa fa-5x fa-arrow-circle-right'></i></a> 
 
                                     </div>
                                 {% elif item.brainstorm %}
-                                    <div class='media-body col-md-4'>
+                                    <div class='media-body col-md-2' style='padding-top:20px;'>
 
-                                        <a class='pull-right' href='{{ url_for('conversation',bsid=item.brainstorm.id) }}'><i class='fa fa-3x fa-arrow-circle-right'></i></a>
+                                        <a class='pull-right' href='{{ url_for('conversation',bsid=item.brainstorm.id) }}'><i class='fa fa-5x fa-comment'></i></a>
                                     </div>
                                 {% endif %}
 
 
                         {% if item.feed_item_type == 'BrainstormRequest' and item.brainstorm not in user.brainstorms %}
                             <div id="{{item.type}}" class='col-md-10 pull-left btn-container'>
-                                <a href="{{ url_for('joinbrainstorm',bsid=item.brainstorm.id)}}">
-                                    <button id="{{ item.id }}" class='menu-btn push-right accept'>Accept</button>
-                                </a>
-                                <a href="{{ url_for('removebsfeeditem',bsid=item.brainstorm.id)}}">
-                                    <button id="{{ item.id }}" class='menu-btn push-right reject'>Reject</button>
-                                </a>
+                                <p>Start talking to join the brainstorm</p>
                             </div>
                         {% elif item.feed_item_type == 'BrainstormRequest' and item.brainstorm in user.brainstorms %}
                             <div id="{{item.type}}" class='col-md-10 pull-right btn-container'>
                                 <p>You joined the brainstorm!</p>
                             </div>
-                        {% elif item.feed_item_type == 'GoalRequest' %}
-                            <div id="{{item.type}}" class='pull-left btn-container'>
+                        {% elif item.feed_item_type == 'GoalRequest' and user not in item.goal.people %}
+                            <div id="{{item.type}}" class='pull-left btn-container col-md-10'>
                                 <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
-                                    <button id="{{ item.id }}" class='menu-btn push-right accept'>Accept</button>
-                                </a>
-                                <a href="{{ url_for('newbrainstorm')}}">
-                                    <button id="{{ item.id }}" class='menu-btn push-right brainstorm'>Brainstorm</button>
+                                    <i id="{{ item.goal.id }}" class='fa fa-3x pull-left fa-check-circle'></i>
                                 </a>
                                 <a href="{{ url_for('removefeeditem',goalid=item.goal.id)}}">
-                                    <button id="{{ item.id }}" class='menu-btn push-right reject'>Reject</button>
+                                    <i id="{{ item.goal.id }}" class='fa fa-3x pull-left fa-times-circle'></i>
+                                </a>
+                                <a>
+                                    <i id="{{ item.goal.id }}" class='fa fa-3x pull-left fa-comments'></i>
                                 </a>
                             </div> 
-                        {% endif %}
+                            <div style='display:none' id='panel-{{ item.goal.id }}' class='pull-right btn-container col-md-11 pull-right'>
+                                <form method='post' action='/newbrainstormcomment' name='initial-comment'>
+                                    <input type='textarea' name='comment' placeholder='Start a brainstorm' class='initial-comment'> 
+                                    <input type='hidden' name='friend' value='{{ item.user.id }}'>
+                                    <input type='hidden' name='topic' value='About {{ item.goal.name|lower }}'>
+                                    <input type='submit'> 
+                                </form>
+                            </div>
 
-                        <!-- <i class='fa fa-check'></i>-->
+                        {% endif %}
                     </div> 
                     </div>
                 {% endif %}
                 {% else %}
-                    <h1>Nothing to report. Add a goal and find some friends to get started!</h1>
+                    <h1>Nothing here yet! Get started by creating a goal with or a friend!</h1>
                 
                 {% endfor %}
                 </div><!-- end activityFeed -->
@@ -87,24 +96,25 @@
             <div id='toDoListContainer' class='col-md-4'>
                 <h4 style='margin-left:.25em;'>To Do</h4>
 
-                <div id='toDoList' class='col-md-8'>
+                <div id='toDoList' class='col-md-6'>
                     {% for task in todo %}
                         <div class='container' id= 'list-item'>
                             <div class='media'>
-                                <i class='fa-media-object fa fa-square-o fa-4x' id={{task.id}} label={{task.goalid}}></i>
-                                <div class='media-body'>
-                                     <h5 class='toDoDate'>{{ task.end|datetimeformat }}</h5>
-                                    <h4 id={{task.id}} class='media-heading media-heading-bold'>{{task.name}}</h4>
+                                <a href={{ url_for('completetask',taskid=task.id) }}><i class='fa-todo fa fa-check-circle fa-2x' id={{task.id}} label={{task.goalid}}></i></a>
+                                <div class='media-body pull-left' style='margin-left:.85em;'>
+                                    <p style='font-size:1.5em;' id={{task.id}}>{{task.name}}</p>
                                 </div>
                             </div>
+
                             <div id='shareForm{{task.id}}' style="display:none">
                                 <textarea class='form-control' placeholder='Say something about this!' rows=3></textarea>
                                 <button type='button' class='menu-btn btn-brown share-btn' id='shareButton'>Share</button>
                                 <button type='button' id='notNow' class='menu-btn notnow-btn'>Not Now</button>
                             </div>
+
                         </div>
 
-                        {% else %} 
+                        {% else  %} 
                         <a href="/newgoal">
                             <div class="goalsCreate">
                                 <i class="fa fa-plus-circle"></i><p class="createLabel">Add a Goal</p>
@@ -135,6 +145,10 @@ $(document).on('click','.fa-check-square-o',function() {
     $(this).addClass('fa-square-o');
     taskid = $(this).attr('id');
     $('#shareForm'+taskid).toggle();
+});
+$('.fa-comments').click(function() {
+    id = $(this).attr('id');
+    $('#panel-' + id).toggle();
 });
 $(document).ready(function(){
     $('#toDoListContainer').css('height', $('#wrapper').css('height'));

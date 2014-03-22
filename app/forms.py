@@ -44,7 +44,7 @@ class GoalForm(Form):
     people = TagListField('people', validators = [emptinessCheck])    
 
 class TaskForm(Form):
-    name = TextField('name',validators = [Required()])
+    name = TextField('name',validators = [Length(max=20),Required()])
     description = TextField('description')
     end = DateField('end', validators = [Required()])
 

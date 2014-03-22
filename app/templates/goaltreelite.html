@@ -4,30 +4,163 @@
 {% block pageid %}goalTree{% endblock %}
 
 {% block content %}
-<div id="profileHeader" style='background-color:#C93312;' class='container'>
-    <div class='col-md-8 col-md-offset-2'>
-            <div style='background-color:#f3df6c' class='col-md-2 pull-left'>
-                <i style='color:CEAB07' class='fa fa-circle fa-4x pull-left'></i>
-                <p class='filter-number pull-right'>4</p>
+<div id="profileHeader" style='background-color:#CD8B34;' class='container'>
+    <div class='col-md-8 col-md-offset-2' id='filter-box-container'>
+            <div style='background-color:#f3df6c' id='activeGoals' class='active filter-box col-md-2 pull-left'>
+                <i style='color:CEAB07' class='fa fa-exclamation-circle fa-4x pull-left'></i>
+                <p class='filter-number pull-right'>{{ counts.active|length }}</p>
             </div>
-            <div style='background-color:#81A88D' class='col-md-2 col-md-offset-3'>
-                <i style='color:02401B' class='fa fa-circle fa-4x pull-left'></i>
-                <p class='filter-number pull-right'>10</p>
+            <div style='background-color:#81A88D' id='completedGoals' class='col-md-2 filter-box col-md-offset-3'>
+                <i style='color:02401B' class='fa fa-check-circle fa-4x pull-left'></i>
+                <p class='filter-number pull-right'>{{ counts.completed|length }}</p>
             </div>
-            <div style='background-color:#972D15' class='col-md-2 pull-right'>
-                <i style='color:AF420A' class='fa fa-circle fa-4x pull-left'></i>
-                <p class='filter-number pull-right'>1</p>
+            <div style='background-color:#C93312' id='missedGoals' class='col-md-2 filter-box pull-right'>
+                <i style='color:#972D15' class='fa fa-times-circle fa-4x pull-left'></i>
+                <p class='filter-number pull-right'>{{ counts.missed|length }}</p>
             </div>
     </div>
 </div>    
 <div id='content-block' class='container'>
 
     <div class='mainWrapper'>
-        <div id='content-block' class='container'>
+            <div class='col-md-6'>
+                <h1>{{ goal.name }}</h1>
+                {% for person in goal.people %}
+                    {% if person == me %}
+                        <img style='border:solid gold;' class='pic-60' src="{{person.picture}}"></img>
+                    {% else %}
+                        <img class='pic-60' src="{{person.picture}}"></img> 
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class='col-md-6'>
+                <button class='btn btn-default btn-square' id="add-task" data-toggle='modal' data-target='#myModal'>Add Task</button>
+            </div>
+            <div class='task-tile col-md-12 active' id='activeGoalsContainer'>
+                {% for task in counts.active %}
+                    {% if loop.index is odd  %}
+                        <div class='row'>
+                    {% endif %}
+                    <div class='col-md-6'>
+                        <div id="{{ task.id }}" class='task-box'>
+                            <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
+                            <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
+                            <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                        </div>
+                        <div style='display:none' id='panel-{{ task.id }}' class='pull-right btn-container col-md-11 pull-right'>
+                            <div class='col-md-11'>
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-pencil'></i>
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-trash-o'></i>
+                            </div>
+                            <form method='post' action='/newbrainstormcomment' name='initial-comment'>
+                                <input type='textarea' name='comment' placeholder='Start a brainstorm' class='initial-comment'> 
+                                <input type='hidden' name='friend' value='{{ me.id }}'>
+                                <input type='hidden' name='topic' value='About {{ task.name|lower }}'>
+                                <input type='submit'> 
+                            </form>
+                        </div>
+                    </div>
+                    {% if loop.index is even or loop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+            </div>
 
-        </div>
+            <div class='col-md-12 task-tile' id='completedGoalsContainer'>
+                {% for task in counts.completed %}
+                    {% if loop.index is odd  %}
+                        <div class='row'>
+                    {% endif %}
+                    <div class='col-md-6'>
+                        <div class='task-box'>
+                            <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
+                            <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                        </div>
+                    </div>
+                    {% if loop.index is even or loop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+            </div>
+            <div class='col-md-12 task-tile' id='missedGoalsContainer'>
+                {% for task in counts.missed %}
+                    {% if loop.index is odd  %}
+                        <div class='row'>
+                    {% endif %}
+                    <div class='col-md-6'>
+                        <div class='task-box'>
+                            <!--   
+                                <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
+                            -->
+                        <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
+                        <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                        </div>
+                    </div>
+                    {% if loop.index is even or loop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+            </div>
+
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add a new task</h4>
+      </div>
+      <div class="modal-body">
+            <div class='newTaskWrap'>
+                <form method="post" action="" name="goaltree">
+                {{ form.hidden_tag() }}
+                {{ form.name(placeholder='Task Name') }}<br>
+                {% if form.name.errors %}
+                    {% for error in form.name.errors %}
+                    <span style='color:red; margin-left:1em;'>{{error}}</span><br>
+                    {% endfor %}
+                {% endif %}
+                {{ form.description(placeholder='Goal Description') }}<br>
+                {{ form.end(placeholder='End Date') }}<br>    
+                {% if form.end.errors %}
+                    {% for error in form.end.errors %}
+                    <span style='color:red; margin-left:1em;'>{{error}}</span><br>
+                    {% endfor %}
+                {% endif %}
+                <input type='submit' value='Add This' class='btn btn-primary pull-right'>
+                </form>
+                <!-- </form> -->
+            </div>  <!-- end newTaskWrap -->
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}
 {% block scripts %}
+$('.filter-box').click(function(){
+    id = $(this).attr('id');
+    
+    $('.filter-box.active').removeClass('active');
+    $('.task-tile').removeClass('active');
+    $(this).addClass('active');
+
+    $("#" + id + 'Container').addClass('active');
+
+});
+
+$('.task-box .fa-check-circle').click(function(){
+    return confirm('Task complete?');
+});
+
+$('.task-box').click(function(){
+    id = $(this).attr('id');
+    $('#panel-' + id).toggle();
+});
 {% endblock %}

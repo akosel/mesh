@@ -87,18 +87,6 @@ body#dashboard{
     width:100%;
     border-width:.1em;
 }
-#profileHeader{
-    background-color:rgb(128,128,128);
-    padding:1em;
-    width:100%;
-    max-width:none;
-}
-#profileHeader .media{
-    width:1024px;
-    display:block;
-    margin:0 auto;
-    padding:0 1em;
-}
 #navbar{
     float: left;
     background-color: #162127;
@@ -136,17 +124,18 @@ body#dashboard{
     margin: 20px 0;
 }
 #rowContainer .media-body {
-    padding:1em;
+  /*  padding:1em;*/
 }
 #profileHeader .media-heading{
     color:white;
 }
-.fa-media-object{
-    height:50px;
-    width:50px;
+.fa-todo{
     float:left;
-    margin: 30px 20px;
     color:rgb(142,69,37);
+    cursor:pointer;
+}
+.fa-todo:hover {
+    color:green;
 }
 .btn-brown{
     color:white;
@@ -177,6 +166,7 @@ textarea.form-control{
 #list-item {
     max-width:none;
     width:100%;
+    padding:.5em;
 }
 .toDoDate{
     color:rgb(142,69,37);
@@ -204,7 +194,7 @@ textarea.form-control{
 h1,h2,h3,h4,h5,h6{
     font-family: 'CreteRound-Regular';
 }
-#dashboard .goalsCreate { display: inline-block; width: 100%; padding: 30px; position: absolute; top:40px;text-decoration:none;
+#dashboard .goalsCreate { display: inline-block; padding: 30px; position: absolute; top:40px;text-decoration:none;
     border-color:rgb(142,69,37);
     background-color:rgb(130,50,25);
     -webkit-transition: background-color 300ms ease-out;
@@ -581,7 +571,6 @@ h1,h2,h3,h4,h5,h6{
   width: 100px;
   height: 40px;
   float:right;
-  margin-top:50px;
   font-family: proxima-nova-semibold;
   -webkit-transition: background-color 300ms ease-out;
 }

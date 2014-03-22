@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 
+{% block pageid %}newbs{% endblock %}
+
 {% block content %}
 
 <div id='content-block' class='container'>
-    <form action="" method="post" name="newbrainstorm">
-    {{ form.hidden_tag() }}
-    {% for error in form.errors %}
-        {{error}}
-    {% endfor %}
-    {{ form.title(placeholder='Title') }}<br>
-    {{ form.initialcomment(placeholder='Initial comment') }}<br>
-    {{ form.people(placeholder='Add a person') }}<br>
-    <input type='submit' value='Add it'>
-    </form>
+    <div class='container'>
+        <h1>Start a new brainstorm</h1>
+        <p>Start a conversation about something you might like to do.</p>
+    </div>
+    <div class='container col-md-4'>
+        <form action="" method="post" class='pull-right' name="newbrainstorm">
+        {{ form.hidden_tag() }}
+        {% for error in form.errors %}
+            {{error}}
+        {% endfor %}
+        {{ form.title(placeholder='Title') }}<br>
+        {{ form.initialcomment(placeholder='Initial comment') }}<br>
+        {{ form.people(placeholder='Add a person') }}<br>
+        <input type='submit' value='Start the brainstorm'>
+        </form>
+    </div>
 
 </div>
 {% endblock %}

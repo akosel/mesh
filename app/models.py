@@ -6,8 +6,6 @@ from hashlib import md5
 ROLE_USER=0
 ROLE_ADMIN=1
 
-#TODO for feed items, may want to use a more general model for specific feed items
-
 class FeedItem(EmbeddedDocument):
     timestamp = DateTimeField(default=datetime.datetime.now())
     message = StringField(max_length=140)
