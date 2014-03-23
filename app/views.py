@@ -191,7 +191,7 @@ def newgoal():
 
         me = User.objects(id = g.user.id).first()
 
-        goal = Goal(name = form.name.data, description = form.description.data, start = form.start.data, end = form.end.data, people = [me] )
+        goal = Goal(name = form.name.data, description = form.description.data,  end = form.end.data, people = [me] )
         goal.save()
 
         feeditem = GoalRequest(user=me,goal=goal,message='Your friend invited you to join their goal')
