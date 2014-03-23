@@ -217,18 +217,24 @@ def goaltree(goalid):
 
         return redirect(url_for('goaltree',goalid=goalid))
 
-    counts = {'active':[],'completed':[],'missed':[]}
+    megacounts = {}
+    for person in goal.people:
+        counts = {'active':[],'completed':[],'missed':[]}
 
-    for task in tasks:
-        if me in task.people:
-            counts['active'].append(task)
-        if me in task.completed:
-            counts['completed'].append(task)
-        if me in task.missed:
-            counts['missed'].append(task)
+        for task in tasks:
+            if person in task.people:
+                counts['active'].append(task)
+            if person in task.completed:
+                counts['completed'].append(task)
+            if person in task.missed:
+                counts['missed'].append(task)
 
+        print counts
+        megacounts[person.username] = counts
 
-    return render_template('goaltreelite.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form, counts=counts) 
+    print megacounts
+
+    return render_template('goaltreelite.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form, allCounts=megacounts) 
 
 @app.route('/friends')
 @login_required
@@ -313,11 +319,12 @@ def removegoal(goalid):
     print User.objects(id = g.user.id).first().goalrequest
     return redirect(url_for('goals'))
     
-@app.route('/removetask/<taskid>')
+@app.route('/removetask/<taskid>',methods=['POST','GET'])
 @login_required
 def removetask(taskid):
     goalid = Task.objects(id=taskid).first().goal.id
     Task.objects(id=taskid).delete()
+
     return redirect(url_for('goaltree',goalid=goalid))
 
 @app.route('/brainstorms',methods=["GET","POST"])
@@ -493,12 +500,35 @@ def completetask(taskid):
     else:
         return redirect(url_for('goaltree',goalid = task.goal.id))
 
+@app.route('/taskcomment/<taskid>',methods=['GET','POST'])
+@login_required
+def taskcomment(taskid):
+    me = User.objects(id = g.user.id).first()
+    comment = Comment(user = me, message = request.form['message'])
+
+    Task.objects(id = taskid).update_one(push__comments = comment)
+
+    task = Task.objects(id = taskid).first()
+
+    return redirect(url_for('goaltree',goalid = task.goal.id))
+
+@app.route('/edittask/<taskid>',methods=['GET','POST'])
+@login_required
+def edittask(taskid):
+    task = Task.objects(id = taskid).first()
+    print request.form['name']
+    print request.form['description']
+    Task.objects(id = taskid).update_one(set__name = request.form['name'])
+    Task.objects(id = taskid).update_one(set__description = request.form['description'])
+    return redirect(url_for('goaltree',goalid = task.goal.id))
+
 #TODO editgoal
 #TODO edittask
 #TODO addfriendtogoal
 #TODO not a function, maybe, but add a place to see missed tasks and associated penalties
 #TODO change width in conversation page
 #TODO repeating tasks
+
 
 
 

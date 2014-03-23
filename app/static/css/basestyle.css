@@ -1,4 +1,8 @@
 body { padding:0; }
+
+.fa {cursor:pointer;}
+.top-buffer { margin-top:1.5em; }
+
 #bs-example-navbar-collapse-1 { max-width:1024px; margin: 0 auto; }
 .navbar {margin-bottom:0;}
 .nav .glyphicon {color:white;}
@@ -87,7 +91,11 @@ form[name='addpenalties'] { text-align:right; }
 #brainstorms .divLeft { background-color:rgb(246,122,70); }
 
 /* Goal Tree Lite (need a better name than that) */
-.filter-box { opacity:.5; padding:2em; cursor:pointer; }
+.picture-filter.active {
+    border:solid gold;
+}
+
+.filter-box { opacity:.5; padding:2em 1em; cursor:pointer; }
 
 .filter-box.active { opacity:1;}
 .task-box { 
@@ -95,22 +103,40 @@ form[name='addpenalties'] { text-align:right; }
     padding:1em; 
     border-top:solid;
     border-left:solid;
+    cursor:pointer;
 }
 .task-box h2 { margin:0;}
-.task-tile {display:none;}
+.task-tile { display:none;}
 .task-tile.active { display:block; }
 
-#filter-box-container {
-    margin-top:3em;
-}
-
-#task-date {
+.icon-panel {display:none; }
+.icon-panel.active {display:block; }
+.tile {
     display:none;
 }
-.task-box:hover #task-date {
+.tile.active {
     display:block;
 }
 
+.filter-box-container {
+    margin-top:3em;
+    display:none;
+}
+.filter-box-container.active {
+    display:block;
+}
+
+#task-date {
+    display:block;
+}
+#goal-header {
+    margin-bottom: 5em;
+}
+/*
+.task-box:hover #task-date {
+    display:block;
+}
+*/
 /* profile header (the thing under the nav bar) */
 #profileHeader h1 {
     color:white;

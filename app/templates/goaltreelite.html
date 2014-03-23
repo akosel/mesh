@@ -5,104 +5,144 @@
 
 {% block content %}
 <div id="profileHeader" style='background-color:#CD8B34;' class='container'>
-    <div class='col-md-8 col-md-offset-2' id='filter-box-container'>
+{% for counts in allCounts %}
+    {% if me.username == counts %}
+    <div class='active col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
+    {% else %}
+    <div class='col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
+
+    {% endif %}
             <div style='background-color:#f3df6c' id='activeGoals' class='active filter-box col-md-2 pull-left'>
                 <i style='color:CEAB07' class='fa fa-exclamation-circle fa-4x pull-left'></i>
-                <p class='filter-number pull-right'>{{ counts.active|length }}</p>
+                <p class='filter-number pull-right'>{{ allCounts[counts].active|length }}</p>
             </div>
-            <div style='background-color:#81A88D' id='completedGoals' class='col-md-2 filter-box col-md-offset-3'>
+            <div style='background-color:#81A88D' id='completedGoals' class='col-md-2 filter-box pull-left'>
                 <i style='color:02401B' class='fa fa-check-circle fa-4x pull-left'></i>
-                <p class='filter-number pull-right'>{{ counts.completed|length }}</p>
+                <p class='filter-number pull-right'>{{ allCounts[counts].completed|length }}</p>
             </div>
-            <div style='background-color:#C93312' id='missedGoals' class='col-md-2 filter-box pull-right'>
+            <div style='background-color:#C93312' id='missedGoals' class='col-md-2 filter-box pull-left'>
                 <i style='color:#972D15' class='fa fa-times-circle fa-4x pull-left'></i>
-                <p class='filter-number pull-right'>{{ counts.missed|length }}</p>
+                <p class='filter-number pull-right'>{{ allCounts[counts].missed|length }}</p>
             </div>
     </div>
+{% endfor %}
 </div>    
 <div id='content-block' class='container'>
 
-    <div class='mainWrapper'>
+    <div class='mainWrapper' >
+        <div id='goal-header' class='row'>
             <div class='col-md-6'>
                 <h1>{{ goal.name }}</h1>
                 {% for person in goal.people %}
                     {% if person == me %}
-                        <img style='border:solid gold;' class='pic-60' src="{{person.picture}}"></img>
+                        <img id="{{person.username}}" class='pic-60 picture-filter active' src="{{person.picture}}"></img>
                     {% else %}
-                        <img class='pic-60' src="{{person.picture}}"></img> 
+                        <img id="{{person.username}}" class='pic-60 picture-filter' src="{{person.picture}}"></img> 
                     {% endif %}
                 {% endfor %}
             </div>
             <div class='col-md-6'>
                 <button class='btn btn-default btn-square' id="add-task" data-toggle='modal' data-target='#myModal'>Add Task</button>
             </div>
-            <div class='task-tile col-md-12 active' id='activeGoalsContainer'>
-                {% for task in counts.active %}
-                    {% if loop.index is odd  %}
-                        <div class='row'>
-                    {% endif %}
-                    <div class='col-md-6'>
-                        <div id="{{ task.id }}" class='task-box'>
-                            <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
-                            <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
-                            <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
-                        </div>
-                        <div style='display:none' id='panel-{{ task.id }}' class='pull-right btn-container col-md-11 pull-right'>
-                            <div class='col-md-11'>
+        </div>
+        {% for counts in allCounts %}
+        {% if me.username == counts %}
+        <div class='row tile col-md-12 active' id='{{ counts }}'>
+        {% else %}
+        <div class='row tile col-md-12' id='{{ counts }}'>
+        {% endif %}
+        <div class='row task-tile col-md-12 active' id='activeGoalsContainer'>
+            {% for task in allCounts[counts].active %}
+                {% if loop.index is odd  %}
+                    <div class='row top-buffer'>
+                {% endif %}
+                <div class='col-md-6'>
+                    <div id="{{ task.id }}" class='task-box'>
+                        <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
+                        <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
+                        <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                    </div>
+                    <div style='display:none' id='panel-{{ task.id }}' class='col-md-11 pull-right'>
+
+                        <div class='col-md-11'>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-pencil'></i>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-trash-o'></i>
-                            </div>
-                            <form method='post' action='/newbrainstormcomment' name='initial-comment'>
-                                <input type='textarea' name='comment' placeholder='Start a brainstorm' class='initial-comment'> 
-                                <input type='hidden' name='friend' value='{{ me.id }}'>
-                                <input type='hidden' name='topic' value='About {{ task.name|lower }}'>
-                                <input type='submit'> 
-                            </form>
                         </div>
-                    </div>
-                    {% if loop.index is even or loop.last %}
-                        </div>
-                    {% endif %}
-                {% endfor %} 
-            </div>
 
-            <div class='col-md-12 task-tile' id='completedGoalsContainer'>
-                {% for task in counts.completed %}
-                    {% if loop.index is odd  %}
-                        <div class='row'>
-                    {% endif %}
-                    <div class='col-md-6'>
-                        <div class='task-box'>
-                            <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
-                            <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-comments'>
+                            {% for comment in task.comments %}
+                            <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% endfor %}
+
+                            <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='message' placeholder='Enter note about goal' class='initial-comment'> 
+                                <input value='Say it' type='submit'> 
+                            </form>
+
                         </div>
+
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-pencil'>
+                            <form method='post' action="{{ url_for('edittask', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='name' value="{{task.name}}"> 
+                                <input type='textarea' name='description' value="{{task.description}}" > 
+                                <input value='Submit Changes' type='submit'> 
+                            </form>
+
+                        </div>
+
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-trash'>
+                            <form method='post' action="{{ url_for('removetask', taskid=task.id) }}" name='messageform'>
+                                <input style='width:100%; background-color:#CB5F23;' type='submit' value='Delete'> 
+                            </form>
+
+                        </div>
+
                     </div>
-                    {% if loop.index is even or loop.last %}
-                        </div>
-                    {% endif %}
-                {% endfor %} 
-            </div>
-            <div class='col-md-12 task-tile' id='missedGoalsContainer'>
-                {% for task in counts.missed %}
-                    {% if loop.index is odd  %}
-                        <div class='row'>
-                    {% endif %}
-                    <div class='col-md-6'>
-                        <div class='task-box'>
-                            <!--   
-                                <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
-                            -->
+                </div>
+                {% if loop.index is even or loop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %} 
+        </div><!-- end activeGoalsContainer -->
+
+        <div class='row col-md-12 task-tile' id='completedGoalsContainer'>
+            {% for task in counts.completed %}
+                {% if loop.index is odd  %}
+                    <div class='row top-buffer'>
+                {% endif %}
+                <div class='col-md-6'>
+                    <div class='task-box'>
                         <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
                         <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
-                        </div>
                     </div>
-                    {% if loop.index is even or loop.last %}
-                        </div>
-                    {% endif %}
-                {% endfor %} 
-            </div>
-
+                </div>
+                {% if loop.index is even or loop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %} 
+        </div><!-- end completedGoalsContainer -->
+        <div class='row col-md-12 task-tile' id='missedGoalsContainer'>
+            {% for task in counts.missed %}
+                {% if loop.index is odd  %}
+                    <div class='row top-buffer'>
+                {% endif %}
+                <div class='col-md-6'>
+                    <div class='task-box'>
+                        <!--   
+                            <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
+                        -->
+                    <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
+                    <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                    </div>
+                </div>
+                {% if loop.index is even or loop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %} 
+        </div><!-- end missedGoalsContainer -->
+        </div> <!-- end person count -->
+        {% endfor %}
     </div>
 </div>
 
@@ -162,5 +202,23 @@ $('.task-box .fa-check-circle').click(function(){
 $('.task-box').click(function(){
     id = $(this).attr('id');
     $('#panel-' + id).toggle();
+});
+
+$('.fa-comment').click(function() {
+    
+    id = $(this).attr('id');
+    $('.icon-panel').removeClass('active');
+    $('#panel-' + id + '-comments').toggleClass('active');
+});
+$('.fa-pencil').click(function() {
+    id = $(this).attr('id');
+    $('.icon-panel').removeClass('active');
+    $('#panel-' + id + '-pencil').addClass('active');
+});
+$('.fa-trash-o').click(function() {
+    id = $(this).attr('id');
+    $('.icon-panel').removeClass('active');
+
+    $('#panel-' + id + '-trash').addClass('active');
 });
 {% endblock %}
