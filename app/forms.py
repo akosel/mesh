@@ -4,14 +4,19 @@ from wtforms.widgets import TextInput
 from wtforms.validators import Required, Length,ValidationError
 from wtforms.ext.dateutil.fields import DateField
 from app.models import User
-
+from app import db
 
 
 def emptinessCheck(form,field):
-    print 'checking'
     if not field.data[0]:
-        print 'empty'
         raise ValidationError('You need to add at least one other person to your goal')
+
+def validUserCheck(form,field):
+    for user in field.data:
+        print user
+        if not User.objects(username = user):
+            print 'Bad user'
+            raise ValidationError('The e-mail ' + user +  ' is not in our system.')
 
 class TagListField(Field):
     widget = TextInput()
@@ -41,7 +46,7 @@ class GoalForm(Form):
     description = TextField('description',validators = [Required()])
     start = DateField('start',validators = [Required()])
     end = DateField('end', validators = [Required()])
-    people = TagListField('people', validators = [emptinessCheck])    
+    people = TagListField('people', validators = [validUserCheck,emptinessCheck])    
 
 class TaskForm(Form):
     name = TextField('name',validators = [Length(max=20),Required()])

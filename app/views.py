@@ -275,7 +275,7 @@ def joingoal(goalid):
  
     return redirect(url_for('index'))
 
-@app.route('/jointask/<taskid>')
+@app.route('/jointask/<taskid>',methods=['GET','POST'])
 @login_required
 def jointask(taskid):
     task = Task.objects(id = taskid).first()

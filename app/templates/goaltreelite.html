@@ -12,15 +12,15 @@
     <div class='col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
 
     {% endif %}
-            <div style='background-color:#f3df6c' id='activeGoals' class='active filter-box col-md-2 pull-left'>
+            <div style='background-color:#f3df6c' id='activeGoals-{{counts }}' class='active filter-box col-md-2 pull-left'>
                 <i style='color:CEAB07' class='fa fa-exclamation-circle fa-4x pull-left'></i>
                 <p class='filter-number pull-right'>{{ allCounts[counts].active|length }}</p>
             </div>
-            <div style='background-color:#81A88D' id='completedGoals' class='col-md-2 filter-box pull-left'>
+            <div style='background-color:#81A88D' id='completedGoals-{{counts }}' class='col-md-2 filter-box pull-left'>
                 <i style='color:02401B' class='fa fa-check-circle fa-4x pull-left'></i>
                 <p class='filter-number pull-right'>{{ allCounts[counts].completed|length }}</p>
             </div>
-            <div style='background-color:#C93312' id='missedGoals' class='col-md-2 filter-box pull-left'>
+            <div style='background-color:#C93312' id='missedGoals-{{counts }}' class='col-md-2 filter-box pull-left'>
                 <i style='color:#972D15' class='fa fa-times-circle fa-4x pull-left'></i>
                 <p class='filter-number pull-right'>{{ allCounts[counts].missed|length }}</p>
             </div>
@@ -45,25 +45,31 @@
                 <button class='btn btn-default btn-square' id="add-task" data-toggle='modal' data-target='#myModal'>Add Task</button>
             </div>
         </div>
+                {% if form.errors %}
+                <span style='color:red; margin-left:1em;'>There were problems adding your task. Open Add Task again to see errors.</span><br>
+                {% endif %}
         {% for counts in allCounts %}
         {% if me.id == counts %}
         <div class='row tile col-md-12 active' id='{{ counts }}'>
         {% else %}
         <div class='row tile col-md-12' id='{{ counts }}'>
         {% endif %}
-        <div class='row task-tile col-md-12 active' id='activeGoalsContainer'>
+        <div class='row task-tile col-md-12 active' id='activeGoals-{{counts }}Container'>
             {% for task in allCounts[counts].active %}
                 {% if loop.index is odd  %}
                     <div class='row top-buffer'>
                 {% endif %}
                 <div class='col-md-6'>
                     <div id="{{ task.id }}" class='task-box'>
+                        {% if counts == me.id %}
                         <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
+                        {% endif %}
                         <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
                         <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
                     </div>
                     <div style='display:none' id='panel-{{ task.id }}' class='col-md-11 pull-right'>
 
+                        {% if me.id == counts %}
                         <div class='col-md-11'>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-pencil'></i>
@@ -97,7 +103,32 @@
                             </form>
 
                         </div>
+                        {% else %}
+                        <div class='col-md-11'>
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-plus'></i>
+                        </div>
 
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-comments'>
+                            {% for comment in task.comments %}
+                            <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% endfor %}
+
+                            <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='message' placeholder='Enter note about goal' class='initial-comment'> 
+                                <input value='Say it' type='submit'> 
+                            </form>
+
+                        </div>
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-plus'>
+                            <form method='post' action="{{ url_for('jointask', taskid=task.id) }}" name='messageform'>
+                                <input style='width:100%; background-color:#A79A60;' type='submit' value='Add This'> 
+                            </form>
+
+                        </div>
+
+
+                        {% endif %}
                     </div>
                 </div>
                 {% if loop.index is even or loop.last %}
@@ -106,7 +137,7 @@
             {% endfor %} 
         </div><!-- end activeGoalsContainer -->
 
-        <div class='row col-md-12 task-tile' id='completedGoalsContainer'>
+        <div class='row col-md-12 task-tile' id='completedGoals-{{counts }}Container'>
             {% for task in counts.completed %}
                 {% if loop.index is odd  %}
                     <div class='row top-buffer'>
@@ -122,7 +153,7 @@
                 {% endif %}
             {% endfor %} 
         </div><!-- end completedGoalsContainer -->
-        <div class='row col-md-12 task-tile' id='missedGoalsContainer'>
+        <div class='row col-md-12 task-tile' id='missedGoals-{{counts }}Container'>
             {% for task in counts.missed %}
                 {% if loop.index is odd  %}
                     <div class='row top-buffer'>
@@ -197,6 +228,9 @@ $('.picture-filter').click(function(){
     $('.filter-box-container.active').removeClass('active');
     $('#' + id + '.filter-box-container').addClass('active');
 
+    $('.filter-box.active').removeClass('active');
+    $('.filter-box#activeGoals-' + id).addClass('active');
+    $('.task-tile#activeGoals-' + id +'Container').addClass('active');
 
     
 });
@@ -206,6 +240,7 @@ $('.filter-box').click(function(){
     $('.filter-box.active').removeClass('active');
     $('.task-tile').removeClass('active');
     $(this).addClass('active');
+    console.log(id);
 
     $("#" + id + 'Container').addClass('active');
 
@@ -237,5 +272,11 @@ $('.fa-trash-o').click(function() {
     $('.icon-panel').removeClass('active');
 
     $('#panel-' + id + '-trash').addClass('active');
+});
+$('.fa-plus').click(function() {
+    id = $(this).attr('id');
+    $('.icon-panel').removeClass('active');
+
+    $('#panel-' + id + '-plus').addClass('active');
 });
 {% endblock %}

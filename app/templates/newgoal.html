@@ -11,6 +11,11 @@
             </a>
 		</div>
 	</div>
+    {% if form.people.errors %}
+        {% for error in form.people.errors %}
+        <span style='color:red; margin-left:1em;'>{{error}}</span><br>
+        {% endfor %}
+    {% endif %}
 
 	<div class='mainWrapper'>
         <div id='content-block' class='container'>
@@ -21,10 +26,9 @@
                 {% for error in form.errors %}
                     <br><span style='color:red;'>[{{error}}]</span><br>
                 {% endfor %}
-				<i class="fa fa-asterisk"></i>{{ form.name(placeholder='Goal Name') }}<br>			
-				<i class="fa fa-asterisk"></i>{{ form.description(placeholder='Goal Description') }}<br>			
-				<i class="fa fa-asterisk"></i>{{ form.start(class='small', placeholder='Start Date') }}			
-				<i class="fa fa-asterisk"></i>{{ form.end(class='small',placeholder='End Date') }}			
+				<i class="fa fa-asterisk"></i>{{ form.name(placeholder='Goal Name: Make it brief') }}<br>			
+				<i class="fa fa-asterisk"></i>{{ form.description(placeholder='Goal Description: This can be long') }}<br>			
+				<i class="fa fa-asterisk"></i>{{ form.end(class='small',placeholder='End Date: DD/MM/YYYY') }}			
 
 	<!--		<h5 class="cushion">Add Tasks</h5>
 			<div class='newTaskWrap'>
@@ -49,7 +53,7 @@
 			
 			<div id="inviteFriends">
                 {{ form.people(placeholder='Enter emails') }}
-				<br><p><i class="fa fa-asterisk"></i><em>seperated by commas</em></p>
+				<br><p><i class="fa fa-asterisk"></i><em>enter e-mails, separated by commas</em></p>
                 {% if users %} 
                     <h3>Add these people</h3>
                     <ul>
