@@ -6,7 +6,7 @@
 {% block content %}
 <div id="profileHeader" style='background-color:#CD8B34;' class='container'>
 {% for counts in allCounts %}
-    {% if me.username == counts %}
+    {% if me.id == counts %}
     <div class='active col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
     {% else %}
     <div class='col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
@@ -35,9 +35,9 @@
                 <h1>{{ goal.name }}</h1>
                 {% for person in goal.people %}
                     {% if person == me %}
-                        <img id="{{person.username}}" class='pic-60 picture-filter active' src="{{person.picture}}"></img>
+                        <img id="{{person.id}}" class='pic-60 picture-filter active' src="{{person.picture}}"></img>
                     {% else %}
-                        <img id="{{person.username}}" class='pic-60 picture-filter' src="{{person.picture}}"></img> 
+                        <img id="{{person.id}}" class='pic-60 picture-filter' src="{{person.picture}}"></img> 
                     {% endif %}
                 {% endfor %}
             </div>
@@ -46,7 +46,7 @@
             </div>
         </div>
         {% for counts in allCounts %}
-        {% if me.username == counts %}
+        {% if me.id == counts %}
         <div class='row tile col-md-12 active' id='{{ counts }}'>
         {% else %}
         <div class='row tile col-md-12' id='{{ counts }}'>
@@ -184,6 +184,22 @@
 </div><!-- /.modal -->
 {% endblock %}
 {% block scripts %}
+$('.picture-filter').click(function(){
+    id = $(this).attr('id');
+    console.log(id);
+
+    $('.picture-filter').removeClass('active');
+    $('#' + id + '.picture-filter').addClass('active');
+
+    $('.tile.active').removeClass('active');
+    $('#' + id + '.tile').addClass('active');
+
+    $('.filter-box-container.active').removeClass('active');
+    $('#' + id + '.filter-box-container').addClass('active');
+
+
+    
+});
 $('.filter-box').click(function(){
     id = $(this).attr('id');
     
@@ -214,6 +230,7 @@ $('.fa-pencil').click(function() {
     id = $(this).attr('id');
     $('.icon-panel').removeClass('active');
     $('#panel-' + id + '-pencil').addClass('active');
+
 });
 $('.fa-trash-o').click(function() {
     id = $(this).attr('id');

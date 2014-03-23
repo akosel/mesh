@@ -229,10 +229,8 @@ def goaltree(goalid):
             if person in task.missed:
                 counts['missed'].append(task)
 
-        print counts
-        megacounts[person.username] = counts
+        megacounts[person.id] = counts
 
-    print megacounts
 
     return render_template('goaltreelite.html',me = me, goal = goal, tasks = tasks, today = datetime.datetime.now(), form = form, allCounts=megacounts) 
 
@@ -516,8 +514,6 @@ def taskcomment(taskid):
 @login_required
 def edittask(taskid):
     task = Task.objects(id = taskid).first()
-    print request.form['name']
-    print request.form['description']
     Task.objects(id = taskid).update_one(set__name = request.form['name'])
     Task.objects(id = taskid).update_one(set__description = request.form['description'])
     return redirect(url_for('goaltree',goalid = task.goal.id))

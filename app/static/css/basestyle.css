@@ -91,6 +91,9 @@ form[name='addpenalties'] { text-align:right; }
 #brainstorms .divLeft { background-color:rgb(246,122,70); }
 
 /* Goal Tree Lite (need a better name than that) */
+.picture-filter {
+    cursor:pointer;
+}
 .picture-filter.active {
     border:solid gold;
 }
