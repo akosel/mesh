@@ -60,14 +60,14 @@
                     <div class='row top-buffer'>
                 {% endif %}
                 <div class='col-md-6'>
-                    <div id="{{ task.id }}" class='task-box'>
+                    <div id="{{ task.id }}-{{counts}}" class='task-box'>
                         {% if counts == me.id %}
                         <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
                         {% endif %}
                         <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
                         <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
                     </div>
-                    <div style='display:none' id='panel-{{ task.id }}' class='col-md-11 pull-right'>
+                    <div style='display:none' id='panel-{{ task.id }}-{{ counts }}' class='col-md-11 pull-right'>
 
                         {% if me.id == counts %}
                         <div class='col-md-11'>
