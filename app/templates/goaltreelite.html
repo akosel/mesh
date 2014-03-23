@@ -138,7 +138,7 @@
         </div><!-- end activeGoalsContainer -->
 
         <div class='row col-md-12 task-tile' id='completedGoals-{{counts }}Container'>
-            {% for task in counts.completed %}
+            {% for task in allCounts[counts].completed %}
                 {% if loop.index is odd  %}
                     <div class='row top-buffer'>
                 {% endif %}
@@ -154,7 +154,7 @@
             {% endfor %} 
         </div><!-- end completedGoalsContainer -->
         <div class='row col-md-12 task-tile' id='missedGoals-{{counts }}Container'>
-            {% for task in counts.missed %}
+            {% for task in allCounts[counts].missed %}
                 {% if loop.index is odd  %}
                     <div class='row top-buffer'>
                 {% endif %}
