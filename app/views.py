@@ -7,6 +7,7 @@ from forms import LoginForm,GoalForm,TaskForm,AddNewBrainstormForm, AddBrainstor
 from models import User,ROLE_USER,ROLE_ADMIN,Goal,FeedItem,GoalRequest,Task,TaskRequest,Brainstorm,Comment,BrainstormRequest,Incentive
 from sets import Set
 from bson.objectid import ObjectId
+from json import dumps
 import config
 import urlparse
 import urllib
@@ -171,6 +172,20 @@ def goals():
 @app.route('/newgoal',methods=["GET","POST"])
 @login_required
 def newgoal():
+    goals = Goal.objects(people = g.user.id)
+    me = User.objects(id = g.user.id).first()
+
+    friends = Set()
+    if goals:
+        for goal in goals:
+            friends.update(goal.people)
+            friends.update(goal.completed)
+
+        if friends:
+            friends.remove(me)
+    else:
+        friends.add(User.objects(username = 'a_kosel@yahoo.com').first())
+
     form = GoalForm()
     if form.validate_on_submit():
 
@@ -194,7 +209,7 @@ def newgoal():
     else:
         print "Nope"
 
-    return render_template('newgoal.html',form=form)
+    return render_template('newgoal.html',users = friends, form = form)
     
 @app.route('/goals/<goalid>',methods=['GET','POST'])
 @login_required
@@ -518,11 +533,17 @@ def edittask(taskid):
     Task.objects(id = taskid).update_one(set__description = request.form['description'])
     return redirect(url_for('goaltree',goalid = task.goal.id))
 
+@app.route('/seeusers')
+@login_required
+def seeusers():
+    users = User.objects()
+    allUsers = {}
+    for user in users:
+        allUsers[user.username] = user.name
+    return dumps(allUsers)
 #TODO editgoal
-#TODO edittask
 #TODO addfriendtogoal
 #TODO not a function, maybe, but add a place to see missed tasks and associated penalties
-#TODO change width in conversation page
 #TODO repeating tasks
 
 

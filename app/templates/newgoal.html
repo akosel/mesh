@@ -76,7 +76,18 @@
 
 
 {% endblock %}
-    <!-- End Document
-================================================== -->
-</body>
-</html>
+{% block scripts %}
+
+$('li').click(function(){
+        e = $(this).attr('id');
+        i = $('#inviteFriends #people');
+
+        if(i.val()){
+           i.val(i.val() + ',' + e);
+        } else {
+           i.val(e);
+        }   
+
+        $(this).remove();
+}); 
+{% endblock %}
