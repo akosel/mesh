@@ -43,7 +43,7 @@ class LoginForm(Form):
 
 class GoalForm(Form):
     name = TextField('name',validators = [Required()])
-    description = TextField('description',validators = [Required()])
+    description = TextField('description')
     end = DateField('end', validators = [Required()])
     people = TagListField('people', validators = [validUserCheck,emptinessCheck])    
 

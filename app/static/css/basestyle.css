@@ -60,8 +60,6 @@ form[name='addpenalties'] { text-align:right; }
 }
 .goalTitle:hover { color: #247671;
 }
-.fa-plus-circle { color: rgb(243,140,100);
-}
 .createLabel { color: rgb(243,140,100); display: inline; font-size: 18px; margin-left: 10px;
 }
 .goalsCreate:hover { background-color: gray;

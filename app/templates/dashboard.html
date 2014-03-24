@@ -21,7 +21,7 @@
                 <div id='activityFeed' class='col-md-9 pull-right'>
                 <h4 style='margin-left:.25em;'>Activity Feed</h4>
                 {% for item in user.feed|sort(attribute='timestamp',reverse=True) %}
-                    {% if item.user %}
+                    {% if item.user != me %}
                     <div class='container'>
                         <div class='media'>
                             <a class='pull-left' href='#'>

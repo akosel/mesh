@@ -191,7 +191,10 @@ def newgoal():
 
         me = User.objects(id = g.user.id).first()
 
-        goal = Goal(name = form.name.data, description = form.description.data,  end = form.end.data, people = [me] )
+        if form.description.data:
+            goal = Goal(name = form.name.data, description = form.description.data,  end = form.end.data, people = [me] )
+        else:
+            goal = Goal(name = form.name.data,  end = form.end.data, people = [me] )
         goal.save()
 
         feeditem = GoalRequest(user=me,goal=goal,message='Your friend invited you to join their goal')
@@ -227,8 +230,9 @@ def goaltree(goalid):
         feeditem = TaskRequest(message='A task was added to a goal you are working on',user=me,task=task,goal=goal) 
 
         for person in goal.people:
-            person.feed.append(feeditem)
-            person.save()
+            if person != me:
+                person.feed.append(feeditem)
+                person.save()
 
         return redirect(url_for('goaltree',goalid=goalid))
 
@@ -274,9 +278,10 @@ def joingoal(goalid):
     feeditem = GoalRequest(message=g.user.name+" just joined a goal you are working on",user = me, goal = goal)
     
     for person in goal.people:
-        person.feed.append(feeditem)
-        person.save()
-        friend = person
+        if person != me:
+            person.feed.append(feeditem)
+            person.save()
+            friend = person
 
     
     goal.people.append(me)
@@ -284,7 +289,6 @@ def joingoal(goalid):
 
     feeditem = GoalRequest(message="Check out the goal you just joined with " + friend.name, user = friend, goal = goal)
     User.objects(id = g.user.id).update_one(pull__feed__goal=ObjectId(goalid))
-    print feeditem.message
     User.objects(id = g.user.id).update_one(push__feed=feeditem)
     User.objects(id = g.user.id).update_one(pull__goalrequest=ObjectId(goalid))
  
@@ -299,8 +303,9 @@ def jointask(taskid):
     feeditem = TaskRequest(message=g.user.name+" just joined a task you are working on",user = me,task = task, goal = task.goal)
     
     for person in task.people:
-        person.feed.append(feeditem)
-        person.save()
+        if person != me:
+            person.feed.append(feeditem)
+            person.save()
 
     if me not in task.people:
         task.people.append(me)
@@ -526,8 +531,9 @@ def taskcomment(taskid):
     feeditem = TaskRequest(message='Your friend just commented on your task',user=me,task=task,goal=task.goal)
 
     for person in task.people:
-        person.feed.append(feeditem)
-        person.save()
+        if person != me:
+            person.feed.append(feeditem)
+            person.save()
 
 
     return redirect(url_for('goaltree',goalid = task.goal.id))

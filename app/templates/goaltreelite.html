@@ -111,7 +111,9 @@
                         {% else %}
                         <div class='col-md-11'>
                             <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            {% if me not in task.people %}
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-plus'></i>
+                            {% endif %}
                         </div>
 
                         <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
