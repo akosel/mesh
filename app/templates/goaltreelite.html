@@ -7,9 +7,9 @@
 <div id="profileHeader" style='background-color:#CD8B34;' class='container'>
 {% for counts in allCounts %}
     {% if me.id == counts or me.id not in allCounts and loop.last %}
-    <div class='active col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
+    <div class='active col-md-8 col-md-offset-2 filter-box-container' id="{{counts}}">
     {% else %}
-    <div class='col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
+    <div class='col-md-8 col-md-offset-2 filter-box-container' id="{{counts}}">
 
     {% endif %}
             <div style='background-color:#f3df6c' id='activeGoals-{{counts }}' class='active filter-box col-md-2 pull-left'>
