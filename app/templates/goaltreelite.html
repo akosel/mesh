@@ -68,6 +68,7 @@
                         <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
                         <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
                     </div>
+
                     <div style='display:none' id='panel-{{ task.id }}-{{ counts }}' class='col-md-11 pull-right'>
 
                         {% if me.id == counts %}
@@ -150,9 +151,62 @@
                     <div class='row top-buffer'>
                 {% endif %}
                 <div class='col-md-6'>
-                    <div class='task-box'>
+                    <div id="{{ task.id }}-{{counts}}" class='task-box'>
                         <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
                         <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                    </div>
+
+                    <div style='display:none' id='panel-{{ task.id }}-{{ counts }}' class='col-md-11 pull-right'>
+
+                        {% if me.id == counts %}
+                        <div class='col-md-11'>
+                            <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                        </div>
+
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
+                            {% for comment in task.comments %}
+                            {% if comment.user.first_name and comment.user.last_name %}
+                                <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% else %}
+                                <p> {{ comment.message }} -{{comment.user.name}}</p>
+                            {% endif %}
+                            {% endfor %}
+
+                            <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='message' placeholder='Enter note about goal' class='initial-comment'> 
+                                <input value='Say it' type='submit'> 
+                            </form>
+
+                        </div>
+
+                        {% else %}
+                        <div class='col-md-11'>
+                            <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            {% if me not in task.people %}
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-plus'></i>
+                            {% endif %}
+                        </div>
+
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
+                            {% for comment in task.comments %}
+                            <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% endfor %}
+
+                            <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='message' placeholder='Enter note about goal' class='initial-comment'> 
+                                <input value='Say it' type='submit'> 
+                            </form>
+
+                        </div>
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-plus'>
+                            <form method='post' action="{{ url_for('jointask', taskid=task.id) }}" name='messageform'>
+                                <input style='width:100%; background-color:#A79A60;' type='submit' value='Add This'> 
+                            </form>
+
+                        </div>
+
+
+                        {% endif %}
                     </div>
                 </div>
                 {% if loop.index is even or loop.last %}
@@ -166,12 +220,65 @@
                     <div class='row top-buffer'>
                 {% endif %}
                 <div class='col-md-6'>
-                    <div class='task-box'>
+                    <div id="{{ task.id }}-{{counts}}" class='task-box'>
                         <!--   
                             <a href="{{url_for('completetask',taskid=task.id) }}"><i class='fa fa-check-circle fa-3x pull-right'></i></a>
                         -->
                     <h2 style='font-size:2.8em;'>{{ task.name }}</h2>
                     <h4 id='task-date'>{{task.end|datetimeformat}}</h4>
+                    </div>
+
+                    <div style='display:none' id='panel-{{ task.id }}-{{ counts }}' class='col-md-11 pull-right'>
+
+                        {% if me.id == counts %}
+                        <div class='col-md-11'>
+                            <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                        </div>
+
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
+                            {% for comment in task.comments %}
+                            {% if comment.user.first_name and comment.user.last_name %}
+                                <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% else %}
+                                <p> {{ comment.message }} -{{comment.user.name}}</p>
+                            {% endif %}
+                            {% endfor %}
+
+                            <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='message' placeholder='Enter note about goal' class='initial-comment'> 
+                                <input value='Say it' type='submit'> 
+                            </form>
+
+                        </div>
+
+                        {% else %}
+                        <div class='col-md-11'>
+                            <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            {% if me not in task.people %}
+                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-plus'></i>
+                            {% endif %}
+                        </div>
+
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
+                            {% for comment in task.comments %}
+                            <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% endfor %}
+
+                            <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
+                                <input type='textarea' name='message' placeholder='Enter note about goal' class='initial-comment'> 
+                                <input value='Say it' type='submit'> 
+                            </form>
+
+                        </div>
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-plus'>
+                            <form method='post' action="{{ url_for('jointask', taskid=task.id) }}" name='messageform'>
+                                <input style='width:100%; background-color:#A79A60;' type='submit' value='Add This'> 
+                            </form>
+
+                        </div>
+
+
+                        {% endif %}
                     </div>
                 </div>
                 {% if loop.index is even or loop.last %}
