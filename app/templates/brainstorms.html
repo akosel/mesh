@@ -10,7 +10,7 @@
             </div>
             <a href="/newbrainstorm">
                 <div class="goalsCreate">
-                    <i class="fa fa-plus-circle"></i><p class="createLabel">Start a Brainstorm</p>
+                    <i style='color: rgb(243,140,100)' class="fa fa-plus-circle"></i><p class="createLabel">Start a Brainstorm</p>
                 </div>
             </a>
         </div>
@@ -22,7 +22,7 @@
                             <div class="divRight">
                                 <a href="/brainstorms/{{brainstorm.id}}"><h4 class="divRightTitle">{{brainstorm.title}}</h4></a>
                                 {% for comment in brainstorm.comments %}
-                                    <p class="goalDescription">{{me.name}} says "{{comment.message}}"</p>
+                                    <p class="goalDescription">{{comment.user.name}} says "{{comment.message}}"</p>
                                 {% endfor %}
                                 <a href="{{ url_for('conversation', bsid = brainstorm.id) }}">+Add Comment</a>
                             </div>

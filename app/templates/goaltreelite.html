@@ -6,7 +6,7 @@
 {% block content %}
 <div id="profileHeader" style='background-color:#CD8B34;' class='container'>
 {% for counts in allCounts %}
-    {% if me.id == counts %}
+    {% if me.id == counts or me.id not in allCounts and loop.last %}
     <div class='active col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
     {% else %}
     <div class='col-md-8 col-md-offset-4 filter-box-container' id="{{counts}}">
@@ -33,8 +33,9 @@
         <div id='goal-header' class='row'>
             <div class='col-md-6'>
                 <h1>{{ goal.name }}</h1>
+                <p>{{ goal.description }}</p>
                 {% for person in goal.people %}
-                    {% if person == me %}
+                    {% if person == me or me not in goal.people and loop.last %}
                         <img id="{{person.id}}" class='pic-60 picture-filter active' src="{{person.picture}}"></img>
                     {% else %}
                         <img id="{{person.id}}" class='pic-60 picture-filter' src="{{person.picture}}"></img> 
@@ -49,7 +50,7 @@
                 <span style='color:red; margin-left:1em;'>There were problems adding your task. Open Add Task again to see errors.</span><br>
                 {% endif %}
         {% for counts in allCounts %}
-        {% if me.id == counts %}
+        {% if me.id == counts or me.id not in allCounts and loop.last %}
         <div class='row tile col-md-12 active' id='{{ counts }}'>
         {% else %}
         <div class='row tile col-md-12' id='{{ counts }}'>

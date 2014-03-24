@@ -65,7 +65,7 @@
                         {% elif item.feed_item_type == 'GoalRequest' and user not in item.goal.people %}
                             <div id="{{item.type}}" class='pull-left btn-container col-md-10'>
                                 <a href="{{ url_for('joingoal',goalid=item.goal.id)}}">
-                                    <i id="{{ item.goal.id }}" class='fa fa-3x pull-left fa-check-circle'></i>
+                                    <i id="{{ item.goal.id }}" class='fa fa-3x pull-left fa-plus-circle'></i>
                                 </a>
                                 <a href="{{ url_for('removefeeditem',goalid=item.goal.id)}}">
                                     <i id="{{ item.goal.id }}" class='fa fa-3x pull-left fa-times-circle'></i>
