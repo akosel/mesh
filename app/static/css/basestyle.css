@@ -96,7 +96,7 @@ form[name='addpenalties'] { text-align:right; }
     border:solid gold;
 }
 
-.filter-box { opacity:.5; padding:2em 1em; cursor:pointer; }
+.filter-box { width:33%; opacity:.5; padding:2em 1em; cursor:pointer; }
 
 .filter-box.active { opacity:1;}
 .task-box { 
