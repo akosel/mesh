@@ -523,6 +523,13 @@ def taskcomment(taskid):
 
     task = Task.objects(id = taskid).first()
 
+    feeditem = TaskRequest(message='Your friend just commented on your task',user=me,task=task,goal=task.goal)
+
+    for person in task.people:
+        person.feed.append(feeditem)
+        person.save()
+
+
     return redirect(url_for('goaltree',goalid = task.goal.id))
 
 @app.route('/edittask/<taskid>',methods=['GET','POST'])
@@ -539,8 +546,9 @@ def seeusers():
     users = User.objects()
     allUsers = {}
     for user in users:
-        allUsers[user.username] = user.name
+        allUsers[user.username] = user.first_name
     return dumps(allUsers)
+
 #TODO editgoal
 #TODO addfriendtogoal
 #TODO not a function, maybe, but add a place to see missed tasks and associated penalties

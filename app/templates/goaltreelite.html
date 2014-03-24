@@ -71,14 +71,18 @@
 
                         {% if me.id == counts %}
                         <div class='col-md-11'>
-                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-pencil'></i>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-trash-o'></i>
                         </div>
 
-                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-comments'>
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
                             {% for comment in task.comments %}
-                            <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% if comment.user.first_name and comment.user.last_name %}
+                                <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
+                            {% else %}
+                                <p> {{ comment.message }} -{{comment.user.name}}</p>
+                            {% endif %}
                             {% endfor %}
 
                             <form method='post' action="{{ url_for('taskcomment', taskid=task.id) }}" name='messageform'>
@@ -105,11 +109,11 @@
                         </div>
                         {% else %}
                         <div class='col-md-11'>
-                            <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
+                            <i id="{{ task.id }}-{{counts}}" style='color:black;' class='fa fa-3x pull-left fa-comment'></i>
                             <i id="{{ task.id }}" style='color:black;' class='fa fa-3x pull-left fa-plus'></i>
                         </div>
 
-                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-comments'>
+                        <div class='col-md-11 top-buffer icon-panel' id='panel-{{ task.id }}-{{counts}}-comments'>
                             {% for comment in task.comments %}
                             <p> {{ comment.message }} -{{comment.user.first_name[0]}}{{comment.user.last_name[0]}}</p>
                             {% endfor %}
@@ -259,7 +263,7 @@ $('.fa-comment').click(function() {
     
     id = $(this).attr('id');
     $('.icon-panel').removeClass('active');
-    $('#panel-' + id + '-comments').toggleClass('active');
+    $('#panel-' + id + '-comments').addClass('active');
 });
 $('.fa-pencil').click(function() {
     id = $(this).attr('id');
